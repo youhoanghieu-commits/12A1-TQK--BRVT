@@ -60,7 +60,7 @@
   <!-- 2. THANH ĐIỀU HƯỚNG -->
   <nav class="bg-white border-b border-slate-200 sticky top-0 z-20 shadow-sm">
     <div class="max-w-7xl mx-auto px-6 flex space-x-2 overflow-x-auto text-sm py-2">
-      <button id="nav-thuhang" onclick="switchTab('thuhang')" class="tab-btn tab-btn-active px-4 py-2 rounded-lg font-semibold flex items-center gap-2 whitespace-nowrap shadow-sm transition">
+      <button id="nav-thuhang" onclick="switchTab('thuhang')" class="tab-btn px-4 py-2 rounded-lg text-slate-600 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap transition">
         <i class="fa-solid fa-ranking-star"></i> Thứ hạng trường & khối
       </button>
       <button id="nav-vipham" onclick="switchTab('vipham')" class="tab-btn px-4 py-2 rounded-lg text-slate-600 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap transition">
@@ -69,7 +69,7 @@
       <button id="nav-hoctap" onclick="switchTab('hoctap')" class="tab-btn px-4 py-2 rounded-lg text-slate-600 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap transition">
         <i class="fa-solid fa-book-open"></i> Theo dõi học tập
       </button>
-      <button id="nav-baobai" onclick="switchTab('baobai')" class="tab-btn px-4 py-2 rounded-lg text-slate-600 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap transition">
+      <button id="nav-baobai" onclick="switchTab('baobai')" class="tab-btn tab-btn-active px-4 py-2 rounded-lg font-semibold flex items-center gap-2 whitespace-nowrap shadow-sm transition">
         <i class="fa-regular fa-calendar-check"></i> Báo bài & TKB
       </button>
       <button id="nav-trucnhat" onclick="switchTab('trucnhat')" class="tab-btn px-4 py-2 rounded-lg text-slate-600 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap transition">
@@ -87,7 +87,7 @@
   <!-- ================================================================= -->
   <!-- TAB 1: THỨ HẠNG TRƯỜNG & KHỐI -->
   <!-- ================================================================= -->
-  <section id="section-thuhang" class="tab-content flex flex-1 flex-col">
+  <section id="section-thuhang" class="tab-content hidden flex-1 flex-col">
     <div class="max-w-7xl mx-auto px-6 mt-6 w-full">
       <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md relative overflow-hidden flex flex-wrap justify-between items-center gap-4">
         <div>
@@ -103,9 +103,7 @@
         </div>
 
         <div class="flex items-center gap-2.5 bg-emerald-950/60 p-2 rounded-2xl border border-emerald-600/40">
-          <select id="selectWeek" onchange="onWeekChange()" class="bg-emerald-900 text-white font-semibold text-xs px-3 py-2 rounded-xl border border-emerald-500 focus:outline-none focus:ring-2 focus:ring-amber-400">
-            <!-- 40 tuần render qua JS -->
-          </select>
+          <select id="selectWeek" onchange="onWeekChange()" class="bg-emerald-900 text-white font-semibold text-xs px-3 py-2 rounded-xl border border-emerald-500 focus:outline-none focus:ring-2 focus:ring-amber-400"></select>
           <button onclick="openWeeklyModal()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-sm transition">
             <i class="fa-solid fa-pen-to-square"></i> Cập Nhật Tuần Này
           </button>
@@ -114,7 +112,6 @@
     </div>
 
     <main class="max-w-7xl mx-auto px-6 mt-6 w-full flex-1 pb-12 space-y-6">
-      <!-- 4 Card KPI -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
@@ -122,116 +119,54 @@
             <h3 class="text-2xl font-bold text-slate-800 mt-1" id="kpiRankBlock">Hạng #1</h3>
             <p class="text-[11px] text-emerald-600 font-medium mt-1" id="kpiRankBlockDesc">▲ Dẫn đầu khối 12</p>
           </div>
-          <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl font-bold">
-            <i class="fa-solid fa-crown"></i>
-          </div>
+          <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-crown"></i></div>
         </div>
-
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
             <p class="text-xs text-slate-500 font-medium">Hạng Toàn Trường THPT</p>
             <h3 class="text-2xl font-bold text-slate-800 mt-1" id="kpiRankSchool">Hạng #1</h3>
             <p class="text-[11px] text-slate-400 mt-1">Toàn trường</p>
           </div>
-          <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold">
-            <i class="fa-solid fa-school"></i>
-          </div>
+          <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-school"></i></div>
         </div>
-
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
             <p class="text-xs text-slate-500 font-medium">Tổng Điểm Đoàn Trường</p>
             <h3 class="text-2xl font-bold text-emerald-700 mt-1" id="kpiScore">100.0 <span class="text-xs font-normal text-slate-400">/ 100đ</span></h3>
             <p class="text-[11px] text-emerald-600 font-medium mt-1" id="kpiScoreNote">0 vi phạm</p>
           </div>
-          <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-xl">
-            <i class="fa-solid fa-chart-line"></i>
-          </div>
+          <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-xl"><i class="fa-solid fa-chart-line"></i></div>
         </div>
-
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
             <p class="text-xs text-slate-500 font-medium">Danh Hiệu Tuần</p>
             <h3 class="text-xl font-bold text-amber-600 mt-1" id="kpiTitle">Cờ Luân Lưu</h3>
             <p class="text-[11px] text-emerald-600 font-semibold mt-1">Đoàn trường khen thưởng</p>
           </div>
-          <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl">
-            <i class="fa-solid fa-flag"></i>
-          </div>
+          <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl"><i class="fa-solid fa-flag"></i></div>
         </div>
       </div>
 
-      <!-- Dặn dò & Tiến trình -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <div class="flex justify-between items-center">
-            <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
-              <i class="fa-solid fa-bullhorn text-amber-500"></i> Dặn Dò Trọng Tâm GVCN
-            </h2>
+            <h2 class="font-bold text-slate-800 text-base flex items-center gap-2"><i class="fa-solid fa-bullhorn text-amber-500"></i> Dặn Dò Trọng Tâm GVCN</h2>
             <button onclick="openWeeklyModal()" class="text-xs text-emerald-700 hover:underline font-semibold">Cập nhật</button>
           </div>
           <div class="space-y-3 text-xs" id="gvcnNotesContainer"></div>
         </div>
-
         <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
           <div class="flex justify-between items-center mb-4">
-            <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
-              <i class="fa-solid fa-chart-column text-emerald-700"></i> Phong Độ Thi Đua (Kế hoạch 40 Tuần)
-            </h2>
+            <h2 class="font-bold text-slate-800 text-base flex items-center gap-2"><i class="fa-solid fa-chart-column text-emerald-700"></i> Phong Độ Thi Đua (Kế hoạch 40 Tuần)</h2>
             <span class="text-xs bg-slate-100 text-slate-600 px-3 py-1 rounded-full">THPT Trần Quang Khải</span>
           </div>
           <div class="space-y-2.5 text-xs max-h-60 overflow-y-auto pr-2" id="historyBarsContainer"></div>
         </div>
       </div>
 
-      <!-- Bảng Tổng Sắp 8 Lớp Khối 12 -->
-      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="p-5 border-b border-slate-100 flex justify-between items-center">
-          <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-            Bảng Tổng Sắp Thi Đua Khối 12 (Tuần Đang Chọn)
-            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">8 Lớp</span>
-          </h2>
-          <span class="text-xs text-slate-400">Niêm yết Đoàn trường</span>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse text-sm">
-            <thead>
-              <tr class="bg-custom-dark text-white text-xs uppercase font-semibold">
-                <th class="py-3.5 px-4 text-center w-16">Hạng</th>
-                <th class="py-3.5 px-6">Lớp</th>
-                <th class="py-3.5 px-4 text-center">Nề Nếp (50đ)</th>
-                <th class="py-3.5 px-4 text-center">Học Tập (30đ)</th>
-                <th class="py-3.5 px-4 text-center">Vệ Sinh (10đ)</th>
-                <th class="py-3.5 px-4 text-center">Phong Trào (10đ)</th>
-                <th class="py-3.5 px-6 text-center font-bold text-amber-300">Tổng Điểm</th>
-                <th class="py-3.5 px-4 text-center">Xếp Loại</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-              <tr class="bg-emerald-50/80 hover:bg-emerald-100/60 transition font-medium border-l-4 border-emerald-600">
-                <td class="py-3.5 px-4 text-center font-bold text-amber-500"><i class="fa-solid fa-crown"></i> 1</td>
-                <td class="py-3.5 px-6"><span class="font-bold text-emerald-950">12A1</span> <span class="ml-2 text-[11px] bg-emerald-700 text-white px-2 py-0.5 rounded-full">Lớp Mình</span></td>
-                <td class="py-3.5 px-4 text-center">50.0</td>
-                <td class="py-3.5 px-4 text-center">30.0</td>
-                <td class="py-3.5 px-4 text-center">10.0</td>
-                <td class="py-3.5 px-4 text-center">10.0</td>
-                <td class="py-3.5 px-6 text-center font-bold text-emerald-700">100.0</td>
-                <td class="py-3.5 px-4 text-center"><span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-300">Xuất Sắc</span></td>
-              </tr>
-              <tr class="hover:bg-slate-50"><td class="py-3.5 px-4 text-center font-bold text-slate-400">2</td><td class="py-3.5 px-6 font-bold text-slate-800">12A2</td><td class="py-3.5 px-4 text-center">48.0</td><td class="py-3.5 px-4 text-center">30.0</td><td class="py-3.5 px-4 text-center">10.0</td><td class="py-3.5 px-4 text-center">10.0</td><td class="py-3.5 px-6 text-center font-bold">98.0</td><td class="py-3.5 px-4 text-center"><span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-full">Tốt</span></td></tr>
-              <tr class="hover:bg-slate-50"><td class="py-3.5 px-4 text-center font-bold text-amber-700">3</td><td class="py-3.5 px-6 font-bold text-slate-800">12A3</td><td class="py-3.5 px-4 text-center">47.0</td><td class="py-3.5 px-4 text-center">29.0</td><td class="py-3.5 px-4 text-center">10.0</td><td class="py-3.5 px-4 text-center">10.0</td><td class="py-3.5 px-6 text-center font-bold">96.0</td><td class="py-3.5 px-4 text-center"><span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-full">Tốt</span></td></tr>
-              <tr class="hover:bg-slate-50"><td class="py-3.5 px-4 text-center text-slate-400">4</td><td class="py-3.5 px-6 font-bold text-slate-800">12A4</td><td class="py-3.5 px-4 text-center">46.0</td><td class="py-3.5 px-4 text-center">28.5</td><td class="py-3.5 px-4 text-center">9.5</td><td class="py-3.5 px-4 text-center">10.0</td><td class="py-3.5 px-6 text-center font-bold">94.0</td><td class="py-3.5 px-4 text-center"><span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-full">Khá</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Thi Đua 4 Tổ -->
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
-            <i class="fa-solid fa-medal text-custom-yellow"></i> Điểm Thi Đua Nội Bộ 4 Tổ (Tuần Này)
-          </h2>
+          <h2 class="font-bold text-slate-800 text-base flex items-center gap-2"><i class="fa-solid fa-medal text-custom-yellow"></i> Điểm Thi Đua Nội Bộ 4 Tổ (Tuần Này)</h2>
           <button onclick="openWeeklyModal()" class="text-xs text-emerald-700 hover:underline font-semibold">Chấm điểm tổ</button>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm" id="groupCardsContainer"></div>
@@ -285,9 +220,9 @@
   </section>
 
   <!-- ================================================================= -->
-  <!-- TAB 4: BÁO BÀI & THỜI KHÓA BIỂU -->
+  <!-- TAB 4: BÁO BÀI & THỜI KHÓA BIỂU (SÁNG + CHIỀU) -->
   <!-- ================================================================= -->
-  <section id="section-baobai" class="tab-content hidden flex-1 flex-col">
+  <section id="section-baobai" class="tab-content flex flex-1 flex-col">
     <div class="max-w-7xl mx-auto px-6 mt-6 w-full">
       <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md relative overflow-hidden flex flex-wrap justify-between items-center gap-4">
         <div>
@@ -298,25 +233,26 @@
             <i class="fa-regular fa-calendar-check text-custom-yellow"></i> Thời Khóa Biểu & Báo Bài Lớp 12A1
           </h1>
           <p class="text-emerald-100/80 text-sm mt-1">
-            Tra cứu thời khóa biểu áp dụng và sổ báo bài dặn dò 40 tuần học của GVCN Hoàng Cao Hiếu.
+            Tra cứu thời khóa biểu chính khóa (Sáng), tăng cường (Chiều) và sổ báo bài 40 tuần của GVCN Hoàng Cao Hiếu.
           </p>
         </div>
 
         <div class="flex items-center gap-2">
           <button onclick="openTkbModal()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs px-4 py-2.5 rounded-xl flex items-center gap-1.5 shadow-sm transition">
-            <i class="fa-solid fa-table-cells"></i> Cập Nhật Thời Khóa Biểu
+            <i class="fa-solid fa-table-cells"></i> Cập Nhật Thời Khóa Biểu (Sáng & Chiều)
           </button>
         </div>
       </div>
     </div>
 
     <main class="max-w-7xl mx-auto px-6 mt-6 w-full flex-1 pb-12 space-y-6">
-      <!-- Bảng Thời Khóa Biểu -->
+      
+      <!-- 1. BẢNG THỜI KHÓA BIỂU BUỔI SÁNG -->
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
         <div class="p-5 border-b border-slate-100 flex flex-wrap justify-between items-center gap-4">
           <div>
             <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-              <i class="fa-solid fa-clock text-emerald-700"></i> Thời Khóa Biểu Chính Khóa (Buổi Sáng)
+              <i class="fa-solid fa-sun text-amber-500 text-lg"></i> Thời Khóa Biểu Chính Khóa (Buổi Sáng)
             </h2>
             <p class="text-xs text-slate-500 mt-0.5" id="tkbApplyDate">Áp dụng: Năm học 2026 - 2027</p>
           </div>
@@ -343,7 +279,39 @@
         </div>
       </div>
 
-      <!-- Sổ Báo Bài 40 Tuần -->
+      <!-- 2. BẢNG THỜI KHÓA BIỂU BUỔI CHIỀU (MỚI BỔ SUNG) -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="p-5 border-b border-slate-100 flex flex-wrap justify-between items-center gap-4">
+          <div>
+            <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+              <i class="fa-solid fa-cloud-sun text-blue-500 text-lg"></i> Thời Khóa Biểu Tăng Cường & Bồi Dưỡng (Buổi Chiều)
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5" id="tkbAfternoonApplyDate">Lịch học phụ đạo, bồi dưỡng TN THPT & Thể thao</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-800 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-200">
+            4 Tiết / Buổi chiều
+          </span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-center border-collapse text-sm">
+            <thead>
+              <tr class="bg-[#134e4a] text-white text-xs uppercase font-semibold">
+                <th class="py-3 px-3 w-20 border-r border-teal-900">Tiết</th>
+                <th class="py-3 px-4 border-r border-teal-900">Thứ Hai</th>
+                <th class="py-3 px-4 border-r border-teal-900">Thứ Ba</th>
+                <th class="py-3 px-4 border-r border-teal-900">Thứ Tư</th>
+                <th class="py-3 px-4 border-r border-teal-900">Thứ Năm</th>
+                <th class="py-3 px-4 border-r border-teal-900">Thứ Sáu</th>
+                <th class="py-3 px-4">Thứ Bảy</th>
+              </tr>
+            </thead>
+            <tbody id="tkbAfternoonTableBody" class="divide-y divide-slate-200"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 3. SỔ BÁO BÀI & DẶN DÒ THEO 40 TUẦN -->
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
         <div class="p-6 border-b border-slate-100 flex flex-wrap justify-between items-center gap-4">
           <div>
@@ -363,6 +331,7 @@
 
         <div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="baobaiDaysContainer"></div>
       </div>
+
     </main>
   </section>
 
@@ -509,7 +478,6 @@
     </div>
 
     <main class="max-w-7xl mx-auto px-6 mt-6 w-full flex-1 pb-12">
-      <!-- Sub-tabs gốc -->
       <div class="flex flex-wrap gap-2 mb-6">
         <button onclick="switchTab('baobai')" class="px-4 py-2 bg-white hover:bg-slate-100 text-slate-700 rounded-xl text-sm font-medium shadow-sm flex items-center gap-2 border border-slate-200">
           <i class="fa-solid fa-id-card"></i> Thông tin lớp & TKB
@@ -522,7 +490,6 @@
         </button>
       </div>
 
-      <!-- Bảng danh sách học sinh gốc -->
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
         <div class="p-6 border-b border-slate-100 flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -564,46 +531,94 @@
   </section>
 
   <!-- ================================================================= -->
-  <!-- MODAL: CẬP NHẬT THI ĐUA TUẦN -->
+  <!-- MODAL: CẬP NHẬT THỜI KHÓA BIỂU (SÁNG & CHIỀU) -->
   <!-- ================================================================= -->
-  <div id="weeklyModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+  <div id="tkbModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl max-h-[92vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
         <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-pen-nib text-emerald-700"></i> Cập Nhật Thi Đua <span id="modalWeekTitle" class="text-emerald-700">Tuần 1</span>
+          <i class="fa-solid fa-table-cells text-emerald-700"></i> Chỉnh Sửa Thời Khóa Biểu (Sáng & Chiều)
         </h3>
-        <button onclick="closeWeeklyModal()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+        <button onclick="closeTkbModal()" class="text-slate-400 text-lg"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
+      <form onsubmit="saveTkb(event)" class="space-y-6 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Ghi chú áp dụng TKB Sáng:</label>
+          <input type="text" id="inputTkbNote" class="w-full px-3 py-2 border rounded-lg text-sm" />
+        </div>
+
+        <!-- BẢNG SỬA BUỔI SÁNG -->
+        <div>
+          <h4 class="font-bold text-emerald-800 mb-2 flex items-center gap-1.5"><i class="fa-solid fa-sun text-amber-500"></i> Buổi Sáng (5 Tiết):</h4>
+          <div class="overflow-x-auto border rounded-xl">
+            <table class="w-full text-center border-collapse">
+              <thead>
+                <tr class="bg-slate-100 font-bold text-slate-700">
+                  <th class="py-2.5 px-2 w-16 border-r">Tiết</th>
+                  <th class="py-2.5 px-2 border-r">Thứ Hai</th>
+                  <th class="py-2.5 px-2 border-r">Thứ Ba</th>
+                  <th class="py-2.5 px-2 border-r">Thứ Tư</th>
+                  <th class="py-2.5 px-2 border-r">Thứ Năm</th>
+                  <th class="py-2.5 px-2 border-r">Thứ Sáu</th>
+                  <th class="py-2.5 px-2">Thứ Bảy</th>
+                </tr>
+              </thead>
+              <tbody id="tkbModalInputsBody" class="divide-y divide-slate-200"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- BẢNG SỬA BUỔI CHIỀU -->
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <h4 class="font-bold text-blue-800 flex items-center gap-1.5"><i class="fa-solid fa-cloud-sun text-blue-500"></i> Buổi Chiều (4 Tiết Tăng Cường):</h4>
+          </div>
+          <div class="overflow-x-auto border rounded-xl">
+            <table class="w-full text-center border-collapse">
+              <thead>
+                <tr class="bg-blue-50 font-bold text-blue-900">
+                  <th class="py-2.5 px-2 w-16 border-r">Tiết</th>
+                  <th class="py-2.5 px-2 border-r">Thứ Hai</th>
+                  <th class="py-2.5 px-2 border-r">Thứ Ba</th>
+                  <th class="py-2.5 px-2 border-r">Thứ Tư</th>
+                  <th class="py-2.5 px-2 border-r">Thứ Năm</th>
+                  <th class="py-2.5 px-2 border-r">Thứ Sáu</th>
+                  <th class="py-2.5 px-2">Thứ Bảy</th>
+                </tr>
+              </thead>
+              <tbody id="tkbAfternoonModalInputsBody" class="divide-y divide-slate-200"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-4 border-t">
+          <button type="button" onclick="closeTkbModal()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs">Hủy</button>
+          <button type="submit" class="px-5 py-2 bg-emerald-700 text-white rounded-lg font-semibold text-xs">Lưu Cả Hai Buổi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CÁC MODAL KHÁC -->
+  <div id="weeklyModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-4 border-b pb-3">
+        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-pen-nib text-emerald-700"></i> Cập Nhật Thi Đua <span id="modalWeekTitle" class="text-emerald-700">Tuần 1</span></h3>
+        <button onclick="closeWeeklyModal()" class="text-slate-400 text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
       <form onsubmit="saveWeeklyRecord(event)" class="space-y-4 text-sm">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Hạng Khối 12</label>
-            <input type="text" id="inputRankBlock" placeholder="1" class="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold" />
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Hạng Toàn Trường</label>
-            <input type="text" id="inputRankSchool" placeholder="1" class="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold" />
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Tổng Điểm Tuần</label>
-            <input type="number" step="0.1" id="inputScore" min="0" max="100" class="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold text-emerald-700" />
-          </div>
+          <div><label class="block text-xs font-semibold mb-1">Hạng Khối</label><input type="text" id="inputRankBlock" class="w-full px-3 py-2 border rounded-lg font-bold" /></div>
+          <div><label class="block text-xs font-semibold mb-1">Hạng Trường</label><input type="text" id="inputRankSchool" class="w-full px-3 py-2 border rounded-lg font-bold" /></div>
+          <div><label class="block text-xs font-semibold mb-1">Tổng Điểm</label><input type="number" step="0.1" id="inputScore" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700" /></div>
         </div>
-
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Danh Hiệu</label>
-            <input type="text" id="inputTitle" placeholder="Cờ Luân Lưu / Lớp Xuất Sắc" class="w-full px-3 py-2 border border-slate-300 rounded-lg" />
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Ghi Chú</label>
-            <input type="text" id="inputScoreNote" placeholder="0 vi phạm" class="w-full px-3 py-2 border border-slate-300 rounded-lg" />
-          </div>
+          <div><label class="block text-xs font-semibold mb-1">Danh Hiệu</label><input type="text" id="inputTitle" class="w-full px-3 py-2 border rounded-lg" /></div>
+          <div><label class="block text-xs font-semibold mb-1">Ghi Chú</label><input type="text" id="inputScoreNote" class="w-full px-3 py-2 border rounded-lg" /></div>
         </div>
-
-        <div class="pt-2 border-t border-slate-100">
-          <label class="block text-xs font-bold text-slate-700 mb-2">Điểm 4 Tổ:</label>
+        <div class="pt-2 border-t">
+          <label class="block text-xs font-bold mb-2">Điểm 4 Tổ:</label>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
             <div><span class="text-xs text-slate-500">Tổ 1:</span><input type="number" step="0.5" id="inputScoreT1" class="w-full px-2 py-1 border rounded text-xs font-bold" /></div>
             <div><span class="text-xs text-slate-500">Tổ 2:</span><input type="number" step="0.5" id="inputScoreT2" class="w-full px-2 py-1 border rounded text-xs font-bold" /></div>
@@ -611,15 +626,13 @@
             <div><span class="text-xs text-slate-500">Tổ 4:</span><input type="number" step="0.5" id="inputScoreT4" class="w-full px-2 py-1 border rounded text-xs font-bold" /></div>
           </div>
         </div>
-
-        <div class="pt-2 border-t border-slate-100 space-y-2">
-          <label class="block text-xs font-bold text-slate-700">Dặn Dò GVCN:</label>
-          <div><input type="text" id="inputNote1" placeholder="1. Giờ giấc..." class="w-full px-3 py-1.5 border rounded-lg text-xs" /></div>
-          <div><input type="text" id="inputNote2" placeholder="2. Đồng phục..." class="w-full px-3 py-1.5 border rounded-lg text-xs" /></div>
-          <div><input type="text" id="inputNote3" placeholder="3. Học tập..." class="w-full px-3 py-1.5 border rounded-lg text-xs" /></div>
+        <div class="pt-2 border-t space-y-2">
+          <label class="block text-xs font-bold">Dặn Dò GVCN:</label>
+          <div><input type="text" id="inputNote1" class="w-full px-3 py-1.5 border rounded-lg text-xs" /></div>
+          <div><input type="text" id="inputNote2" class="w-full px-3 py-1.5 border rounded-lg text-xs" /></div>
+          <div><input type="text" id="inputNote3" class="w-full px-3 py-1.5 border rounded-lg text-xs" /></div>
         </div>
-
-        <div class="flex justify-end gap-2 pt-4 border-t border-slate-100">
+        <div class="flex justify-end gap-2 pt-4 border-t">
           <button type="button" onclick="closeWeeklyModal()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs">Hủy</button>
           <button type="submit" class="px-5 py-2 bg-emerald-700 text-white rounded-lg font-semibold text-xs">Lưu</button>
         </div>
@@ -627,57 +640,12 @@
     </div>
   </div>
 
-  <!-- MODAL: SỬA TKB -->
-  <div id="tkbModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl max-h-[92vh] overflow-y-auto">
-      <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
-        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-table-cells text-emerald-700"></i> Chỉnh Sửa Thời Khóa Biểu 12A1
-        </h3>
-        <button onclick="closeTkbModal()" class="text-slate-400 text-lg"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-
-      <form onsubmit="saveTkb(event)" class="space-y-4 text-xs">
-        <div>
-          <label class="block font-semibold text-slate-700 mb-1">Ghi chú áp dụng:</label>
-          <input type="text" id="inputTkbNote" class="w-full px-3 py-2 border rounded-lg text-sm" />
-        </div>
-
-        <div class="overflow-x-auto border rounded-xl">
-          <table class="w-full text-center border-collapse">
-            <thead>
-              <tr class="bg-slate-100 font-bold text-slate-700">
-                <th class="py-2.5 px-2 w-16 border-r">Tiết</th>
-                <th class="py-2.5 px-2 border-r">Thứ Hai</th>
-                <th class="py-2.5 px-2 border-r">Thứ Ba</th>
-                <th class="py-2.5 px-2 border-r">Thứ Tư</th>
-                <th class="py-2.5 px-2 border-r">Thứ Năm</th>
-                <th class="py-2.5 px-2 border-r">Thứ Sáu</th>
-                <th class="py-2.5 px-2">Thứ Bảy</th>
-              </tr>
-            </thead>
-            <tbody id="tkbModalInputsBody" class="divide-y divide-slate-200"></tbody>
-          </table>
-        </div>
-
-        <div class="flex justify-end gap-2 pt-4 border-t">
-          <button type="button" onclick="closeTkbModal()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs">Hủy</button>
-          <button type="submit" class="px-5 py-2 bg-emerald-700 text-white rounded-lg font-semibold text-xs">Lưu TKB</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL: SỬA BÁO BÀI -->
   <div id="baobaiModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-4 border-b pb-3">
-        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-book-bookmark text-emerald-700"></i> Cập Nhật Báo Bài <span id="modalBaoBaiWeekTitle" class="text-emerald-700">Tuần 1</span>
-        </h3>
+        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-book-bookmark text-emerald-700"></i> Cập Nhật Báo Bài <span id="modalBaoBaiWeekTitle" class="text-emerald-700">Tuần 1</span></h3>
         <button onclick="closeBaoBaiModal()" class="text-slate-400 text-lg"><i class="fa-solid fa-xmark"></i></button>
       </div>
-
       <form onsubmit="saveBaoBaiRecord(event)" class="space-y-3 text-xs">
         <div><label class="block font-bold mb-1">Thứ Hai:</label><textarea id="bb_t2" rows="2" class="w-full px-3 py-1.5 border rounded-lg"></textarea></div>
         <div><label class="block font-bold mb-1">Thứ Ba:</label><textarea id="bb_t3" rows="2" class="w-full px-3 py-1.5 border rounded-lg"></textarea></div>
@@ -685,7 +653,6 @@
         <div><label class="block font-bold mb-1">Thứ Năm:</label><textarea id="bb_t5" rows="2" class="w-full px-3 py-1.5 border rounded-lg"></textarea></div>
         <div><label class="block font-bold mb-1">Thứ Sáu:</label><textarea id="bb_t6" rows="2" class="w-full px-3 py-1.5 border rounded-lg"></textarea></div>
         <div><label class="block font-bold mb-1">Thứ Bảy:</label><textarea id="bb_t7" rows="2" class="w-full px-3 py-1.5 border rounded-lg"></textarea></div>
-
         <div class="flex justify-end gap-2 pt-4 border-t">
           <button type="button" onclick="closeBaoBaiModal()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs">Hủy</button>
           <button type="submit" class="px-5 py-2 bg-emerald-700 text-white rounded-lg font-semibold text-xs">Lưu Báo Bài</button>
@@ -694,59 +661,31 @@
     </div>
   </div>
 
-  <!-- MODAL: THÊM HỌC SINH -->
   <div id="addModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
       <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2"><i class="fa-solid fa-user-plus text-emerald-700"></i> Thêm Học Sinh 12A1</h3>
       <form id="studentForm" onsubmit="saveStudent(event)" class="space-y-4 text-sm">
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">Họ và Tên</label>
-          <input type="text" id="name" required placeholder="Ví dụ: Nguyễn Văn A" class="w-full px-3 py-2 border rounded-lg" />
-        </div>
+        <div><label class="block text-xs font-semibold mb-1">Họ và Tên</label><input type="text" id="name" required class="w-full px-3 py-2 border rounded-lg" /></div>
         <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Giới Tính</label>
-            <select id="gender" class="w-full px-3 py-2 border rounded-lg">
-              <option value="Nam">Nam</option>
-              <option value="Nữ">Nữ</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Tổ</label>
-            <select id="group" class="w-full px-3 py-2 border rounded-lg">
-              <option value="Tổ 1">Tổ 1</option>
-              <option value="Tổ 2">Tổ 2</option>
-              <option value="Tổ 3">Tổ 3</option>
-              <option value="Tổ 4">Tổ 4</option>
-            </select>
-          </div>
+          <div><label class="block text-xs font-semibold mb-1">Giới Tính</label><select id="gender" class="w-full px-3 py-2 border rounded-lg"><option value="Nam">Nam</option><option value="Nữ">Nữ</option></select></div>
+          <div><label class="block text-xs font-semibold mb-1">Tổ</label><select id="group" class="w-full px-3 py-2 border rounded-lg"><option value="Tổ 1">Tổ 1</option><option value="Tổ 2">Tổ 2</option><option value="Tổ 3">Tổ 3</option><option value="Tổ 4">Tổ 4</option></select></div>
         </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">Chức Vụ</label>
-          <input type="text" id="role" value="Thành viên" class="w-full px-3 py-2 border rounded-lg" />
-        </div>
+        <div><label class="block text-xs font-semibold mb-1">Chức Vụ</label><input type="text" id="role" value="Thành viên" class="w-full px-3 py-2 border rounded-lg" /></div>
         <div class="flex justify-end gap-2 pt-4 border-t">
           <button type="button" onclick="closeModal()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs">Hủy</button>
-          <button type="submit" class="px-4 py-2 bg-emerald-700 text-white rounded-lg font-semibold text-xs">Lưu Học Sinh</button>
+          <button type="submit" class="px-4 py-2 bg-emerald-700 text-white rounded-lg font-semibold text-xs">Lưu</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- MODAL: ĐIỂM RÈN LUYỆN -->
   <div id="scoreModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
       <h3 id="modalScoreTitle" class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">Cập Nhật Rèn Luyện</h3>
       <form onsubmit="saveScoreAction(event)" class="space-y-4 text-sm">
         <input type="hidden" id="actionType" value="plus" />
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">Số Điểm</label>
-          <input type="number" id="actionPoints" required min="1" max="50" value="5" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700" />
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">Lý Do</label>
-          <textarea id="actionReason" required rows="3" placeholder="Nội dung ghi nhận..." class="w-full px-3 py-2 border rounded-lg"></textarea>
-        </div>
+        <div><label class="block text-xs font-semibold mb-1">Số Điểm</label><input type="number" id="actionPoints" required min="1" max="50" value="5" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700" /></div>
+        <div><label class="block text-xs font-semibold mb-1">Lý Do</label><textarea id="actionReason" required rows="3" class="w-full px-3 py-2 border rounded-lg"></textarea></div>
         <div class="flex justify-end gap-2 pt-4 border-t">
           <button type="button" onclick="closeScoreModal()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs">Hủy</button>
           <button type="submit" id="btnScoreSubmit" class="px-4 py-2 bg-emerald-700 text-white rounded-lg font-semibold text-xs">Lưu</button>
@@ -755,7 +694,7 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT ĐIỀU HÀNH TOÀN BỘ HỆ THỐNG -->
+  <!-- JAVASCRIPT ĐIỀU HÀNH -->
   <script>
     const TOTAL_WEEKS = 40;
     const GOOGLE_SHEET_API_URL = ""; 
@@ -778,22 +717,27 @@
         history: [{ date: "21/08/2026", reason: "Đi học muộn 10 phút", type: "minus", points: 5 }]
       }
     ];
-
     let students = JSON.parse(localStorage.getItem('class_students_12a1')) || defaultStudents;
     let currentStudentId = students.length > 0 ? students[0].id : null;
 
-    // 2. DỮ LIỆU THỜI KHÓA BIỂU
+    // 2. DỮ LIỆU THỜI KHÓA BIỂU SÁNG & CHIỀU
     const defaultTkb = {
-      note: "Áp dụng từ Học Kỳ 1 năm học 2026 - 2027",
+      note: "Áp dụng: Năm học 2026 - 2027",
       grid: [
         ["Chào cờ", "Toán", "Vật lí", "Hóa học", "Ngữ văn", "Lịch sử"],
         ["Sinh hoạt", "Toán", "Vật lí", "Hóa học", "Ngữ văn", "Địa lí"],
         ["Toán", "Tiếng Anh", "Hóa học", "Ngữ văn", "Tin học", "GDCD"],
         ["Vật lí", "Tiếng Anh", "Sinh học", "Toán", "Thể dục", "Công nghệ"],
         ["Vật lí", "Tin học", "Sinh học", "Toán", "Thể dục", "Tự học"]
+      ],
+      afternoonGrid: [
+        ["Tăng cường Toán", "Bồi dưỡng Vật lí", "Tăng cường Hóa", "Tăng cường Anh", "Tự chọn KHTN", "Nghỉ"],
+        ["Tăng cường Toán", "Bồi dưỡng Vật lí", "Tăng cường Hóa", "Tăng cường Anh", "Tự chọn KHTN", "Nghỉ"],
+        ["Luyện đề TN", "Luyện đề TN", "GDQP - AN", "Luyện đề TN", "SH Câu lạc bộ", "Nghỉ"],
+        ["Thể thao / CLB", "Thể thao / CLB", "GDQP - AN", "Thể thao / CLB", "SH Câu lạc bộ", "Nghỉ"]
       ]
     };
-    let tkbData = JSON.parse(localStorage.getItem('class_tkb_12a1')) || defaultTkb;
+    let tkbData = JSON.parse(localStorage.getItem('class_tkb_full_12a1')) || defaultTkb;
 
     // 3. DỮ LIỆU BÁO BÀI 40 TUẦN
     function init40WeeksBaoBai() {
@@ -851,24 +795,203 @@
       if (tabId === 'vipham') renderViolationsTable();
     }
 
-    // THI ĐUA LOGIC
+    // RENDER THỜI KHÓA BIỂU SÁNG & CHIỀU
+    function renderTkb() {
+      document.getElementById('tkbApplyDate').innerText = tkbData.note || "Áp dụng: Năm học 2026 - 2027";
+      
+      // 1. Render Sáng
+      const tbodyMorning = document.getElementById('tkbTableBody');
+      tbodyMorning.innerHTML = '';
+      const morningTimes = ["07:00 - 07:45", "07:50 - 08:35", "09:00 - 09:45", "09:50 - 10:35", "10:40 - 11:25"];
+      for (let p = 0; p < 5; p++) {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50 transition";
+        let rowHtml = `<td class="py-3 px-3 border-r bg-slate-50 font-bold text-slate-800">Tiết ${p + 1}<p class="text-[10px] text-slate-400 font-mono">${morningTimes[p]}</p></td>`;
+        for (let d = 0; d < 6; d++) {
+          const sub = (tkbData.grid && tkbData.grid[p]) ? tkbData.grid[p][d] || "" : "";
+          rowHtml += `<td class="py-3 px-4 border-r font-medium text-slate-800">${sub || '--'}</td>`;
+        }
+        tr.innerHTML = rowHtml;
+        tbodyMorning.appendChild(tr);
+      }
+
+      // 2. Render Chiều
+      const tbodyAfternoon = document.getElementById('tkbAfternoonTableBody');
+      tbodyAfternoon.innerHTML = '';
+      const afternoonTimes = ["13:30 - 14:15", "14:20 - 15:05", "15:20 - 16:05", "16:10 - 16:55"];
+      const aftGrid = tkbData.afternoonGrid || defaultTkb.afternoonGrid;
+
+      for (let p = 0; p < 4; p++) {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-blue-50/40 transition";
+        let rowHtml = `<td class="py-3 px-3 border-r bg-blue-50/40 font-bold text-blue-950">Tiết ${p + 1}<p class="text-[10px] text-slate-400 font-mono">${afternoonTimes[p]}</p></td>`;
+        for (let d = 0; d < 6; d++) {
+          const sub = (aftGrid && aftGrid[p]) ? aftGrid[p][d] || "" : "";
+          let badge = "text-slate-800 font-medium";
+          if (sub.includes("Toán") || sub.includes("Vật lí") || sub.includes("Hóa")) badge = "text-blue-900 font-bold bg-blue-50/50";
+          rowHtml += `<td class="py-3 px-4 border-r ${badge}">${sub || '--'}</td>`;
+        }
+        tr.innerHTML = rowHtml;
+        tbodyAfternoon.appendChild(tr);
+      }
+    }
+
+    function openTkbModal() {
+      document.getElementById('inputTkbNote').value = tkbData.note || '';
+      
+      // Sáng
+      const tbodyM = document.getElementById('tkbModalInputsBody');
+      tbodyM.innerHTML = '';
+      for (let p = 0; p < 5; p++) {
+        const tr = document.createElement('tr');
+        tr.className = "border-b";
+        let rowHtml = `<td class="py-2 px-2 font-bold text-slate-700 bg-slate-50 border-r">Tiết ${p + 1}</td>`;
+        for (let d = 0; d < 6; d++) {
+          const val = (tkbData.grid && tkbData.grid[p] && tkbData.grid[p][d]) ? tkbData.grid[p][d] : "";
+          rowHtml += `<td class="p-1 border-r"><input type="text" id="tkb_m_${p}_${d}" value="${val}" placeholder="Môn" class="w-full text-center px-1.5 py-1.5 border rounded font-medium" /></td>`;
+        }
+        tr.innerHTML = rowHtml;
+        tbodyM.appendChild(tr);
+      }
+
+      // Chiều
+      const tbodyA = document.getElementById('tkbAfternoonModalInputsBody');
+      tbodyA.innerHTML = '';
+      const aftGrid = tkbData.afternoonGrid || defaultTkb.afternoonGrid;
+      for (let p = 0; p < 4; p++) {
+        const tr = document.createElement('tr');
+        tr.className = "border-b";
+        let rowHtml = `<td class="py-2 px-2 font-bold text-blue-900 bg-blue-50 border-r">Tiết ${p + 1}</td>`;
+        for (let d = 0; d < 6; d++) {
+          const val = (aftGrid && aftGrid[p] && aftGrid[p][d]) ? aftGrid[p][d] : "";
+          rowHtml += `<td class="p-1 border-r"><input type="text" id="tkb_a_${p}_${d}" value="${val}" placeholder="Môn" class="w-full text-center px-1.5 py-1.5 border rounded font-medium" /></td>`;
+        }
+        tr.innerHTML = rowHtml;
+        tbodyA.appendChild(tr);
+      }
+
+      document.getElementById('tkbModal').classList.remove('hidden');
+      document.getElementById('tkbModal').classList.add('flex');
+    }
+
+    function closeTkbModal() {
+      document.getElementById('tkbModal').classList.add('hidden');
+      document.getElementById('tkbModal').classList.remove('flex');
+    }
+
+    function saveTkb(e) {
+      e.preventDefault();
+      const newMorning = [];
+      for (let p = 0; p < 5; p++) {
+        const row = [];
+        for (let d = 0; d < 6; d++) row.push(document.getElementById(`tkb_m_${p}_${d}`).value.trim());
+        newMorning.push(row);
+      }
+
+      const newAfternoon = [];
+      for (let p = 0; p < 4; p++) {
+        const row = [];
+        for (let d = 0; d < 6; d++) row.push(document.getElementById(`tkb_a_${p}_${d}`).value.trim());
+        newAfternoon.push(row);
+      }
+
+      tkbData = {
+        note: document.getElementById('inputTkbNote').value.trim(),
+        grid: newMorning,
+        afternoonGrid: newAfternoon
+      };
+
+      localStorage.setItem('class_tkb_full_12a1', JSON.stringify(tkbData));
+      renderTkb();
+      closeTkbModal();
+    }
+
+    // LOGIC BÁO BÀI & CÁC PHÂN HỆ KHÁC
+    function renderBaoBaiDropdown() {
+      const select = document.getElementById('selectBaoBaiWeek');
+      select.innerHTML = '';
+      for (let i = 1; i <= TOTAL_WEEKS; i++) {
+        const opt = document.createElement('option'); opt.value = i;
+        opt.innerText = `Sổ báo bài Tuần ${i} (${i <= 20 ? 'HK1' : 'HK2'})`;
+        if (i === currentBaoBaiWeek) opt.selected = true;
+        select.appendChild(opt);
+      }
+    }
+
+    function onBaoBaiWeekChange() {
+      currentBaoBaiWeek = parseInt(document.getElementById('selectBaoBaiWeek').value);
+      renderBaoBaiCards();
+    }
+
+    function renderBaoBaiCards() {
+      const container = document.getElementById('baobaiDaysContainer');
+      container.innerHTML = '';
+      const current = baobaiData[currentBaoBaiWeek] || { t2: "", t3: "", t4: "", t5: "", t6: "", t7: "" };
+      const days = [
+        { label: "Thứ Hai", key: "t2", tag: "bg-emerald-700" }, { label: "Thứ Ba", key: "t3", tag: "bg-blue-600" },
+        { label: "Thứ Tư", key: "t4", tag: "bg-amber-600" }, { label: "Thứ Năm", key: "t5", tag: "bg-purple-600" },
+        { label: "Thứ Sáu", key: "t6", tag: "bg-teal-600" }, { label: "Thứ Bảy", key: "t7", tag: "bg-rose-600" }
+      ];
+      days.forEach(d => {
+        const card = document.createElement('div');
+        card.className = "p-4 rounded-xl border bg-slate-50 flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="${d.tag} text-white font-bold text-xs px-2.5 py-1 rounded">${d.label}</span>
+              <span class="text-[11px] text-slate-400">Tuần ${currentBaoBaiWeek}</span>
+            </div>
+            <div class="text-xs text-slate-700 min-h-[60px] whitespace-pre-line leading-relaxed">
+              ${current[d.key] || '<span class="text-slate-400 italic">Chưa có dặn dò / bài tập</span>'}
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function openBaoBaiModal() {
+      document.getElementById('modalBaoBaiWeekTitle').innerText = `Tuần ${currentBaoBaiWeek}`;
+      const current = baobaiData[currentBaoBaiWeek] || { t2: "", t3: "", t4: "", t5: "", t6: "", t7: "" };
+      document.getElementById('bb_t2').value = current.t2 || '';
+      document.getElementById('bb_t3').value = current.t3 || '';
+      document.getElementById('bb_t4').value = current.t4 || '';
+      document.getElementById('bb_t5').value = current.t5 || '';
+      document.getElementById('bb_t6').value = current.t6 || '';
+      document.getElementById('bb_t7').value = current.t7 || '';
+      document.getElementById('baobaiModal').classList.remove('hidden');
+      document.getElementById('baobaiModal').classList.add('flex');
+    }
+
+    function closeBaoBaiModal() {
+      document.getElementById('baobaiModal').classList.add('hidden');
+      document.getElementById('baobaiModal').classList.remove('flex');
+    }
+
+    function saveBaoBaiRecord(e) {
+      e.preventDefault();
+      baobaiData[currentBaoBaiWeek] = {
+        t2: document.getElementById('bb_t2').value.trim(),
+        t3: document.getElementById('bb_t3').value.trim(),
+        t4: document.getElementById('bb_t4').value.trim(),
+        t5: document.getElementById('bb_t5').value.trim(),
+        t6: document.getElementById('bb_t6').value.trim(),
+        t7: document.getElementById('bb_t7').value.trim()
+      };
+      localStorage.setItem('class_baobai_40w_12a1', JSON.stringify(baobaiData));
+      renderBaoBaiCards();
+      closeBaoBaiModal();
+    }
+
     function renderWeekDropdown() {
       const select = document.getElementById('selectWeek');
       select.innerHTML = '';
-      const g1 = document.createElement('optgroup'); g1.label = "--- HỌC KỲ 1 (Tuần 1 - 20) ---";
-      for (let i = 1; i <= 20; i++) {
-        const opt = document.createElement('option'); opt.value = i; opt.innerText = `Tuần ${i} (HK1)`;
+      for (let i = 1; i <= TOTAL_WEEKS; i++) {
+        const opt = document.createElement('option'); opt.value = i;
+        opt.innerText = `Tuần ${i} (${i <= 20 ? 'HK1' : 'HK2'})`;
         if (i === selectedWeek) opt.selected = true;
-        g1.appendChild(opt);
+        select.appendChild(opt);
       }
-      select.appendChild(g1);
-      const g2 = document.createElement('optgroup'); g2.label = "--- HỌC KỲ 2 (Tuần 21 - 40) ---";
-      for (let i = 21; i <= TOTAL_WEEKS; i++) {
-        const opt = document.createElement('option'); opt.value = i; opt.innerText = `Tuần ${i} (HK2)`;
-        if (i === selectedWeek) opt.selected = true;
-        g2.appendChild(opt);
-      }
-      select.appendChild(g2);
     }
 
     function onWeekChange() {
@@ -973,140 +1096,7 @@
       closeWeeklyModal();
     }
 
-    // TKB & BÁO BÀI LOGIC
-    function renderTkb() {
-      document.getElementById('tkbApplyDate').innerText = tkbData.note || "Áp dụng: Năm học 2026 - 2027";
-      const tbody = document.getElementById('tkbTableBody');
-      tbody.innerHTML = '';
-      const times = ["07:00 - 07:45", "07:50 - 08:35", "09:00 - 09:45", "09:50 - 10:35", "10:40 - 11:25"];
-      for (let p = 0; p < 5; p++) {
-        const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-50 transition";
-        let rowHtml = `<td class="py-3 px-3 border-r bg-slate-50 font-bold text-slate-800">Tiết ${p + 1}<p class="text-[10px] text-slate-400 font-mono">${times[p]}</p></td>`;
-        for (let d = 0; d < 6; d++) {
-          const sub = tkbData.grid[p] ? tkbData.grid[p][d] || "" : "";
-          rowHtml += `<td class="py-3 px-4 border-r font-medium text-slate-800">${sub || '--'}</td>`;
-        }
-        tr.innerHTML = rowHtml;
-        tbody.appendChild(tr);
-      }
-    }
-
-    function openTkbModal() {
-      document.getElementById('inputTkbNote').value = tkbData.note || '';
-      const tbody = document.getElementById('tkbModalInputsBody');
-      tbody.innerHTML = '';
-      for (let p = 0; p < 5; p++) {
-        const tr = document.createElement('tr');
-        tr.className = "border-b";
-        let rowHtml = `<td class="py-2 px-2 font-bold text-slate-700 bg-slate-50 border-r">Tiết ${p + 1}</td>`;
-        for (let d = 0; d < 6; d++) {
-          const val = (tkbData.grid[p] && tkbData.grid[p][d]) ? tkbData.grid[p][d] : "";
-          rowHtml += `<td class="p-1 border-r"><input type="text" id="tkb_in_${p}_${d}" value="${val}" placeholder="Môn" class="w-full text-center px-1.5 py-1.5 border rounded font-medium" /></td>`;
-        }
-        tr.innerHTML = rowHtml;
-        tbody.appendChild(tr);
-      }
-      document.getElementById('tkbModal').classList.remove('hidden');
-      document.getElementById('tkbModal').classList.add('flex');
-    }
-
-    function closeTkbModal() {
-      document.getElementById('tkbModal').classList.add('hidden');
-      document.getElementById('tkbModal').classList.remove('flex');
-    }
-
-    function saveTkb(e) {
-      e.preventDefault();
-      const newGrid = [];
-      for (let p = 0; p < 5; p++) {
-        const row = [];
-        for (let d = 0; d < 6; d++) row.push(document.getElementById(`tkb_in_${p}_${d}`).value.trim());
-        newGrid.push(row);
-      }
-      tkbData = { note: document.getElementById('inputTkbNote').value.trim(), grid: newGrid };
-      localStorage.setItem('class_tkb_12a1', JSON.stringify(tkbData));
-      renderTkb();
-      closeTkbModal();
-    }
-
-    function renderBaoBaiDropdown() {
-      const select = document.getElementById('selectBaoBaiWeek');
-      select.innerHTML = '';
-      for (let i = 1; i <= TOTAL_WEEKS; i++) {
-        const opt = document.createElement('option'); opt.value = i;
-        opt.innerText = `Sổ báo bài Tuần ${i} (${i <= 20 ? 'HK1' : 'HK2'})`;
-        if (i === currentBaoBaiWeek) opt.selected = true;
-        select.appendChild(opt);
-      }
-    }
-
-    function onBaoBaiWeekChange() {
-      currentBaoBaiWeek = parseInt(document.getElementById('selectBaoBaiWeek').value);
-      renderBaoBaiCards();
-    }
-
-    function renderBaoBaiCards() {
-      const container = document.getElementById('baobaiDaysContainer');
-      container.innerHTML = '';
-      const current = baobaiData[currentBaoBaiWeek] || { t2: "", t3: "", t4: "", t5: "", t6: "", t7: "" };
-      const days = [
-        { label: "Thứ Hai", key: "t2", tag: "bg-emerald-700" }, { label: "Thứ Ba", key: "t3", tag: "bg-blue-600" },
-        { label: "Thứ Tư", key: "t4", tag: "bg-amber-600" }, { label: "Thứ Năm", key: "t5", tag: "bg-purple-600" },
-        { label: "Thứ Sáu", key: "t6", tag: "bg-teal-600" }, { label: "Thứ Bảy", key: "t7", tag: "bg-rose-600" }
-      ];
-      days.forEach(d => {
-        const card = document.createElement('div');
-        card.className = "p-4 rounded-xl border bg-slate-50 flex flex-col justify-between";
-        card.innerHTML = `
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="${d.tag} text-white font-bold text-xs px-2.5 py-1 rounded">${d.label}</span>
-              <span class="text-[11px] text-slate-400">Tuần ${currentBaoBaiWeek}</span>
-            </div>
-            <div class="text-xs text-slate-700 min-h-[60px] whitespace-pre-line leading-relaxed">
-              ${current[d.key] || '<span class="text-slate-400 italic">Chưa có dặn dò / bài tập</span>'}
-            </div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function openBaoBaiModal() {
-      document.getElementById('modalBaoBaiWeekTitle').innerText = `Tuần ${currentBaoBaiWeek}`;
-      const current = baobaiData[currentBaoBaiWeek] || { t2: "", t3: "", t4: "", t5: "", t6: "", t7: "" };
-      document.getElementById('bb_t2').value = current.t2 || '';
-      document.getElementById('bb_t3').value = current.t3 || '';
-      document.getElementById('bb_t4').value = current.t4 || '';
-      document.getElementById('bb_t5').value = current.t5 || '';
-      document.getElementById('bb_t6').value = current.t6 || '';
-      document.getElementById('bb_t7').value = current.t7 || '';
-      document.getElementById('baobaiModal').classList.remove('hidden');
-      document.getElementById('baobaiModal').classList.add('flex');
-    }
-
-    function closeBaoBaiModal() {
-      document.getElementById('baobaiModal').classList.add('hidden');
-      document.getElementById('baobaiModal').classList.remove('flex');
-    }
-
-    function saveBaoBaiRecord(e) {
-      e.preventDefault();
-      baobaiData[currentBaoBaiWeek] = {
-        t2: document.getElementById('bb_t2').value.trim(),
-        t3: document.getElementById('bb_t3').value.trim(),
-        t4: document.getElementById('bb_t4').value.trim(),
-        t5: document.getElementById('bb_t5').value.trim(),
-        t6: document.getElementById('bb_t6').value.trim(),
-        t7: document.getElementById('bb_t7').value.trim()
-      };
-      localStorage.setItem('class_baobai_40w_12a1', JSON.stringify(baobaiData));
-      renderBaoBaiCards();
-      closeBaoBaiModal();
-    }
-
-    // QUẢN TRỊ DANH SÁCH LỚP GỐC
+    // QUẢN LÝ HỌC SINH
     function generateParentCode() {
       const randStr = () => Math.random().toString(36).substring(2, 6).toUpperCase();
       return `PH12A1-${randStr()}-${randStr()}-${randStr()}`;
@@ -1169,7 +1159,6 @@
       }
     }
 
-    // RÈN LUYỆN CÁ NHÂN & VI PHẠM
     function renderViolationsTable() {
       const tbody = document.getElementById('allViolationsTableBody');
       tbody.innerHTML = '';
@@ -1251,7 +1240,7 @@
         row.innerHTML = `
           <td class="py-3 px-4 font-mono text-xs text-slate-500">${h.date}</td>
           <td class="py-3 px-4 font-medium text-slate-800">${h.reason}</td>
-          <td class="py-3 px-4 text-center">${h.type === 'plus' ? '<span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-0.5 rounded-full font-bold">Khen thưởng</span>' : '<span class="bg-rose-100 text-rose-800 text-xs px-2 py-0.5 rounded-full font-bold">Vi phạm</span>'}</td>
+          <td class="py-3 px-4 text-center">${h.type === 'plus' ? '<span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 rounded-full font-bold">Khen thưởng</span>' : '<span class="bg-rose-100 text-rose-800 text-xs px-2.5 py-0.5 rounded-full font-bold">Vi phạm</span>'}</td>
           <td class="py-3 px-4 text-center font-bold ${h.type === 'plus' ? 'text-emerald-600' : 'text-rose-600'}">${h.type === 'plus' ? '+' : '-'}${h.points}</td>
         `;
         tbody.appendChild(row);
@@ -1297,6 +1286,9 @@
     // KHỞI CHẠY HỆ THỐNG
     renderWeekDropdown();
     renderWeeklyView();
+    renderTkb();
+    renderBaoBaiDropdown();
+    renderBaoBaiCards();
     renderTable();
   </script>
 </body>
