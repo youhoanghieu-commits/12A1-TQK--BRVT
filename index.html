@@ -3,21 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quản Lý Lớp 12A1 - THPT Trần Quang Khải</title>
+  <title>Hệ Thống Quản Lý Lớp Học - 12A1 - THPT Trần Quang Khải</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
   <style>
     body { font-family: 'Inter', sans-serif; background-color: #f4f6f8; }
     .bg-custom-dark { background-color: #0b3d2c; }
     .bg-custom-header { background-color: #0f4c36; }
     .text-custom-yellow { color: #facc15; }
-    .tab-btn-active { background-color: #0b3d2c !important; color: #ffffff !important; font-weight: 600; }
+    .tab-btn-active {
+      background-color: #0b3d2c !important;
+      color: #ffffff !important;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
-  <!-- HEADER -->
+  <!-- 1. HEADER CHÍNH -->
   <header class="bg-custom-dark text-white px-6 py-3 shadow-md">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
       <div class="flex items-center space-x-3">
@@ -35,18 +40,27 @@
           <p class="text-xs text-emerald-200/70 mt-0.5">Trường THPT Trần Quang Khải - BRVT • <span class="text-white font-medium">GVCN: Thầy Hoàng Cao Hiếu</span></p>
         </div>
       </div>
+
+      <div class="hidden lg:block text-xs italic text-emerald-100 bg-emerald-900/40 px-4 py-1.5 rounded-full border border-emerald-700/50">
+        “Mỗi tuần một bước tiến – Cùng nhau bứt phá 12A1”
+      </div>
+
       <div class="flex items-center space-x-3 text-sm">
-        <button class="bg-amber-400 text-slate-900 font-semibold text-xs px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 shadow-sm">
+        <div class="bg-emerald-900/60 border border-emerald-700/60 px-3 py-1.5 rounded-lg flex items-center gap-2">
+          <i class="fa-regular fa-calendar text-custom-yellow"></i>
+          <span class="text-xs font-medium">Năm học 2026 - 2027</span>
+        </div>
+        <button class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold text-xs px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-sm">
           <i class="fa-solid fa-user-tie"></i> GVCN: Hoàng Cao Hiếu
         </button>
       </div>
     </div>
   </header>
 
-  <!-- THANH ĐIỀU HƯỚNG TẦNG 2 -->
+  <!-- 2. THANH ĐIỀU HƯỚNG -->
   <nav class="bg-white border-b border-slate-200 sticky top-0 z-20 shadow-sm">
     <div class="max-w-7xl mx-auto px-6 flex space-x-2 overflow-x-auto text-sm py-2">
-      <button id="nav-thuhang" onclick="switchTab('thuhang')" class="tab-btn tab-btn-active px-4 py-2 rounded-lg font-semibold flex items-center gap-2 whitespace-nowrap transition">
+      <button id="nav-thuhang" onclick="switchTab('thuhang')" class="tab-btn px-4 py-2 rounded-lg text-slate-600 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap transition">
         <i class="fa-solid fa-ranking-star"></i> Thứ hạng trường & khối
       </button>
       <button id="nav-vipham" onclick="switchTab('vipham')" class="tab-btn px-4 py-2 rounded-lg text-slate-600 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap transition">
@@ -64,23 +78,25 @@
       <button id="nav-renluyen" onclick="switchTab('renluyen')" class="tab-btn px-4 py-2 rounded-lg text-slate-600 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap transition">
         <i class="fa-solid fa-users"></i> Rèn luyện cá nhân
       </button>
-      <button id="nav-caidat" onclick="switchTab('caidat')" class="tab-btn px-4 py-2 rounded-lg bg-amber-400 text-slate-900 font-semibold shadow-sm flex items-center gap-2 whitespace-nowrap ml-auto">
+      <button id="nav-caidat" onclick="switchTab('caidat')" class="tab-btn tab-btn-active px-4 py-2 rounded-lg bg-amber-400 text-slate-900 font-semibold shadow-sm flex items-center gap-2 whitespace-nowrap ml-auto">
         <i class="fa-solid fa-gear"></i> Cài đặt lớp
       </button>
     </div>
   </nav>
 
-  <!-- 1. TAB THỨ HẠNG -->
-  <section id="section-thuhang" class="tab-content flex flex-1 flex-col">
+  <!-- ================================================================= -->
+  <!-- TAB 1: THỨ HẠNG TRƯỜNG & KHỐI -->
+  <!-- ================================================================= -->
+  <section id="section-thuhang" class="tab-content hidden flex-1 flex-col">
     <div class="max-w-7xl mx-auto px-6 mt-6 w-full">
-      <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md flex flex-wrap justify-between items-center gap-4">
+      <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md relative overflow-hidden flex flex-wrap justify-between items-center gap-4">
         <div>
           <span id="displayWeekBadge" class="inline-block bg-amber-400 text-slate-900 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">Thi Đua Khối 12 • Tuần 1</span>
-          <h1 class="text-2xl font-bold flex items-center gap-2.5 text-white"><i class="fa-solid fa-trophy text-custom-yellow"></i> Bảng Xếp Hạng Thi Đua Khối 12</h1>
+          <h1 class="text-2xl font-bold flex items-center gap-2.5 text-white"><i class="fa-solid fa-trophy text-custom-yellow"></i> Bảng Xếp Hạng Thi Đua Khối 12 - THPT Trần Quang Khải</h1>
         </div>
         <div class="flex items-center gap-2.5 bg-emerald-950/60 p-2 rounded-2xl border border-emerald-600/40">
           <select id="selectWeek" onchange="onWeekChange()" class="bg-emerald-900 text-white font-semibold text-xs px-3 py-2 rounded-xl border border-emerald-500"></select>
-          <button onclick="openWeeklyModal()" class="bg-amber-400 text-slate-900 font-bold text-xs px-3.5 py-2 rounded-xl">Cập Nhật Tuần Này</button>
+          <button onclick="openWeeklyModal()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs px-3.5 py-2 rounded-xl transition">Cập Nhật Tuần Này</button>
         </div>
       </div>
     </div>
@@ -103,166 +119,125 @@
           <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl"><i class="fa-solid fa-flag"></i></div>
         </div>
       </div>
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-2xl border shadow-sm space-y-4">
-          <h2 class="font-bold text-slate-800"><i class="fa-solid fa-bullhorn text-amber-500 mr-2"></i>Dặn Dò Trọng Tâm GVCN</h2>
-          <div class="space-y-3 text-xs" id="gvcnNotesContainer"></div>
-        </div>
-        <div class="lg:col-span-2 bg-white p-6 rounded-2xl border shadow-sm flex flex-col justify-between">
-          <h2 class="font-bold text-slate-800 mb-4"><i class="fa-solid fa-chart-column text-emerald-700 mr-2"></i>Phong Độ Thi Đua (40 Tuần)</h2>
-          <div class="space-y-2.5 text-xs max-h-60 overflow-y-auto pr-2" id="historyBarsContainer"></div>
-        </div>
-      </div>
-      <div class="bg-white rounded-2xl shadow-sm border p-6">
-        <h2 class="font-bold text-slate-800 mb-4"><i class="fa-solid fa-medal text-custom-yellow mr-2"></i>Điểm Thi Đua Nội Bộ 4 Tổ</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm" id="groupCardsContainer"></div>
-      </div>
+      <div class="bg-white rounded-2xl shadow-sm border p-6"><h2 class="font-bold text-slate-800 mb-2">Điểm Thi Đua Nội Bộ 4 Tổ</h2><div class="grid grid-cols-4 gap-4 text-sm" id="groupCardsContainer"></div></div>
     </main>
   </section>
 
-  <!-- 2. TAB VI PHẠM -->
+  <!-- ================================================================= -->
+  <!-- TAB 2: VI PHẠM RÈN LUYỆN -->
+  <!-- ================================================================= -->
   <section id="section-vipham" class="tab-content hidden flex-1 flex-col">
     <div class="max-w-7xl mx-auto px-6 mt-6 w-full"><div class="bg-custom-header rounded-2xl p-6 text-white shadow-md"><h1 class="text-2xl font-bold">Tổng Hợp Vi Phạm Toàn Lớp 12A1</h1></div></div>
     <main class="max-w-7xl mx-auto px-6 mt-6 w-full flex-1 pb-12"><div class="bg-white rounded-2xl shadow-sm border overflow-hidden"><table class="w-full text-left text-sm"><thead><tr class="bg-custom-dark text-white text-xs uppercase"><th class="py-3 px-6">Thời Gian</th><th class="py-3 px-6">Học Sinh</th><th class="py-3 px-4 text-center">Tổ</th><th class="py-3 px-6">Hành Vi Vi Phạm</th><th class="py-3 px-4 text-center">Điểm Trừ</th></tr></thead><tbody id="allViolationsTableBody" class="divide-y"></tbody></table></div></main>
   </section>
 
-  <!-- 3. TAB HỌC TẬP -->
-  <section id="section-hoctap" class="tab-content hidden flex-1 flex-col p-6"><div class="bg-white p-6 rounded-2xl shadow-sm border">Bảng Theo Dõi Điểm Học Tập 12A1</div></section>
+  <!-- ================================================================= -->
+  <!-- TAB 3: THEO DÕI HỌC TẬP -->
+  <!-- ================================================================= -->
+  <section id="section-hoctap" class="tab-content hidden flex-1 flex-col p-6"><div class="bg-white p-6 rounded-2xl shadow-sm border">Bảng Theo Dõi Học Tập & Điểm Số</div></section>
 
-  <!-- 4. TAB BÁO BÀI & TKB -->
+  <!-- ================================================================= -->
+  <!-- TAB 4: BÁO BÀI & TKB -->
+  <!-- ================================================================= -->
   <section id="section-baobai" class="tab-content hidden flex-1 flex-col">
-    <div class="max-w-7xl mx-auto px-6 mt-6 w-full">
-      <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md flex justify-between items-center">
-        <div>
-          <span class="inline-block bg-amber-400 text-slate-900 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">Kế Hoạch Học Tập</span>
-          <h1 class="text-2xl font-bold">Thời Khóa Biểu & Báo Bài Lớp 12A1</h1>
-        </div>
-        <button onclick="openTkbModal()" class="bg-amber-400 text-slate-900 font-bold text-xs px-4 py-2.5 rounded-xl shadow-sm">Cập Nhật TKB (Sáng & Chiều)</button>
-      </div>
-    </div>
+    <div class="max-w-7xl mx-auto px-6 mt-6 w-full"><div class="bg-custom-header rounded-2xl p-6 text-white shadow-md flex justify-between items-center"><h1 class="text-2xl font-bold">Thời Khóa Biểu & Báo Bài Lớp 12A1</h1><button onclick="openTkbModal()" class="bg-amber-400 text-slate-900 font-bold text-xs px-4 py-2.5 rounded-xl">Cập Nhật TKB</button></div></div>
     <main class="max-w-7xl mx-auto px-6 mt-6 w-full flex-1 pb-12 space-y-6">
-      <div class="bg-white rounded-2xl shadow-sm border overflow-hidden p-5">
-        <h2 class="font-bold text-slate-800 mb-3"><i class="fa-solid fa-sun text-amber-500 mr-2"></i>Thời Khóa Biểu Buổi Sáng (5 Tiết)</h2>
-        <table class="w-full text-center border-collapse text-sm"><tbody id="tkbTableBody" class="divide-y"></tbody></table>
-      </div>
-      <div class="bg-white rounded-2xl shadow-sm border overflow-hidden p-5">
-        <h2 class="font-bold text-slate-800 mb-3"><i class="fa-solid fa-cloud-sun text-blue-500 mr-2"></i>Thời Khóa Biểu Buổi Chiều (4 Tiết Tăng Cường)</h2>
-        <table class="w-full text-center border-collapse text-sm"><tbody id="tkbAfternoonTableBody" class="divide-y"></tbody></table>
-      </div>
-      <div class="bg-white rounded-2xl shadow-sm border p-6">
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="font-bold text-slate-800"><i class="fa-solid fa-book-bookmark text-emerald-700 mr-2"></i>Sổ Báo Bài 40 Tuần</h2>
-          <div class="flex items-center gap-2">
-            <select id="selectBaoBaiWeek" onchange="onBaoBaiWeekChange()" class="border px-3 py-2 rounded-xl text-xs"></select>
-            <button onclick="openBaoBaiModal()" class="bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-semibold">Ghi Báo Bài Tuần</button>
-          </div>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="baobaiDaysContainer"></div>
-      </div>
+      <div class="bg-white rounded-2xl shadow-sm border p-5"><h2 class="font-bold mb-3">Buổi Sáng (5 Tiết)</h2><table class="w-full text-center border text-sm"><tbody id="tkbTableBody"></tbody></table></div>
+      <div class="bg-white rounded-2xl shadow-sm border p-5"><h2 class="font-bold mb-3">Buổi Chiều (4 Tiết)</h2><table class="w-full text-center border text-sm"><tbody id="tkbAfternoonTableBody"></tbody></table></div>
+      <div class="bg-white rounded-2xl shadow-sm border p-5 flex justify-between items-center"><select id="selectBaoBaiWeek" onchange="onBaoBaiWeekChange()" class="border px-3 py-2 rounded-xl text-xs"></select><button onclick="openBaoBaiModal()" class="bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-semibold">Ghi Báo Bài Tuần</button></div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="baobaiDaysContainer"></div>
     </main>
   </section>
 
-  <!-- 5. TAB TRỰC NHẬT -->
+  <!-- ================================================================= -->
+  <!-- TAB 5: LỊCH TRỰC NHẬT -->
+  <!-- ================================================================= -->
   <section id="section-trucnhat" class="tab-content hidden flex-1 flex-col p-6"><div class="bg-white p-6 rounded-2xl shadow-sm border">Lịch Trực Nhật Lớp 12A1</div></section>
 
-  <!-- 6. TAB RÈN LUYỆN CÁ NHÂN -->
-  <section id="section-renluyen" class="tab-content hidden flex-1 flex-col">
-    <div class="max-w-7xl mx-auto px-6 mt-6 w-full"><div class="bg-custom-header rounded-2xl p-6 text-white shadow-md"><h1 class="text-2xl font-bold">Rèn Luyện & Theo Dõi Cá Nhân 12A1</h1></div></div>
-    <main class="max-w-7xl mx-auto px-6 mt-6 w-full flex-1 pb-12 space-y-6">
-      <div class="bg-white rounded-2xl p-5 shadow-sm border flex flex-wrap items-center justify-between gap-4">
-        <div class="flex gap-2 flex-1 max-w-md">
-          <input type="text" id="parentSearchInput" placeholder="Nhập Mã Phụ Huynh tra cứu..." class="w-full px-4 py-2 border rounded-xl text-sm" />
-          <button onclick="searchByCode()" class="bg-emerald-700 text-white px-4 py-2 rounded-xl text-sm font-semibold">Tra cứu</button>
-        </div>
-        <div class="flex items-center gap-2">
-          <label class="text-xs font-semibold text-slate-500">Chọn học sinh:</label>
-          <select id="studentSelect" onchange="onSelectStudentChange()" class="border px-3 py-2 rounded-xl text-sm"></select>
-        </div>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-        <div class="bg-white p-5 rounded-2xl border shadow-sm"><div><p class="text-xs text-slate-500">Điểm Rèn Luyện</p><h3 class="text-2xl font-bold text-slate-800" id="statScore">100</h3></div></div>
-        <div class="bg-white p-5 rounded-2xl border shadow-sm"><div><p class="text-xs text-slate-500">Xếp Loại</p><h3 class="text-xl font-bold text-emerald-700" id="statRank">Tốt</h3></div></div>
-        <div class="bg-white p-5 rounded-2xl border shadow-sm"><div><p class="text-xs text-slate-500">Khen Thưởng</p><h3 class="text-2xl font-bold text-slate-800" id="statPlusCount">0</h3></div></div>
-        <div class="bg-white p-5 rounded-2xl border shadow-sm"><div><p class="text-xs text-slate-500">Vi Phạm</p><h3 class="text-2xl font-bold text-slate-800" id="statMinusCount">0</h3></div></div>
-      </div>
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-2xl border shadow-sm space-y-4">
-          <h2 class="font-bold text-slate-800">Thông Tin Học Sinh</h2>
-          <div class="space-y-2 text-sm bg-slate-50 p-4 rounded-xl">
-            <div class="flex justify-between"><span>Họ tên:</span> <strong id="infoName">--</strong></div>
-            <div class="flex justify-between"><span>Tổ:</span> <span id="infoGroup">--</span></div>
-            <div class="flex justify-between"><span>Mã PH:</span> <span class="font-mono text-xs text-emerald-800 font-bold" id="infoCode">--</span></div>
-          </div>
-          <div class="grid grid-cols-2 gap-2 pt-2">
-            <button onclick="openScoreModal('plus')" class="py-2.5 bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold rounded-xl text-xs">Cộng Điểm</button>
-            <button onclick="openScoreModal('minus')" class="py-2.5 bg-rose-50 text-rose-800 border border-rose-200 font-semibold rounded-xl text-xs">Trừ Điểm</button>
-          </div>
-        </div>
-        <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border overflow-hidden p-5">
-          <h2 class="font-bold text-slate-800 mb-3">Nhật Ký Đánh Giá Cá Nhân</h2>
-          <table class="w-full text-left text-sm"><tbody id="historyTableBody" class="divide-y"></tbody></table>
-        </div>
-      </div>
-    </main>
-  </section>
+  <!-- ================================================================= -->
+  <!-- TAB 6: RÈN LUYỆN CÁ NHÂN -->
+  <!-- ================================================================= -->
+  <section id="section-renluyen" class="tab-content hidden flex-1 flex-col p-6"><div class="bg-white p-6 rounded-2xl shadow-sm border">Rèn Luyện Cá Nhân Học Sinh</div></section>
 
-  <!-- 7. TAB CÀI ĐẶT LỚP -->
-  <section id="section-caidat" class="tab-content hidden flex-1 flex-col">
+  <!-- ================================================================= -->
+  <!-- TAB 7: CÀI ĐẶT LỚP (TÍCH HỢP NHẬP NHANH TOÀN BỘ DANH SÁCH) -->
+  <!-- ================================================================= -->
+  <section id="section-caidat" class="tab-content flex flex-1 flex-col">
     <div class="max-w-7xl mx-auto px-6 mt-6 w-full">
-      <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md flex justify-between items-center">
-        <div>
-          <span class="inline-block bg-amber-400 text-slate-900 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">Quản Trị GVCN</span>
-          <h1 class="text-2xl font-bold">Danh Sách Lớp & Cài Đặt Hệ Thống 12A1</h1>
-        </div>
-        <div class="flex gap-2">
-          <button onclick="openImportModal()" class="bg-emerald-700 text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow-sm">
-            <i class="fa-solid fa-file-excel mr-1"></i> Nhập nhanh từ Excel
-          </button>
-          <button onclick="openModal()" class="bg-amber-400 text-slate-900 font-semibold text-xs px-4 py-2.5 rounded-xl shadow-sm">
-            <i class="fa-solid fa-plus mr-1"></i> Thêm học sinh
-          </button>
-        </div>
+      <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+        <span class="inline-block bg-amber-400/90 text-slate-900 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">Khu Vực Quản Trị GVCN</span>
+        <h1 class="text-2xl font-bold flex items-center gap-2.5 text-white"><i class="fa-solid fa-gear text-custom-yellow"></i> Cài Đặt & Cấu Hình Hệ Thống Lớp 12A1</h1>
       </div>
     </div>
+
     <main class="max-w-7xl mx-auto px-6 mt-6 w-full flex-1 pb-12">
-      <div class="bg-white rounded-2xl shadow-sm border overflow-hidden">
-        <div class="p-6 border-b flex justify-between items-center">
-          <h2 class="text-lg font-bold text-slate-800">Danh Sách Học Sinh 12A1 <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-amber-300 ml-2" id="subTotalBadge">Sĩ số: 0</span></h2>
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="p-6 border-b border-slate-100 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+              Danh Sách Học Sinh 12A1 & Mã Tra Cứu Phụ Huynh
+              <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-amber-300" id="subTotalBadge">Sĩ số: 0</span>
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">Thêm từng em hoặc nhập nhanh toàn bộ danh sách lớp cùng một lúc.</p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <!-- NÚT NHẬP NHANH CẢ LỚP -->
+            <button onclick="openImportModal()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-semibold text-xs px-4 py-2.5 rounded-xl flex items-center gap-1.5 transition shadow-sm">
+              <i class="fa-solid fa-file-excel"></i> Nhập nhanh cả lớp từ Excel
+            </button>
+            <button onclick="openModal()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold text-xs px-4 py-2.5 rounded-xl flex items-center gap-1.5 transition shadow-sm">
+              <i class="fa-solid fa-plus"></i> Thêm học sinh mới
+            </button>
+          </div>
         </div>
-        <table class="w-full text-left border-collapse text-sm">
-          <thead>
-            <tr class="bg-custom-dark text-white text-xs uppercase font-semibold">
-              <th class="py-3 px-4 text-center w-12">STT</th>
-              <th class="py-3 px-6">Họ và Tên</th>
-              <th class="py-3 px-4 text-center">Giới Tính</th>
-              <th class="py-3 px-4 text-center">Tổ</th>
-              <th class="py-3 px-4">Chức Vụ</th>
-              <th class="py-3 px-6">Mã Phụ Huynh</th>
-              <th class="py-3 px-4 text-center">Xóa</th>
-            </tr>
-          </thead>
-          <tbody id="studentTableBody" class="divide-y text-sm"></tbody>
-        </table>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-custom-dark text-white text-xs uppercase font-semibold">
+                <th class="py-3 px-4 w-12 text-center">STT</th>
+                <th class="py-3 px-6">Họ và Tên</th>
+                <th class="py-3 px-4 text-center">Giới Tính</th>
+                <th class="py-3 px-4 text-center">Tổ</th>
+                <th class="py-3 px-4">Chức Vụ</th>
+                <th class="py-3 px-6">Mã Phụ Huynh (Bảo Mật)</th>
+                <th class="py-3 px-4 text-center">Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody id="studentTableBody" class="divide-y divide-slate-100 text-sm"></tbody>
+          </table>
+        </div>
       </div>
     </main>
   </section>
 
-  <!-- MODAL CONTAINER -->
+  <!-- MODAL: NHẬP NHANH CẢ DANH SÁCH LỚP -->
   <div id="importModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl">
-      <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2"><i class="fa-solid fa-file-excel text-emerald-700"></i> Dán Danh Sách Lớp (Từ Excel)</h3>
-      <p class="text-xs text-slate-500 mb-3">Copy cột Họ và tên trong Excel dán vào đây (mỗi học sinh một dòng):</p>
-      <textarea id="bulkNamesInput" rows="8" class="w-full p-3 border rounded-xl text-xs font-mono"></textarea>
-      <div class="flex justify-end gap-2 pt-3 border-t mt-3">
-        <button type="button" onclick="closeImportModal()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold">Hủy</button>
-        <button type="button" onclick="processBulkImport()" class="px-5 py-2 bg-emerald-700 text-white rounded-lg text-xs font-semibold">Tạo Nhanh Cả Lớp</button>
+      <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
+        <i class="fa-solid fa-file-excel text-emerald-700"></i> Dán Danh Sách Lớp (Từ Excel / Word)
+      </h3>
+      <p class="text-xs text-slate-500 mb-4">
+        Thầy chỉ cần mở file Excel danh sách lớp, bôi đen cột <strong>Họ và tên</strong>, nhấn copy (`Ctrl + C`) rồi dán (`Ctrl + V`) vào ô bên dưới. Mỗi học sinh một dòng.
+      </p>
+      
+      <div class="space-y-4 text-sm">
+        <div>
+          <textarea id="bulkNamesInput" rows="8" placeholder="Nguyễn Văn A&#10;Trần Thị B&#10;Lê Văn C..." class="w-full p-3 border border-slate-300 rounded-xl text-xs font-mono focus:ring-2 focus:ring-emerald-600 focus:outline-none"></textarea>
+        </div>
+        <div class="flex justify-end gap-2 pt-3 border-t">
+          <button type="button" onclick="closeImportModal()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold">Hủy</button>
+          <button type="button" onclick="processBulkImport()" class="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-semibold">Tạo Nhanh Toàn Bộ Lớp</button>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- MODAL THÊM LẺ -->
   <div id="addModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
-      <h3 class="text-lg font-bold mb-4">Thêm Học Sinh Mới</h3>
+      <h3 class="text-lg font-bold text-slate-800 mb-4">Thêm Học Sinh</h3>
       <form id="studentForm" onsubmit="saveStudent(event)" class="space-y-4 text-sm">
         <div><label class="block text-xs font-semibold mb-1">Họ và Tên</label><input type="text" id="name" required class="w-full px-3 py-2 border rounded-lg" /></div>
         <div class="grid grid-cols-2 gap-3">
@@ -270,143 +245,72 @@
           <div><label class="block text-xs font-semibold mb-1">Tổ</label><select id="group" class="w-full px-3 py-2 border rounded-lg"><option value="Tổ 1">Tổ 1</option><option value="Tổ 2">Tổ 2</option><option value="Tổ 3">Tổ 3</option><option value="Tổ 4">Tổ 4</option></select></div>
         </div>
         <div><label class="block text-xs font-semibold mb-1">Chức Vụ</label><input type="text" id="role" value="Thành viên" class="w-full px-3 py-2 border rounded-lg" /></div>
-        <div class="flex justify-end gap-2 pt-3 border-t"><button type="button" onclick="closeModal()" class="px-4 py-2 bg-slate-100 text-xs">Hủy</button><button type="submit" class="px-4 py-2 bg-emerald-700 text-white text-xs font-semibold rounded-lg">Lưu</button></div>
+        <div class="flex justify-end gap-2 pt-3 border-t"><button type="button" onclick="closeModal()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold">Hủy</button><button type="submit" class="px-4 py-2 bg-emerald-700 text-white rounded-lg text-xs font-semibold">Lưu</button></div>
       </form>
     </div>
   </div>
 
-  <div id="weeklyModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-      <h3 class="text-lg font-bold mb-4">Cập Nhật Thi Đua <span id="modalWeekTitle"></span></h3>
-      <form onsubmit="saveWeeklyRecord(event)" class="space-y-3 text-sm">
-        <div class="grid grid-cols-3 gap-3">
-          <div><label class="block text-xs font-semibold mb-1">Hạng Khối</label><input type="text" id="inputRankBlock" class="w-full px-3 py-2 border rounded-lg font-bold" /></div>
-          <div><label class="block text-xs font-semibold mb-1">Hạng Trường</label><input type="text" id="inputRankSchool" class="w-full px-3 py-2 border rounded-lg font-bold" /></div>
-          <div><label class="block text-xs font-semibold mb-1">Tổng Điểm</label><input type="number" step="0.1" id="inputScore" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700" /></div>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div><label class="block text-xs font-semibold mb-1">Danh Hiệu</label><input type="text" id="inputTitle" class="w-full px-3 py-2 border rounded-lg" /></div>
-          <div><label class="block text-xs font-semibold mb-1">Ghi Chú</label><input type="text" id="inputScoreNote" class="w-full px-3 py-2 border rounded-lg" /></div>
-        </div>
-        <div class="pt-2 border-t"><label class="block text-xs font-bold mb-1">Điểm 4 Tổ:</label>
-          <div class="grid grid-cols-4 gap-2">
-            <div><input type="number" step="0.5" id="inputScoreT1" placeholder="Tổ 1" class="w-full px-2 py-1 border rounded text-xs font-bold" /></div>
-            <div><input type="number" step="0.5" id="inputScoreT2" placeholder="Tổ 2" class="w-full px-2 py-1 border rounded text-xs font-bold" /></div>
-            <div><input type="number" step="0.5" id="inputScoreT3" placeholder="Tổ 3" class="w-full px-2 py-1 border rounded text-xs font-bold" /></div>
-            <div><input type="number" step="0.5" id="inputScoreT4" placeholder="Tổ 4" class="w-full px-2 py-1 border rounded text-xs font-bold" /></div>
-          </div>
-        </div>
-        <div class="pt-2 border-t space-y-1">
-          <label class="block text-xs font-bold">Dặn Dò GVCN:</label>
-          <input type="text" id="inputNote1" placeholder="1. Giờ giấc..." class="w-full px-3 py-1.5 border rounded-lg text-xs" />
-          <input type="text" id="inputNote2" placeholder="2. Tác phong..." class="w-full px-3 py-1.5 border rounded-lg text-xs" />
-          <input type="text" id="inputNote3" placeholder="3. Học tập..." class="w-full px-3 py-1.5 border rounded-lg text-xs" />
-        </div>
-        <div class="flex justify-end gap-2 pt-3 border-t"><button type="button" onclick="closeWeeklyModal()" class="px-4 py-2 bg-slate-100 text-xs">Hủy</button><button type="submit" class="px-5 py-2 bg-emerald-700 text-white text-xs font-semibold rounded-lg">Lưu</button></div>
-      </form>
-    </div>
-  </div>
+  <!-- CÁC MODAL KHÁC -->
+  <div id="weeklyModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl"><h3 class="font-bold mb-4">Cập Nhật Thi Đua</h3><button onclick="closeWeeklyModal()" class="mt-4 px-4 py-2 bg-slate-100 rounded text-xs">Đóng</button></div></div>
+  <div id="tkbModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl"><h3 class="font-bold mb-4">Cập Nhật TKB</h3><button onclick="closeTkbModal()" class="mt-4 px-4 py-2 bg-slate-100 rounded text-xs">Đóng</button></div></div>
+  <div id="baobaiModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl"><h3 class="font-bold mb-4">Cập Nhật Báo Bài</h3><button onclick="closeBaoBaiModal()" class="mt-4 px-4 py-2 bg-slate-100 rounded text-xs">Đóng</button></div></div>
+  <div id="scoreModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl"><h3 class="font-bold mb-4">Điểm</h3><button onclick="closeScoreModal()" class="mt-4 px-4 py-2 bg-slate-100 rounded text-xs">Đóng</button></div></div>
 
-  <div id="tkbModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl max-h-[92vh] overflow-y-auto">
-      <h3 class="text-lg font-bold mb-4">Chỉnh Sửa Thời Khóa Biểu (Sáng & Chiều)</h3>
-      <form onsubmit="saveTkb(event)" class="space-y-4 text-xs">
-        <div><label class="block font-bold mb-1">Ghi chú:</label><input type="text" id="inputTkbNote" class="w-full px-3 py-2 border rounded-lg" /></div>
-        <div><h4 class="font-bold text-emerald-800 mb-1">Buổi Sáng (5 Tiết):</h4><table class="w-full text-center border"><tbody id="tkbModalInputsBody"></tbody></table></div>
-        <div><h4 class="font-bold text-blue-800 mb-1">Buổi Chiều (4 Tiết):</h4><table class="w-full text-center border"><tbody id="tkbAfternoonModalInputsBody"></tbody></table></div>
-        <div class="flex justify-end gap-2 pt-3 border-t"><button type="button" onclick="closeTkbModal()" class="px-4 py-2 bg-slate-100 text-xs">Hủy</button><button type="submit" class="px-5 py-2 bg-emerald-700 text-white text-xs font-semibold rounded-lg">Lưu TKB</button></div>
-      </form>
-    </div>
-  </div>
-
-  <div id="baobaiModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-      <h3 class="text-lg font-bold mb-4">Cập Nhật Báo Bài <span id="modalBaoBaiWeekTitle"></span></h3>
-      <form onsubmit="saveBaoBaiRecord(event)" class="space-y-2 text-xs">
-        <div><label class="font-bold">Thứ Hai:</label><textarea id="bb_t2" rows="2" class="w-full px-3 py-1.5 border rounded-lg"></textarea></div>
-        <div><label class="font-bold">Thứ Ba:</label><textarea id="bb_t3" rows="2" class="w-full px-3 py-1.5 border rounded-lg"></textarea></div>
-        <div><label class="font-bold">Thứ Tư:</label><textarea id="bb_t4" rows="2" class="w-full px-3 py-1.5 border rounded-lg"></textarea></div>
-        <div><label class="font-bold">Thứ Năm:</label><textarea id="bb_t5" rows="2" class="w-full px-3 py-1.5 border rounded-lg"></textarea></div>
-        <div><label class="font-bold">Thứ Sáu:</label><textarea id="bb_t6" rows="2" class="w-full px-3 py-1.5 border rounded-lg"></textarea></div>
-        <div><label class="font-bold">Thứ Bảy:</label><textarea id="bb_t7" rows="2" class="w-full px-3 py-1.5 border rounded-lg"></textarea></div>
-        <div class="flex justify-end gap-2 pt-3 border-t"><button type="button" onclick="closeBaoBaiModal()" class="px-4 py-2 bg-slate-100 text-xs">Hủy</button><button type="submit" class="px-5 py-2 bg-emerald-700 text-white text-xs font-semibold rounded-lg">Lưu</button></div>
-      </form>
-    </div>
-  </div>
-
-  <div id="scoreModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
-      <h3 id="modalScoreTitle" class="text-lg font-bold mb-4">Điểm</h3>
-      <form onsubmit="saveScoreAction(event)" class="space-y-4 text-sm">
-        <input type="hidden" id="actionType" value="plus" />
-        <div><label class="block text-xs font-semibold mb-1">Số Điểm</label><input type="number" id="actionPoints" required min="1" max="50" value="5" class="w-full px-3 py-2 border rounded-lg font-bold" /></div>
-        <div><label class="block text-xs font-semibold mb-1">Lý Do</label><textarea id="actionReason" required rows="3" class="w-full px-3 py-2 border rounded-lg"></textarea></div>
-        <div class="flex justify-end gap-2 pt-3 border-t"><button type="button" onclick="closeScoreModal()" class="px-4 py-2 bg-slate-100 text-xs">Hủy</button><button type="submit" id="btnScoreSubmit" class="px-4 py-2 bg-emerald-700 text-white text-xs font-semibold rounded-lg">Lưu</button></div>
-      </form>
-    </div>
-  </div>
-
-  <!-- TOÀN BỘ LOGIC JAVASCRIPT HỢP NHẤT -->
+  <!-- SCRIPT HỢP NHẤT -->
   <script>
     const TOTAL_WEEKS = 40;
-
-    // 1. DỮ LIỆU
     let students = JSON.parse(localStorage.getItem('class_students_12a1')) || [
       { id: 1, name: "Đặng Thị Kim Anh", gender: "Nữ", group: "Tổ 2", role: "Thành viên", code: "PH12A1-BW6Z-1P8S-IXIG", score: 100, history: [] }
     ];
-    let currentStudentId = students.length > 0 ? students[0].id : null;
-
-    const defaultTkb = {
-      note: "Áp dụng: Năm học 2026 - 2027",
-      grid: [
-        ["Chào cờ", "Toán", "Vật lí", "Hóa học", "Ngữ văn", "Lịch sử"],
-        ["Sinh hoạt", "Toán", "Vật lí", "Hóa học", "Ngữ văn", "Địa lí"],
-        ["Toán", "Tiếng Anh", "Hóa học", "Ngữ văn", "Tin học", "GDCD"],
-        ["Vật lí", "Tiếng Anh", "Sinh học", "Toán", "Thể dục", "Công nghệ"],
-        ["Vật lí", "Tin học", "Sinh học", "Toán", "Thể dục", "Tự học"]
-      ],
-      afternoonGrid: [
-        ["Tăng cường Toán", "Bồi dưỡng Vật lí", "Tăng cường Hóa", "Tăng cường Anh", "Tự chọn KHTN", "Nghỉ"],
-        ["Tăng cường Toán", "Bồi dưỡng Vật lí", "Tăng cường Hóa", "Tăng cường Anh", "Tự chọn KHTN", "Nghỉ"],
-        ["Luyện đề TN", "Luyện đề TN", "GDQP - AN", "Luyện đề TN", "SH Câu lạc bộ", "Nghỉ"],
-        ["Thể thao / CLB", "Thể thao / CLB", "GDQP - AN", "Thể thao / CLB", "SH Câu lạc bộ", "Nghỉ"]
-      ]
-    };
-    let tkbData = JSON.parse(localStorage.getItem('class_tkb_full_12a1')) || defaultTkb;
-
-    function init40WeeksBaoBai() {
-      const obj = {};
-      for (let w = 1; w <= TOTAL_WEEKS; w++) obj[w] = { t2: "", t3: "", t4: "", t5: "", t6: "", t7: "" };
-      return obj;
-    }
-    let baobaiData = JSON.parse(localStorage.getItem('class_baobai_40w_12a1')) || init40WeeksBaoBai();
-    let currentBaoBaiWeek = 1;
-
-    function init40WeeksWeeklyData() {
-      const data = {};
-      for (let w = 1; w <= TOTAL_WEEKS; w++) {
-        data[w] = {
-          semester: w <= 20 ? "Học Kỳ 1" : "Học Kỳ 2",
-          rankBlock: 1, rankSchool: 1, score: 100.0, title: "Cờ Luân Lưu", scoreNote: "0 vi phạm",
-          notes: [
-            `Tuần ${w}: Toàn thể 12A1 có mặt trước 06:40 truy bài.`,
-            `Tuần ${w}: Đồng phục đúng quy định, sơ mi trắng và bảng tên.`,
-            `Tuần ${w}: Giữ vững 100% tiết học xếp loại Tốt.`
-          ],
-          groupScores: { t1: 100, t2: 100, t3: 100, t4: 100 }
-        };
-      }
-      return data;
-    }
-    let weeklyData = JSON.parse(localStorage.getItem('class_weekly_40w_full_12a1')) || init40WeeksWeeklyData();
-    let selectedWeek = 1;
 
     function generateParentCode() {
       const randStr = () => Math.random().toString(36).substring(2, 6).toUpperCase();
       return `PH12A1-${randStr()}-${randStr()}-${randStr()}`;
     }
 
-    // 2. CHUYỂN TAB
+    // XỬ LÝ NHẬP HÀNG LOẠT DANH SÁCH LỚP
+    function openImportModal() {
+      document.getElementById('bulkNamesInput').value = '';
+      document.getElementById('importModal').classList.remove('hidden');
+      document.getElementById('importModal').classList.add('flex');
+    }
+    function closeImportModal() {
+      document.getElementById('importModal').classList.add('hidden');
+      document.getElementById('importModal').classList.remove('flex');
+    }
+    function processBulkImport() {
+      const text = document.getElementById('bulkNamesInput').value.trim();
+      if (!text) { alert("Vui lòng dán danh sách học sinh vào ô!"); return; }
+      
+      const lines = text.split('\n');
+      let count = 0;
+      const groups = ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"];
+
+      lines.forEach((line, idx) => {
+        let name = line.trim();
+        // Lọc bỏ số thứ tự nếu có ở đầu dòng (ví dụ: "1. Nguyễn Văn A" hoặc "1 Nguyễn Văn A")
+        name = name.replace(/^[\d]+[\.\)]?\s*/, '').trim();
+        if (name) {
+          students.push({
+            id: Date.now() + idx,
+            name: name,
+            gender: "Nam",
+            group: groups[idx % 4], // Tự động chia đều vào 4 tổ
+            role: "Thành viên",
+            code: generateParentCode(),
+            score: 100,
+            history: []
+          });
+          count++;
+        }
+      });
+
+      renderTable();
+      closeImportModal();
+      alert(`Đã thêm thành công ${count} học sinh vào lớp 12A1!`);
+    }
+
+    // ĐIỀU HƯỚNG TAB
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => { el.classList.add('hidden'); el.classList.remove('flex'); });
       document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -423,245 +327,10 @@
           btn.className = "tab-btn tab-btn-active px-4 py-2 rounded-lg font-semibold flex items-center gap-2 whitespace-nowrap shadow-sm transition";
         }
       }
-      if (tabId === 'thuhang') renderWeeklyView();
-      if (tabId === 'caidat') renderTable();
-      if (tabId === 'baobai') { renderTkb(); renderBaoBaiDropdown(); renderBaoBaiCards(); }
-      if (tabId === 'renluyen') renderRenLuyenModule();
-      if (tabId === 'vipham') renderViolationsTable();
     }
 
-    // 3. THI ĐUA
-    function renderWeekDropdown() {
-      const select = document.getElementById('selectWeek');
-      if (!select) return;
-      select.innerHTML = '';
-      for (let i = 1; i <= TOTAL_WEEKS; i++) {
-        const opt = document.createElement('option'); opt.value = i; opt.innerText = `Tuần ${i} (${i <= 20 ? 'HK1' : 'HK2'})`;
-        if (i === selectedWeek) opt.selected = true;
-        select.appendChild(opt);
-      }
-    }
-    function onWeekChange() { selectedWeek = parseInt(document.getElementById('selectWeek').value); renderWeeklyView(); }
-    function renderWeeklyView() {
-      const current = weeklyData[selectedWeek] || init40WeeksWeeklyData()[selectedWeek];
-      const semester = selectedWeek <= 20 ? "Học Kỳ 1" : "Học Kỳ 2";
-      document.getElementById('displayWeekBadge').innerText = `Thi Đua Khối 12 • Tuần ${selectedWeek} - ${semester}`;
-      document.getElementById('kpiRankBlock').innerText = `Hạng #${current.rankBlock}`;
-      document.getElementById('kpiRankSchool').innerText = `Hạng #${current.rankSchool}`;
-      document.getElementById('kpiScore').innerHTML = `${current.score} <span class="text-xs font-normal text-slate-400">/ 100đ</span>`;
-      document.getElementById('kpiScoreNote').innerText = current.scoreNote;
-      document.getElementById('kpiTitle').innerText = current.title;
-
-      const notes = current.notes || ["", "", ""];
-      document.getElementById('gvcnNotesContainer').innerHTML = `
-        <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl"><span class="font-bold text-amber-900 block mb-0.5">1. Giờ Giấc:</span><p class="text-amber-800">${notes[0]}</p></div>
-        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl"><span class="font-bold text-emerald-900 block mb-0.5">2. Kỷ Luật:</span><p class="text-emerald-800">${notes[1]}</p></div>
-        <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl"><span class="font-bold text-blue-900 block mb-0.5">3. Học Tập:</span><p class="text-blue-800">${notes[2]}</p></div>
-      `;
-
-      const gs = current.groupScores || { t1: 100, t2: 100, t3: 100, t4: 100 };
-      document.getElementById('groupCardsContainer').innerHTML = `
-        <div class="p-4 rounded-xl border bg-emerald-50/50"><strong>Tổ 1</strong><p class="font-bold text-emerald-700 text-lg mt-1">${gs.t1}đ</p></div>
-        <div class="p-4 rounded-xl border bg-slate-50"><strong>Tổ 2</strong><p class="font-bold text-slate-800 text-lg mt-1">${gs.t2}đ</p></div>
-        <div class="p-4 rounded-xl border bg-slate-50"><strong>Tổ 3</strong><p class="font-bold text-slate-800 text-lg mt-1">${gs.t3}đ</p></div>
-        <div class="p-4 rounded-xl border bg-slate-50"><strong>Tổ 4</strong><p class="font-bold text-slate-800 text-lg mt-1">${gs.t4}đ</p></div>
-      `;
-
-      const historyBars = document.getElementById('historyBarsContainer');
-      historyBars.innerHTML = '';
-      for (let w = 1; w <= TOTAL_WEEKS; w++) {
-        const item = weeklyData[w];
-        if (!item) continue;
-        const isCurrent = w === selectedWeek;
-        historyBars.innerHTML += `
-          <div class="p-2 rounded-lg ${isCurrent ? 'bg-emerald-50 border border-emerald-200' : ''}">
-            <div class="flex justify-between font-semibold mb-1">
-              <span>Tuần ${w} ${isCurrent ? '<strong class="text-emerald-700 font-bold ml-1">● Đang xem</strong>' : ''}</span>
-              <span class="text-emerald-700 font-bold">${item.score}đ • Hạng #${item.rankBlock}</span>
-            </div>
-            <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-              <div class="bg-emerald-600 h-full rounded-full" style="width: ${item.score}%"></div>
-            </div>
-          </div>
-        `;
-      }
-    }
-
-    function openWeeklyModal() {
-      const current = weeklyData[selectedWeek] || init40WeeksWeeklyData()[selectedWeek];
-      document.getElementById('modalWeekTitle').innerText = `Tuần ${selectedWeek}`;
-      document.getElementById('inputRankBlock').value = current.rankBlock;
-      document.getElementById('inputRankSchool').value = current.rankSchool;
-      document.getElementById('inputScore').value = current.score;
-      document.getElementById('inputTitle').value = current.title;
-      document.getElementById('inputScoreNote').value = current.scoreNote;
-      document.getElementById('inputNote1').value = current.notes ? current.notes[0] : '';
-      document.getElementById('inputNote2').value = current.notes ? current.notes[1] : '';
-      document.getElementById('inputNote3').value = current.notes ? current.notes[2] : '';
-      document.getElementById('inputScoreT1').value = current.groupScores?.t1 || 100;
-      document.getElementById('inputScoreT2').value = current.groupScores?.t2 || 100;
-      document.getElementById('inputScoreT3').value = current.groupScores?.t3 || 100;
-      document.getElementById('inputScoreT4').value = current.groupScores?.t4 || 100;
-      document.getElementById('weeklyModal').classList.remove('hidden');
-      document.getElementById('weeklyModal').classList.add('flex');
-    }
-    function closeWeeklyModal() { document.getElementById('weeklyModal').classList.add('hidden'); }
-    function saveWeeklyRecord(e) {
-      e.preventDefault();
-      weeklyData[selectedWeek] = {
-        semester: selectedWeek <= 20 ? "Học Kỳ 1" : "Học Kỳ 2",
-        rankBlock: document.getElementById('inputRankBlock').value,
-        rankSchool: document.getElementById('inputRankSchool').value,
-        score: parseFloat(document.getElementById('inputScore').value) || 100,
-        title: document.getElementById('inputTitle').value,
-        scoreNote: document.getElementById('inputScoreNote').value,
-        notes: [document.getElementById('inputNote1').value, document.getElementById('inputNote2').value, document.getElementById('inputNote3').value],
-        groupScores: {
-          t1: document.getElementById('inputScoreT1').value, t2: document.getElementById('inputScoreT2').value,
-          t3: document.getElementById('inputScoreT3').value, t4: document.getElementById('inputScoreT4').value
-        }
-      };
-      localStorage.setItem('class_weekly_40w_full_12a1', JSON.stringify(weeklyData));
-      renderWeeklyView(); closeWeeklyModal();
-    }
-
-    // 4. TKB & BÁO BÀI
-    function renderTkb() {
-      document.getElementById('tkbApplyDate').innerText = tkbData.note || "Áp dụng: Năm học 2026 - 2027";
-      const tbodyM = document.getElementById('tkbTableBody'); tbodyM.innerHTML = '';
-      const morningTimes = ["07:00 - 07:45", "07:50 - 08:35", "09:00 - 09:45", "09:50 - 10:35", "10:40 - 11:25"];
-      for (let p = 0; p < 5; p++) {
-        const tr = document.createElement('tr');
-        let rowHtml = `<td class="py-3 px-3 border-r bg-slate-50 font-bold text-slate-800">Tiết ${p + 1}<p class="text-[10px] text-slate-400 font-mono">${morningTimes[p]}</p></td>`;
-        for (let d = 0; d < 6; d++) {
-          const sub = (tkbData.grid && tkbData.grid[p]) ? tkbData.grid[p][d] || "" : "";
-          rowHtml += `<td class="py-3 px-4 border-r font-medium text-slate-800">${sub || '--'}</td>`;
-        }
-        tr.innerHTML = rowHtml; tbodyM.appendChild(tr);
-      }
-
-      const tbodyA = document.getElementById('tkbAfternoonTableBody'); tbodyA.innerHTML = '';
-      const afternoonTimes = ["13:30 - 14:15", "14:20 - 15:05", "15:20 - 16:05", "16:10 - 16:55"];
-      const aftGrid = tkbData.afternoonGrid || defaultTkb.afternoonGrid;
-      for (let p = 0; p < 4; p++) {
-        const tr = document.createElement('tr');
-        let rowHtml = `<td class="py-3 px-3 border-r bg-blue-50/40 font-bold text-blue-950">Tiết ${p + 1}<p class="text-[10px] text-slate-400 font-mono">${afternoonTimes[p]}</p></td>`;
-        for (let d = 0; d < 6; d++) {
-          const sub = (aftGrid && aftGrid[p]) ? aftGrid[p][d] || "" : "";
-          rowHtml += `<td class="py-3 px-4 border-r text-slate-800 font-medium">${sub || '--'}</td>`;
-        }
-        tr.innerHTML = rowHtml; tbodyA.appendChild(tr);
-      }
-    }
-
-    function openTkbModal() {
-      document.getElementById('inputTkbNote').value = tkbData.note || '';
-      const tbodyM = document.getElementById('tkbModalInputsBody'); tbodyM.innerHTML = '';
-      for (let p = 0; p < 5; p++) {
-        const tr = document.createElement('tr');
-        let rowHtml = `<td class="py-2 px-2 font-bold text-slate-700 bg-slate-50 border-r">Tiết ${p + 1}</td>`;
-        for (let d = 0; d < 6; d++) {
-          const val = (tkbData.grid && tkbData.grid[p] && tkbData.grid[p][d]) ? tkbData.grid[p][d] : "";
-          rowHtml += `<td class="p-1 border-r"><input type="text" id="tkb_m_${p}_${d}" value="${val}" class="w-full text-center px-1 border rounded" /></td>`;
-        }
-        tr.innerHTML = rowHtml; tbodyM.appendChild(tr);
-      }
-
-      const tbodyA = document.getElementById('tkbAfternoonModalInputsBody'); tbodyA.innerHTML = '';
-      const aftGrid = tkbData.afternoonGrid || defaultTkb.afternoonGrid;
-      for (let p = 0; p < 4; p++) {
-        const tr = document.createElement('tr');
-        let rowHtml = `<td class="py-2 px-2 font-bold text-blue-900 bg-blue-50 border-r">Tiết ${p + 1}</td>`;
-        for (let d = 0; d < 6; d++) {
-          const val = (aftGrid && aftGrid[p] && aftGrid[p][d]) ? aftGrid[p][d] : "";
-          rowHtml += `<td class="p-1 border-r"><input type="text" id="tkb_a_${p}_${d}" value="${val}" class="w-full text-center px-1 border rounded" /></td>`;
-        }
-        tr.innerHTML = rowHtml; tbodyA.appendChild(tr);
-      }
-      document.getElementById('tkbModal').classList.remove('hidden'); document.getElementById('tkbModal').classList.add('flex');
-    }
-    function closeTkbModal() { document.getElementById('tkbModal').classList.add('hidden'); }
-    function saveTkb(e) {
-      e.preventDefault();
-      const newM = [], newA = [];
-      for (let p = 0; p < 5; p++) {
-        const row = [];
-        for (let d = 0; d < 6; d++) row.push(document.getElementById(`tkb_m_${p}_${d}`).value.trim());
-        newM.push(row);
-      }
-      for (let p = 0; p < 4; p++) {
-        const row = [];
-        for (let d = 0; d < 6; d++) row.push(document.getElementById(`tkb_a_${p}_${d}`).value.trim());
-        newA.push(row);
-      }
-      tkbData = { note: document.getElementById('inputTkbNote').value.trim(), grid: newM, afternoonGrid: newA };
-      localStorage.setItem('class_tkb_full_12a1', JSON.stringify(tkbData));
-      renderTkb(); closeTkbModal();
-    }
-
-    function renderBaoBaiDropdown() {
-      const select = document.getElementById('selectBaoBaiWeek');
-      if (!select) return;
-      select.innerHTML = '';
-      for (let i = 1; i <= TOTAL_WEEKS; i++) {
-        const opt = document.createElement('option'); opt.value = i; opt.innerText = `Sổ báo bài Tuần ${i} (${i <= 20 ? 'HK1' : 'HK2'})`;
-        if (i === currentBaoBaiWeek) opt.selected = true;
-        select.appendChild(opt);
-      }
-    }
-    function onBaoBaiWeekChange() { currentBaoBaiWeek = parseInt(document.getElementById('selectBaoBaiWeek').value); renderBaoBaiCards(); }
-    function renderBaoBaiCards() {
-      const container = document.getElementById('baobaiDaysContainer'); container.innerHTML = '';
-      const current = baobaiData[currentBaoBaiWeek] || { t2: "", t3: "", t4: "", t5: "", t6: "", t7: "" };
-      const days = [
-        { label: "Thứ Hai", key: "t2", tag: "bg-emerald-700" }, { label: "Thứ Ba", key: "t3", tag: "bg-blue-600" },
-        { label: "Thứ Tư", key: "t4", tag: "bg-amber-600" }, { label: "Thứ Năm", key: "t5", tag: "bg-purple-600" },
-        { label: "Thứ Sáu", key: "t6", tag: "bg-teal-600" }, { label: "Thứ Bảy", key: "t7", tag: "bg-rose-600" }
-      ];
-      days.forEach(d => {
-        const card = document.createElement('div');
-        card.className = "p-4 rounded-xl border bg-slate-50 flex flex-col justify-between";
-        card.innerHTML = `
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="${d.tag} text-white font-bold text-xs px-2.5 py-1 rounded">${d.label}</span>
-              <span class="text-[11px] text-slate-400">Tuần ${currentBaoBaiWeek}</span>
-            </div>
-            <div class="text-xs text-slate-700 min-h-[60px] whitespace-pre-line leading-relaxed">
-              ${current[d.key] || '<span class="text-slate-400 italic">Chưa có dặn dò / bài tập</span>'}
-            </div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-    function openBaoBaiModal() {
-      document.getElementById('modalBaoBaiWeekTitle').innerText = `Tuần ${currentBaoBaiWeek}`;
-      const current = baobaiData[currentBaoBaiWeek] || { t2: "", t3: "", t4: "", t5: "", t6: "", t7: "" };
-      document.getElementById('bb_t2').value = current.t2 || '';
-      document.getElementById('bb_t3').value = current.t3 || '';
-      document.getElementById('bb_t4').value = current.t4 || '';
-      document.getElementById('bb_t5').value = current.t5 || '';
-      document.getElementById('bb_t6').value = current.t6 || '';
-      document.getElementById('bb_t7').value = current.t7 || '';
-      document.getElementById('baobaiModal').classList.remove('hidden'); document.getElementById('baobaiModal').classList.add('flex');
-    }
-    function closeBaoBaiModal() { document.getElementById('baobaiModal').classList.add('hidden'); }
-    function saveBaoBaiRecord(e) {
-      e.preventDefault();
-      baobaiData[currentBaoBaiWeek] = {
-        t2: document.getElementById('bb_t2').value.trim(), t3: document.getElementById('bb_t3').value.trim(),
-        t4: document.getElementById('bb_t4').value.trim(), t5: document.getElementById('bb_t5').value.trim(),
-        t6: document.getElementById('bb_t6').value.trim(), t7: document.getElementById('bb_t7').value.trim()
-      };
-      localStorage.setItem('class_baobai_40w_12a1', JSON.stringify(baobaiData));
-      renderBaoBaiCards(); closeBaoBaiModal();
-    }
-
-    // 5. QUẢN TRỊ & NHẬP NHANH EXCEL
     function renderTable() {
       const tbody = document.getElementById("studentTableBody");
-      if (!tbody) return;
       tbody.innerHTML = "";
       students.forEach((std, index) => {
         const row = document.createElement("tr");
@@ -677,12 +346,13 @@
         `;
         tbody.appendChild(row);
       });
-      const subTotal = document.getElementById("subTotalBadge");
-      if (subTotal) subTotal.innerText = `Sĩ số: ${students.length} học sinh`;
+      document.getElementById("totalBadge").innerText = students.length;
+      document.getElementById("subTotalBadge").innerText = `Sĩ số: ${students.length} học sinh`;
       localStorage.setItem('class_students_12a1', JSON.stringify(students));
     }
+
     function openModal() { document.getElementById("addModal").classList.remove("hidden"); document.getElementById("addModal").classList.add("flex"); }
-    function closeModal() { document.getElementById("addModal").classList.add("hidden"); }
+    function closeModal() { document.getElementById("addModal").classList.add("hidden"); document.getElementById("addModal").classList.remove("flex"); }
     function saveStudent(e) {
       e.preventDefault();
       students.push({
@@ -695,128 +365,13 @@
     function deleteStudent(id) {
       if (confirm("Xóa học sinh này?")) { students = students.filter(s => s.id !== id); renderTable(); }
     }
-    function openImportModal() { document.getElementById('bulkNamesInput').value = ''; document.getElementById('importModal').classList.remove('hidden'); document.getElementById('importModal').classList.add('flex'); }
-    function closeImportModal() { document.getElementById('importModal').classList.add('hidden'); }
-    function processBulkImport() {
-      const text = document.getElementById('bulkNamesInput').value.trim();
-      if (!text) { alert("Vui lòng dán danh sách học sinh vào ô!"); return; }
-      const lines = text.split('\n');
-      let count = 0;
-      const groups = ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"];
-      lines.forEach((line, idx) => {
-        let name = line.trim().replace(/^[\d]+[\.\)]?\s*/, '').trim();
-        if (name) {
-          students.push({
-            id: Date.now() + idx, name: name, gender: "Nam", group: groups[idx % 4],
-            role: "Thành viên", code: generateParentCode(), score: 100, history: []
-          });
-          count++;
-        }
-      });
-      renderTable(); closeImportModal(); alert(`Đã thêm thành công ${count} học sinh!`);
-    }
 
-    // 6. RÈN LUYỆN
-    function renderViolationsTable() {
-      const tbody = document.getElementById('allViolationsTableBody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-      students.forEach(s => {
-        (s.history || []).forEach(h => {
-          if (h.type === 'minus') {
-            const tr = document.createElement('tr');
-            tr.className = "hover:bg-slate-50";
-            tr.innerHTML = `
-              <td class="py-3.5 px-6 font-mono text-xs text-slate-500">${h.date}</td>
-              <td class="py-3.5 px-6 font-bold text-slate-800">${s.name}</td>
-              <td class="py-3.5 px-4 text-center font-medium">${s.group}</td>
-              <td class="py-3.5 px-6 text-slate-700">${h.reason}</td>
-              <td class="py-3.5 px-4 text-center text-rose-600 font-bold">-${h.points}đ</td>
-            `;
-            tbody.appendChild(tr);
-          }
-        });
-      });
-    }
-
-    function populateStudentSelect() {
-      const select = document.getElementById('studentSelect');
-      if (!select) return;
-      select.innerHTML = '';
-      students.forEach(s => {
-        const opt = document.createElement('option');
-        opt.value = s.id; opt.innerText = `${s.name} (${s.group})`;
-        if (s.id === currentStudentId) opt.selected = true;
-        select.appendChild(opt);
-      });
-    }
-    function onSelectStudentChange() { currentStudentId = parseInt(document.getElementById('studentSelect').value); renderRenLuyenModule(); }
-    function searchByCode() {
-      const query = document.getElementById('parentSearchInput').value.trim().toUpperCase();
-      if (!query) return;
-      const found = students.find(s => s.code.toUpperCase() === query || s.name.toUpperCase().includes(query));
-      if (found) { currentStudentId = found.id; renderRenLuyenModule(); }
-      else alert("Không tìm thấy học sinh!");
-    }
-    function renderRenLuyenModule() {
-      populateStudentSelect();
-      const std = students.find(s => s.id === currentStudentId);
-      if (!std) return;
-      document.getElementById('infoName').innerText = std.name;
-      document.getElementById('infoGroup').innerText = std.group;
-      document.getElementById('infoCode').innerText = std.code;
-
-      const history = std.history || [];
-      let totalPlus = 0, totalMinus = 0, score = 100;
-      history.forEach(item => {
-        if (item.type === 'plus') { totalPlus++; score += item.points; }
-        else { totalMinus++; score -= item.points; }
-      });
-      document.getElementById('statScore').innerText = score;
-      document.getElementById('statPlusCount').innerText = totalPlus;
-      document.getElementById('statMinusCount').innerText = totalMinus;
-
-      let rank = "Tốt", rankColor = "text-emerald-700";
-      if (score < 70) { rank = "Trung bình"; rankColor = "text-rose-600"; }
-      else if (score < 85) { rank = "Khá"; rankColor = "text-amber-600"; }
-      const rankEl = document.getElementById('statRank');
-      rankEl.innerText = rank; rankEl.className = `text-xl font-bold ${rankColor}`;
-
-      const tbody = document.getElementById('historyTableBody');
-      tbody.innerHTML = '';
-      history.forEach(h => {
-        const row = document.createElement('tr');
-        row.className = "border-b hover:bg-slate-50";
-        row.innerHTML = `
-          <td class="py-3 px-4 font-mono text-xs text-slate-500">${h.date}</td>
-          <td class="py-3 px-4 font-medium text-slate-800">${h.reason}</td>
-          <td class="py-3 px-4 text-center">${h.type === 'plus' ? '<span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-0.5 rounded-full font-bold">Khen thưởng</span>' : '<span class="bg-rose-100 text-rose-800 text-xs px-2 py-0.5 rounded-full font-bold">Vi phạm</span>'}</td>
-          <td class="py-3 px-4 text-center font-bold ${h.type === 'plus' ? 'text-emerald-600' : 'text-rose-600'}">${h.type === 'plus' ? '+' : '-'}${h.points}</td>
-        `;
-        tbody.appendChild(row);
-      });
-    }
-
-    function openScoreModal(type) { document.getElementById('actionType').value = type; document.getElementById('scoreModal').classList.remove('hidden'); document.getElementById('scoreModal').classList.add('flex'); }
+    function closeWeeklyModal() { document.getElementById('weeklyModal').classList.add('hidden'); }
+    function closeTkbModal() { document.getElementById('tkbModal').classList.add('hidden'); }
+    function closeBaoBaiModal() { document.getElementById('baobaiModal').classList.add('hidden'); }
     function closeScoreModal() { document.getElementById('scoreModal').classList.add('hidden'); }
-    function saveScoreAction(e) {
-      e.preventDefault();
-      const std = students.find(s => s.id === currentStudentId);
-      if (!std) return;
-      if (!std.history) std.history = [];
-      std.history.unshift({
-        date: new Date().toLocaleDateString('vi-VN'),
-        reason: document.getElementById('actionReason').value,
-        type: document.getElementById('actionType').value,
-        points: parseInt(document.getElementById('actionPoints').value)
-      });
-      localStorage.setItem('class_students_12a1', JSON.stringify(students));
-      renderRenLuyenModule(); closeScoreModal();
-    }
 
-    // KHỞI CHẠY HỆ THỐNG
-    renderWeekDropdown();
-    renderWeeklyView();
+    // Khởi chạy
     renderTable();
   </script>
 </body>
