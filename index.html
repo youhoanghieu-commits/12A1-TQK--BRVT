@@ -75,10 +75,10 @@
       <button id="nav-trucnhat" onclick="switchTab('trucnhat')" class="tab-btn px-4 py-2 rounded-lg text-slate-600 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap transition">
         <i class="fa-solid fa-wand-magic-sparkles"></i> Lịch trực nhật
       </button>
-      <button id="nav-renluyen" onclick="switchTab('renluyen')" class="tab-btn px-4 py-2 rounded-lg text-slate-600 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap transition">
+      <button id="nav-renluyen" onclick="switchTab('renluyen')" class="tab-btn tab-btn-active px-4 py-2 rounded-lg font-semibold flex items-center gap-2 whitespace-nowrap shadow-sm transition">
         <i class="fa-solid fa-users"></i> Rèn luyện cá nhân
       </button>
-      <button id="nav-caidat" onclick="switchTab('caidat')" class="tab-btn tab-btn-active px-4 py-2 rounded-lg bg-amber-400 text-slate-900 font-semibold shadow-sm flex items-center gap-2 whitespace-nowrap ml-auto">
+      <button id="nav-caidat" onclick="switchTab('caidat')" class="tab-btn px-4 py-2 rounded-lg bg-amber-400 text-slate-900 font-semibold shadow-sm flex items-center gap-2 whitespace-nowrap ml-auto">
         <i class="fa-solid fa-gear"></i> Cài đặt lớp
       </button>
     </div>
@@ -190,52 +190,114 @@
   <section id="section-trucnhat" class="tab-content hidden flex-1 flex-col p-6"><div class="bg-white p-6 rounded-2xl shadow-sm border">Lịch Trực Nhật Lớp 12A1</div></section>
 
   <!-- ================================================================= -->
-  <!-- TAB 6: RÈN LUYỆN CÁ NHÂN -->
+  <!-- TAB 6: RÈN LUYỆN CÁ NHÂN (CÓ ĐỦ NÚT SỬA HỌC SINH VÀ SỬA/XÓA NHẬT KÝ) -->
   <!-- ================================================================= -->
-  <section id="section-renluyen" class="tab-content hidden flex-1 flex-col">
-    <div class="max-w-7xl mx-auto px-6 mt-6 w-full"><div class="bg-custom-header rounded-2xl p-6 text-white shadow-md"><h1 class="text-2xl font-bold">Rèn Luyện & Theo Dõi Cá Nhân 12A1</h1></div></div>
+  <section id="section-renluyen" class="tab-content flex flex-1 flex-col">
+    <div class="max-w-7xl mx-auto px-6 mt-6 w-full">
+      <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+        <h1 class="text-2xl font-bold text-white flex items-center gap-2.5">
+          <i class="fa-solid fa-user-graduate text-custom-yellow"></i> Rèn Luyện & Theo Dõi Cá Nhân 12A1
+        </h1>
+      </div>
+    </div>
+
     <main class="max-w-7xl mx-auto px-6 mt-6 w-full flex-1 pb-12 space-y-6">
+      
+      <!-- Khung tìm kiếm & chọn học sinh -->
       <div class="bg-white rounded-2xl p-5 shadow-sm border flex flex-wrap items-center justify-between gap-4">
         <div class="flex gap-2 flex-1 max-w-md">
-          <input type="text" id="parentSearchInput" placeholder="Nhập Mã Phụ Huynh tra cứu..." class="w-full px-4 py-2 border rounded-xl text-sm" />
-          <button onclick="searchByCode()" class="bg-emerald-700 text-white px-4 py-2 rounded-xl text-sm font-semibold">Tra cứu</button>
+          <input type="text" id="parentSearchInput" placeholder="Nhập Mã Phụ Huynh tra cứu..." class="w-full px-4 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-600 focus:outline-none" />
+          <button onclick="searchByCode()" class="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded-xl text-sm font-semibold transition">Tra cứu</button>
         </div>
         <div class="flex items-center gap-2">
           <label class="text-xs font-semibold text-slate-500">Chọn học sinh:</label>
-          <select id="studentSelect" onchange="onSelectStudentChange()" class="border px-3 py-2 rounded-xl text-sm"></select>
+          <select id="studentSelect" onchange="onSelectStudentChange()" class="border px-3 py-2 rounded-xl text-sm focus:ring-2 focus:ring-emerald-600 focus:outline-none"></select>
         </div>
       </div>
+
+      <!-- 4 Card thống kê nhanh -->
       <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-        <div class="bg-white p-5 rounded-2xl border shadow-sm"><div><p class="text-xs text-slate-500">Điểm Rèn Luyện</p><h3 class="text-2xl font-bold text-slate-800" id="statScore">100</h3></div></div>
-        <div class="bg-white p-5 rounded-2xl border shadow-sm"><div><p class="text-xs text-slate-500">Xếp Loại</p><h3 class="text-xl font-bold text-emerald-700" id="statRank">Tốt</h3></div></div>
-        <div class="bg-white p-5 rounded-2xl border shadow-sm"><div><p class="text-xs text-slate-500">Khen Thưởng</p><h3 class="text-2xl font-bold text-slate-800" id="statPlusCount">0</h3></div></div>
-        <div class="bg-white p-5 rounded-2xl border shadow-sm"><div><p class="text-xs text-slate-500">Vi Phạm</p><h3 class="text-2xl font-bold text-slate-800" id="statMinusCount">0</h3></div></div>
+        <div class="bg-white p-5 rounded-2xl border shadow-sm">
+          <p class="text-xs text-slate-500 font-medium">Điểm Rèn Luyện</p>
+          <h3 class="text-2xl font-bold text-slate-800 mt-1" id="statScore">100</h3>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border shadow-sm">
+          <p class="text-xs text-slate-500 font-medium">Xếp Loại</p>
+          <h3 class="text-xl font-bold text-emerald-700 mt-1" id="statRank">Tốt</h3>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border shadow-sm">
+          <p class="text-xs text-slate-500 font-medium">Khen Thưởng</p>
+          <h3 class="text-2xl font-bold text-slate-800 mt-1" id="statPlusCount">0</h3>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border shadow-sm">
+          <p class="text-xs text-slate-500 font-medium">Vi Phạm</p>
+          <h3 class="text-2xl font-bold text-slate-800 mt-1" id="statMinusCount">0</h3>
+        </div>
       </div>
+
+      <!-- Khung thông tin & Nhật ký -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-2xl border shadow-sm space-y-4">
-          <h2 class="font-bold text-slate-800">Thông Tin Học Sinh</h2>
-          <div class="space-y-2 text-sm bg-slate-50 p-4 rounded-xl">
-            <div class="flex justify-between"><span>Họ tên:</span> <strong id="infoName">--</strong></div>
-            <div class="flex justify-between"><span>Tổ:</span> <span id="infoGroup">--</span></div>
-            <div class="flex justify-between"><span>Mã PH:</span> <span class="font-mono text-xs text-emerald-800 font-bold" id="infoCode">--</span></div>
+        
+        <!-- Cột trái: Thông tin học sinh kèm nút SỬA THÔNG TIN -->
+        <div class="bg-white p-6 rounded-2xl border shadow-sm space-y-4 h-fit">
+          <div class="flex justify-between items-center border-b pb-2">
+            <h2 class="font-bold text-slate-800 flex items-center gap-1.5">
+              <i class="fa-solid fa-address-card text-emerald-700"></i> Thông Tin Học Sinh
+            </h2>
+            <button onclick="editCurrentStudentFromProfile()" class="text-xs bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-lg border border-emerald-200 flex items-center gap-1 transition" title="Chỉnh sửa thông tin học sinh này">
+              <i class="fa-solid fa-pen"></i> Sửa
+            </button>
           </div>
+
+          <div class="space-y-2.5 text-sm bg-slate-50 p-4 rounded-xl border border-slate-100">
+            <div class="flex justify-between"><span class="text-slate-500">Họ tên:</span> <strong class="text-slate-800" id="infoName">--</strong></div>
+            <div class="flex justify-between"><span class="text-slate-500">Tổ:</span> <span class="font-semibold text-slate-700" id="infoGroup">--</span></div>
+            <div class="flex justify-between items-center"><span class="text-slate-500">Mã PH:</span> <span class="font-mono text-xs text-emerald-800 font-bold bg-white px-2 py-0.5 border rounded" id="infoCode">--</span></div>
+          </div>
+
           <div class="grid grid-cols-2 gap-2 pt-2">
-            <button onclick="openScoreModal('plus')" class="py-2.5 bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold rounded-xl text-xs">Cộng Điểm</button>
-            <button onclick="openScoreModal('minus')" class="py-2.5 bg-rose-50 text-rose-800 border border-rose-200 font-semibold rounded-xl text-xs">Trừ Điểm</button>
+            <button onclick="openScoreModal('plus')" class="py-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-semibold rounded-xl text-xs transition flex items-center justify-center gap-1">
+              <i class="fa-solid fa-plus-circle text-emerald-600"></i> Cộng Điểm
+            </button>
+            <button onclick="openScoreModal('minus')" class="py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 font-semibold rounded-xl text-xs transition flex items-center justify-center gap-1">
+              <i class="fa-solid fa-minus-circle text-rose-600"></i> Trừ Điểm
+            </button>
           </div>
         </div>
-        <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border overflow-hidden p-5">
-          <h2 class="font-bold text-slate-800 mb-3">Nhật Ký Đánh Giá Cá Nhân</h2>
-          <table class="w-full text-left text-sm"><tbody id="historyTableBody" class="divide-y"></tbody></table>
+
+        <!-- Cột phải: Nhật ký đánh giá kèm nút SỬA / XÓA từng dòng -->
+        <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border overflow-hidden">
+          <div class="p-5 border-b flex justify-between items-center">
+            <h2 class="font-bold text-slate-800 flex items-center gap-2">
+              <i class="fa-solid fa-timeline text-emerald-700"></i> Nhật Ký Đánh Giá Cá Nhân
+            </h2>
+            <span class="text-xs text-slate-400">Có thể chỉnh sửa hoặc xóa từng mục</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm border-collapse">
+              <thead>
+                <tr class="bg-slate-50 text-slate-600 text-xs uppercase font-semibold border-b">
+                  <th class="py-3 px-4">Ngày</th>
+                  <th class="py-3 px-4">Nội Dung</th>
+                  <th class="py-3 px-4 text-center">Phân Loại</th>
+                  <th class="py-3 px-4 text-center">Điểm Số</th>
+                  <th class="py-3 px-4 text-center w-24">Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
         </div>
+
       </div>
     </main>
   </section>
 
   <!-- ================================================================= -->
-  <!-- TAB 7: CÀI ĐẶT LỚP (CÓ ĐẦY ĐỦ NÚT SỬA & XÓA) -->
+  <!-- TAB 7: CÀI ĐẶT LỚP -->
   <!-- ================================================================= -->
-  <section id="section-caidat" class="tab-content flex flex-1 flex-col">
+  <section id="section-caidat" class="tab-content hidden flex-1 flex-col">
     <div class="max-w-7xl mx-auto px-6 mt-6 w-full">
       <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md flex flex-wrap justify-between items-center gap-4">
         <div>
@@ -287,7 +349,47 @@
   <!-- CÁC MODAL HỆ THỐNG -->
   <!-- ================================================================= -->
 
-  <!-- 1. MODAL SỬA THÔNG TIN HỌC SINH -->
+  <!-- MODAL SỬA MỤC NHẬT KÝ ĐÁNH GIÁ CÁ NHÂN -->
+  <div id="editHistoryModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
+      <div class="flex justify-between items-center mb-4 border-b pb-3">
+        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-pen-to-square text-emerald-700"></i> Sửa Nhật Ký Đánh Giá
+        </h3>
+        <button onclick="closeEditHistoryModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="saveEditHistoryRecord(event)" class="space-y-4 text-sm">
+        <input type="hidden" id="editHistoryIndex" />
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Ngày ghi nhận</label>
+          <input type="text" id="editHistoryDate" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-600" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Phân loại</label>
+            <select id="editHistoryType" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-600">
+              <option value="plus">Khen thưởng (+)</option>
+              <option value="minus">Vi phạm (-)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Số điểm</label>
+            <input type="number" id="editHistoryPoints" min="1" max="50" required class="w-full px-3 py-2 border rounded-lg font-bold focus:ring-2 focus:ring-emerald-600" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Nội dung / Lý do</label>
+          <textarea id="editHistoryReason" rows="3" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-600"></textarea>
+        </div>
+        <div class="flex justify-end gap-2 pt-3 border-t">
+          <button type="button" onclick="closeEditHistoryModal()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold">Hủy</button>
+          <button type="submit" class="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-semibold">Lưu Thay Đổi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL SỬA THÔNG TIN HỌC SINH -->
   <div id="editStudentModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
       <div class="flex justify-between items-center mb-4 border-b pb-3">
@@ -332,7 +434,7 @@
     </div>
   </div>
 
-  <!-- 2. MODAL NHẬP NHANH EXCEL -->
+  <!-- MODAL NHẬP NHANH EXCEL -->
   <div id="importModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl">
       <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2"><i class="fa-solid fa-file-excel text-emerald-700"></i> Dán Danh Sách Lớp (Từ Excel)</h3>
@@ -345,7 +447,7 @@
     </div>
   </div>
 
-  <!-- 3. MODAL THÊM HỌC SINH LẺ -->
+  <!-- MODAL THÊM HỌC SINH LẺ -->
   <div id="addModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
       <h3 class="text-lg font-bold mb-4">Thêm Học Sinh Mới</h3>
@@ -361,7 +463,7 @@
     </div>
   </div>
 
-  <!-- 4. MODAL THI ĐUA -->
+  <!-- MODAL THI ĐUA -->
   <div id="weeklyModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
       <h3 class="text-lg font-bold mb-4">Cập Nhật Thi Đua <span id="modalWeekTitle"></span></h3>
@@ -394,7 +496,7 @@
     </div>
   </div>
 
-  <!-- 5. MODAL TKB -->
+  <!-- MODAL TKB -->
   <div id="tkbModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl max-h-[92vh] overflow-y-auto">
       <h3 class="text-lg font-bold mb-4">Chỉnh Sửa Thời Khóa Biểu (Sáng & Chiều)</h3>
@@ -407,7 +509,7 @@
     </div>
   </div>
 
-  <!-- 6. MODAL BÁO BÀI -->
+  <!-- MODAL BÁO BÀI -->
   <div id="baobaiModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
       <h3 class="text-lg font-bold mb-4">Cập Nhật Báo Bài <span id="modalBaoBaiWeekTitle"></span></h3>
@@ -423,13 +525,13 @@
     </div>
   </div>
 
-  <!-- 7. MODAL ĐIỂM -->
+  <!-- MODAL ĐIỂM -->
   <div id="scoreModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
       <h3 id="modalScoreTitle" class="text-lg font-bold mb-4">Điểm</h3>
       <form onsubmit="saveScoreAction(event)" class="space-y-4 text-sm">
         <input type="hidden" id="actionType" value="plus" />
-        <div><label class="block text-xs font-semibold mb-1">Số Điểm</label><input type="number" id="actionPoints" required min="1" max="50" value="5" class="w-full px-3 py-2 border rounded-lg font-bold" /></div>
+        <div><label class="block text-xs font-semibold mb-1">Số Điểm</label><input type="number" id="actionPoints" required min="1" max="50" value="5" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700" /></div>
         <div><label class="block text-xs font-semibold mb-1">Lý Do</label><textarea id="actionReason" required rows="3" class="w-full px-3 py-2 border rounded-lg"></textarea></div>
         <div class="flex justify-end gap-2 pt-3 border-t"><button type="button" onclick="closeScoreModal()" class="px-4 py-2 bg-slate-100 text-xs">Hủy</button><button type="submit" id="btnScoreSubmit" class="px-4 py-2 bg-emerald-700 text-white text-xs font-semibold rounded-lg">Lưu</button></div>
       </form>
@@ -578,6 +680,9 @@
         students = students.filter(s => s.id !== id);
         if (currentStudentId === id && students.length > 0) currentStudentId = students[0].id;
         renderTable();
+        if (document.getElementById('section-renluyen').classList.contains('flex')) {
+          renderRenLuyenModule();
+        }
       }
     }
 
@@ -586,10 +691,12 @@
         students = [];
         currentStudentId = null;
         renderTable();
+        if (document.getElementById('section-renluyen').classList.contains('flex')) {
+          renderRenLuyenModule();
+        }
       }
     }
 
-    // Modal Sửa Học Sinh
     function openEditStudentModal(id) {
       const std = students.find(s => s.id === id);
       if (!std) return;
@@ -601,6 +708,10 @@
 
       document.getElementById('editStudentModal').classList.remove('hidden');
       document.getElementById('editStudentModal').classList.add('flex');
+    }
+
+    function editCurrentStudentFromProfile() {
+      if (currentStudentId) openEditStudentModal(currentStudentId);
     }
 
     function closeEditStudentModal() {
@@ -618,11 +729,11 @@
         std.group = document.getElementById('editGroup').value;
         std.role = document.getElementById('editRole').value.trim() || "Thành viên";
         renderTable();
+        renderRenLuyenModule();
         closeEditStudentModal();
       }
     }
 
-    // Nhập nhanh từ Excel
     function openImportModal() { document.getElementById('bulkNamesInput').value = ''; document.getElementById('importModal').classList.remove('hidden'); document.getElementById('importModal').classList.add('flex'); }
     function closeImportModal() { document.getElementById('importModal').classList.add('hidden'); }
     function processBulkImport() {
@@ -872,7 +983,7 @@
       renderBaoBaiCards(); closeBaoBaiModal();
     }
 
-    // 6. RÈN LUYỆN
+    // 6. RÈN LUYỆN (BỔ SUNG SỬA/XÓA NHẬT KÝ)
     function renderViolationsTable() {
       const tbody = document.getElementById('allViolationsTableBody');
       if (!tbody) return;
@@ -917,7 +1028,13 @@
     function renderRenLuyenModule() {
       populateStudentSelect();
       const std = students.find(s => s.id === currentStudentId);
-      if (!std) return;
+      if (!std) {
+        document.getElementById('infoName').innerText = "--";
+        document.getElementById('infoGroup').innerText = "--";
+        document.getElementById('infoCode').innerText = "--";
+        document.getElementById('historyTableBody').innerHTML = '<tr><td colspan="5" class="py-6 text-center text-slate-400">Chưa có học sinh trong danh sách</td></tr>';
+        return;
+      }
       document.getElementById('infoName').innerText = std.name;
       document.getElementById('infoGroup').innerText = std.group;
       document.getElementById('infoCode').innerText = std.code;
@@ -940,17 +1057,77 @@
 
       const tbody = document.getElementById('historyTableBody');
       tbody.innerHTML = '';
-      history.forEach(h => {
+      if (history.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="py-6 text-center text-slate-400">Chưa có dữ liệu đánh giá rèn luyện</td></tr>';
+        return;
+      }
+      history.forEach((h, index) => {
         const row = document.createElement('tr');
-        row.className = "border-b hover:bg-slate-50";
+        row.className = "border-b hover:bg-slate-50 transition";
         row.innerHTML = `
           <td class="py-3 px-4 font-mono text-xs text-slate-500">${h.date}</td>
           <td class="py-3 px-4 font-medium text-slate-800">${h.reason}</td>
-          <td class="py-3 px-4 text-center">${h.type === 'plus' ? '<span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-0.5 rounded-full font-bold">Khen thưởng</span>' : '<span class="bg-rose-100 text-rose-800 text-xs px-2 py-0.5 rounded-full font-bold">Vi phạm</span>'}</td>
+          <td class="py-3 px-4 text-center">${h.type === 'plus' ? '<span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 rounded-full font-bold">Khen thưởng</span>' : '<span class="bg-rose-100 text-rose-800 text-xs px-2.5 py-0.5 rounded-full font-bold">Vi phạm</span>'}</td>
           <td class="py-3 px-4 text-center font-bold ${h.type === 'plus' ? 'text-emerald-600' : 'text-rose-600'}">${h.type === 'plus' ? '+' : '-'}${h.points}</td>
+          <td class="py-3 px-4 text-center">
+            <div class="flex items-center justify-center gap-1.5">
+              <button onclick="openEditHistoryModal(${index})" class="text-emerald-700 hover:text-emerald-900 p-1 rounded hover:bg-emerald-50 transition" title="Sửa đánh giá">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+              <button onclick="deleteHistoryRecord(${index})" class="text-rose-500 hover:text-rose-700 p-1 rounded hover:bg-rose-50 transition" title="Xóa đánh giá">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </div>
+          </td>
         `;
         tbody.appendChild(row);
       });
+    }
+
+    // Modal Sửa Nhật Ký Điểm
+    function openEditHistoryModal(index) {
+      const std = students.find(s => s.id === currentStudentId);
+      if (!std || !std.history || !std.history[index]) return;
+      const item = std.history[index];
+      document.getElementById('editHistoryIndex').value = index;
+      document.getElementById('editHistoryDate').value = item.date;
+      document.getElementById('editHistoryType').value = item.type;
+      document.getElementById('editHistoryPoints').value = item.points;
+      document.getElementById('editHistoryReason').value = item.reason;
+
+      document.getElementById('editHistoryModal').classList.remove('hidden');
+      document.getElementById('editHistoryModal').classList.add('flex');
+    }
+
+    function closeEditHistoryModal() {
+      document.getElementById('editHistoryModal').classList.add('hidden');
+      document.getElementById('editHistoryModal').classList.remove('flex');
+    }
+
+    function saveEditHistoryRecord(e) {
+      e.preventDefault();
+      const std = students.find(s => s.id === currentStudentId);
+      const index = parseInt(document.getElementById('editHistoryIndex').value);
+      if (std && std.history && std.history[index]) {
+        std.history[index] = {
+          date: document.getElementById('editHistoryDate').value.trim(),
+          type: document.getElementById('editHistoryType').value,
+          points: parseInt(document.getElementById('editHistoryPoints').value),
+          reason: document.getElementById('editHistoryReason').value.trim()
+        };
+        localStorage.setItem('class_students_12a1', JSON.stringify(students));
+        renderRenLuyenModule();
+        closeEditHistoryModal();
+      }
+    }
+
+    function deleteHistoryRecord(index) {
+      const std = students.find(s => s.id === currentStudentId);
+      if (std && std.history && confirm("Thầy có chắc chắn muốn xóa dòng đánh giá này?")) {
+        std.history.splice(index, 1);
+        localStorage.setItem('class_students_12a1', JSON.stringify(students));
+        renderRenLuyenModule();
+      }
     }
 
     function openScoreModal(type) { document.getElementById('actionType').value = type; document.getElementById('scoreModal').classList.remove('hidden'); document.getElementById('scoreModal').classList.add('flex'); }
