@@ -85,7 +85,7 @@
   </nav>
 
   <!-- ================================================================= -->
-  <!-- TAB 1: THỨ HẠNG TRƯỜNG & KHỐI (ĐỘNG - CẬP NHẬT ĐƯỢC TỪNG TUẦN) -->
+  <!-- TAB 1: THỨ HẠNG TRƯỜNG & KHỐI (40 TUẦN - KHÔNG DỮ LIỆU MẪU) -->
   <!-- ================================================================= -->
   <section id="section-thuhang" class="tab-content flex flex-1 flex-col">
     <div class="max-w-7xl mx-auto px-6 mt-6 w-full">
@@ -98,18 +98,14 @@
             <i class="fa-solid fa-trophy text-custom-yellow"></i> Bảng Xếp Hạng Thi Đua Khối 12 - THPT Trần Quang Khải
           </h1>
           <p class="text-emerald-100/80 text-sm mt-1">
-            Theo dõi, cập nhật kết quả thi đua và ghi nhận chỉ đạo tuần của GVCN Hoàng Cao Hiếu.
+            Ghi nhận kết quả thi đua và dặn dò 40 tuần của GVCN Hoàng Cao Hiếu.
           </p>
         </div>
 
-        <!-- Bộ chọn Tuần & Nút Cập Nhật Tuần Mới -->
+        <!-- Bộ chọn 40 Tuần & Nút Cập Nhật -->
         <div class="flex items-center gap-2.5 bg-emerald-950/60 p-2 rounded-2xl border border-emerald-600/40">
           <select id="selectWeek" onchange="onWeekChange()" class="bg-emerald-900 text-white font-semibold text-xs px-3 py-2 rounded-xl border border-emerald-500 focus:outline-none focus:ring-2 focus:ring-amber-400">
-            <option value="1">Tuần 1</option>
-            <option value="2">Tuần 2</option>
-            <option value="3">Tuần 3</option>
-            <option value="4">Tuần 4</option>
-            <option value="5">Tuần 5</option>
+            <!-- Render 40 tuần tự động bằng JavaScript -->
           </select>
           <button onclick="openWeeklyModal()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-sm transition">
             <i class="fa-solid fa-pen-to-square"></i> Cập Nhật Tuần Này
@@ -120,13 +116,13 @@
 
     <main class="max-w-7xl mx-auto px-6 mt-6 w-full flex-1 pb-12 space-y-6">
       
-      <!-- Bộ 4 Thẻ KPI Động -->
+      <!-- 4 Thẻ KPI Động -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
             <p class="text-xs text-slate-500 font-medium">Hạng Trong Khối 12</p>
-            <h3 class="text-2xl font-bold text-slate-800 mt-1" id="kpiRankBlock">Hạng #1</h3>
-            <p class="text-[11px] text-emerald-600 font-medium mt-1" id="kpiRankBlockDesc">Dẫn đầu khối 12</p>
+            <h3 class="text-2xl font-bold text-slate-800 mt-1" id="kpiRankBlock">--</h3>
+            <p class="text-[11px] text-slate-400 mt-1" id="kpiRankBlockDesc">Chưa cập nhật</p>
           </div>
           <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl font-bold">
             <i class="fa-solid fa-crown"></i>
@@ -136,7 +132,7 @@
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
             <p class="text-xs text-slate-500 font-medium">Hạng Toàn Trường THPT</p>
-            <h3 class="text-2xl font-bold text-slate-800 mt-1" id="kpiRankSchool">Hạng #2</h3>
+            <h3 class="text-2xl font-bold text-slate-800 mt-1" id="kpiRankSchool">--</h3>
             <p class="text-[11px] text-slate-400 mt-1">Toàn trường</p>
           </div>
           <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold">
@@ -147,8 +143,8 @@
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
             <p class="text-xs text-slate-500 font-medium">Tổng Điểm Đoàn Trường</p>
-            <h3 class="text-2xl font-bold text-emerald-700 mt-1" id="kpiScore">99.5 <span class="text-xs font-normal text-slate-400">/ 100đ</span></h3>
-            <p class="text-[11px] text-rose-500 font-medium mt-1" id="kpiScoreNote">-0.5đ</p>
+            <h3 class="text-2xl font-bold text-emerald-700 mt-1" id="kpiScore">--</h3>
+            <p class="text-[11px] text-slate-400 mt-1" id="kpiScoreNote">Chưa có ghi chú</p>
           </div>
           <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-xl">
             <i class="fa-solid fa-chart-line"></i>
@@ -158,8 +154,8 @@
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
             <p class="text-xs text-slate-500 font-medium">Danh Hiệu Tuần</p>
-            <h3 class="text-xl font-bold text-amber-600 mt-1" id="kpiTitle">Cờ Luân Lưu</h3>
-            <p class="text-[11px] text-emerald-600 font-semibold mt-1">Đoàn trường khen thưởng</p>
+            <h3 class="text-xl font-bold text-amber-600 mt-1" id="kpiTitle">--</h3>
+            <p class="text-[11px] text-slate-400 mt-1">Đoàn trường khen thưởng</p>
           </div>
           <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl">
             <i class="fa-solid fa-flag"></i>
@@ -167,7 +163,7 @@
         </div>
       </div>
 
-      <!-- Dặn dò của GVCN & Lịch sử 4 tuần gần nhất -->
+      <!-- Dặn dò của GVCN & Danh sách 40 tuần đã cập nhật -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
@@ -175,84 +171,77 @@
             <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
               <i class="fa-solid fa-bullhorn text-amber-500"></i> Dặn Dò Trọng Tâm GVCN
             </h2>
-            <button onclick="openWeeklyModal()" class="text-xs text-emerald-700 hover:underline font-semibold">Chỉnh sửa</button>
+            <button onclick="openWeeklyModal()" class="text-xs text-emerald-700 hover:underline font-semibold">Cập nhật</button>
           </div>
-          <div class="space-y-3 text-xs" id="gvcnNotesContainer">
-            <!-- Render ghi chú qua JS -->
-          </div>
+          <div class="space-y-3 text-xs" id="gvcnNotesContainer"></div>
         </div>
 
         <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
           <div class="flex justify-between items-center mb-4">
             <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
-              <i class="fa-solid fa-chart-column text-emerald-700"></i> Diễn Biến Phong Độ Các Tuần (Lớp 12A1)
+              <i class="fa-solid fa-chart-column text-emerald-700"></i> Phong Độ Thi Đua (Kế hoạch 40 Tuần)
             </h2>
             <span class="text-xs bg-slate-100 text-slate-600 px-3 py-1 rounded-full">THPT Trần Quang Khải</span>
           </div>
 
-          <div class="space-y-4 text-xs" id="historyBarsContainer">
-            <!-- Render biểu đồ tiến trình các tuần -->
-          </div>
+          <!-- Thanh tiến trình cuộn mượt -->
+          <div class="space-y-3 text-xs max-h-60 overflow-y-auto pr-2" id="historyBarsContainer"></div>
 
           <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-            <span>Mục tiêu tuần kế tiếp: <strong class="text-emerald-700">100.0 Điểm Tuyệt Đối</strong></span>
             <span>Chủ nhiệm: <strong>Thầy Hoàng Cao Hiếu</strong></span>
+            <span>Tập thể: <strong>Lớp 12A1</strong></span>
           </div>
         </div>
 
       </div>
 
-      <!-- Thi Đua Nội Bộ 4 Tổ -->
+      <!-- Điểm 4 Tổ Nội Bộ -->
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
         <div class="flex justify-between items-center mb-4">
           <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
-            <i class="fa-solid fa-medal text-custom-yellow"></i> Điểm Thi Đua Nội Bộ 4 Tổ (Tuần Này)
+            <i class="fa-solid fa-medal text-custom-yellow"></i> Điểm Thi Đua Nội Bộ 4 Tổ (Tuần Đang Chọn)
           </h2>
           <button onclick="openWeeklyModal()" class="text-xs text-emerald-700 hover:underline font-semibold">Chấm điểm tổ</button>
         </div>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm" id="groupCardsContainer">
-          <!-- Render điểm 4 tổ qua JS -->
-        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm" id="groupCardsContainer"></div>
       </div>
 
     </main>
   </section>
 
   <!-- ================================================================= -->
-  <!-- MODAL: CẬP NHẬT THI ĐUA VÀ GHI NHẬN HÀNG TUẦN (GVCN) -->
+  <!-- MODAL: CẬP NHẬT THI ĐUA CHO TUẦN ĐANG CHỌN -->
   <!-- ================================================================= -->
   <div id="weeklyModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
         <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-pen-nib text-emerald-700"></i> Cập Nhật Thi Đua & Ghi Nhận Tuần
+          <i class="fa-solid fa-pen-nib text-emerald-700"></i> Cập Nhật Thi Đua & Ghi Nhận <span id="modalWeekTitle" class="text-emerald-700">Tuần 1</span>
         </h3>
         <button onclick="closeWeeklyModal()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
       <form onsubmit="saveWeeklyRecord(event)" class="space-y-4 text-sm">
-        
-        <!-- 1. Hạng & Điểm -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
             <label class="block text-xs font-semibold text-slate-600 mb-1">Hạng Trong Khối 12</label>
-            <input type="number" id="inputRankBlock" min="1" max="8" required class="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold text-slate-800 focus:ring-2 focus:ring-emerald-600" />
+            <input type="text" id="inputRankBlock" placeholder="Ví dụ: 1 hoặc Hạng 1" class="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold text-slate-800 focus:ring-2 focus:ring-emerald-600" />
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-600 mb-1">Hạng Toàn Trường</label>
-            <input type="number" id="inputRankSchool" min="1" max="30" required class="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold text-slate-800 focus:ring-2 focus:ring-emerald-600" />
+            <input type="text" id="inputRankSchool" placeholder="Ví dụ: 2" class="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold text-slate-800 focus:ring-2 focus:ring-emerald-600" />
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-600 mb-1">Tổng Điểm Tuần</label>
-            <input type="number" step="0.1" id="inputScore" min="0" max="100" required class="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold text-emerald-700 focus:ring-2 focus:ring-emerald-600" />
+            <input type="number" step="0.1" id="inputScore" min="0" max="100" placeholder="Thang 100đ" class="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold text-emerald-700 focus:ring-2 focus:ring-emerald-600" />
           </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-semibold text-slate-600 mb-1">Danh Hiệu / Khen Thưởng</label>
-            <input type="text" id="inputTitle" placeholder="Ví dụ: Cờ Luân Lưu / Lớp Xuất Sắc" required class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-600" />
+            <input type="text" id="inputTitle" placeholder="Ví dụ: Cờ Luân Lưu / Lớp Xuất Sắc" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-600" />
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-600 mb-1">Ghi Chú Trừ Điểm Đoàn Trường</label>
@@ -260,55 +249,53 @@
           </div>
         </div>
 
-        <!-- 2. Điểm 4 Tổ Nội Bộ -->
         <div class="pt-2 border-t border-slate-100">
           <label class="block text-xs font-bold text-slate-700 mb-2">Điểm Thi Đua 4 Tổ Nội Bộ (Thang 100đ):</label>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
             <div>
               <span class="text-xs text-slate-500 font-medium">Tổ 1:</span>
-              <input type="number" step="0.5" id="inputScoreT1" required class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs font-bold" />
+              <input type="number" step="0.5" id="inputScoreT1" placeholder="Điểm" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs font-bold" />
             </div>
             <div>
               <span class="text-xs text-slate-500 font-medium">Tổ 2:</span>
-              <input type="number" step="0.5" id="inputScoreT2" required class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs font-bold" />
+              <input type="number" step="0.5" id="inputScoreT2" placeholder="Điểm" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs font-bold" />
             </div>
             <div>
               <span class="text-xs text-slate-500 font-medium">Tổ 3:</span>
-              <input type="number" step="0.5" id="inputScoreT3" required class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs font-bold" />
+              <input type="number" step="0.5" id="inputScoreT3" placeholder="Điểm" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs font-bold" />
             </div>
             <div>
               <span class="text-xs text-slate-500 font-medium">Tổ 4:</span>
-              <input type="number" step="0.5" id="inputScoreT4" required class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs font-bold" />
+              <input type="number" step="0.5" id="inputScoreT4" placeholder="Điểm" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs font-bold" />
             </div>
           </div>
         </div>
 
-        <!-- 3. Ba Nội Dung Dặn Dò GVCN -->
         <div class="pt-2 border-t border-slate-100 space-y-2">
-          <label class="block text-xs font-bold text-slate-700">Dặn Dò Trọng Tâm Của Thầy Trong Tuần Mới:</label>
+          <label class="block text-xs font-bold text-slate-700">Dặn Dò Trọng Tâm Của Thầy Trong Tuần Này:</label>
           <div>
             <span class="text-[11px] text-slate-500 font-medium">1. Giờ giấc / Chuyên cần:</span>
-            <input type="text" id="inputNote1" required class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs" />
+            <input type="text" id="inputNote1" placeholder="Nhập dặn dò giờ giấc..." class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs" />
           </div>
           <div>
             <span class="text-[11px] text-slate-500 font-medium">2. Tác phong / Đồng phục:</span>
-            <input type="text" id="inputNote2" required class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs" />
+            <input type="text" id="inputNote2" placeholder="Nhập dặn dò đồng phục..." class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs" />
           </div>
           <div>
             <span class="text-[11px] text-slate-500 font-medium">3. Học tập / Giờ tốt:</span>
-            <input type="text" id="inputNote3" required class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs" />
+            <input type="text" id="inputNote3" placeholder="Nhập dặn dò học tập..." class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs" />
           </div>
         </div>
 
         <div class="flex justify-end gap-2 pt-4 border-t border-slate-100">
           <button type="button" onclick="closeWeeklyModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg font-medium text-xs">Hủy</button>
-          <button type="submit" class="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg font-semibold text-xs">Lưu & Cập Nhật Tuần Này</button>
+          <button type="submit" class="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg font-semibold text-xs">Lưu Dữ Liệu</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- CÁC SECTION KHÁC (GIỮ NGUYÊN HOẠT ĐỘNG) -->
+  <!-- CÁC PHÂN HỆ KHÁC -->
   <section id="section-vipham" class="tab-content hidden flex-1 flex-col p-6"><div class="bg-white p-6 rounded-2xl shadow-sm border">Nhật Ký Vi Phạm Lớp 12A1</div></section>
   <section id="section-hoctap" class="tab-content hidden flex-1 flex-col p-6"><div class="bg-white p-6 rounded-2xl shadow-sm border">Bảng Theo Dõi Điểm Học Tập 12A1</div></section>
   <section id="section-baobai" class="tab-content hidden flex-1 flex-col p-6"><div class="bg-white p-6 rounded-2xl shadow-sm border">Báo Bài & Kế Hoạch Tuần</div></section>
@@ -316,50 +303,187 @@
   <section id="section-renluyen" class="tab-content hidden flex-1 flex-col p-6"><div class="bg-white p-6 rounded-2xl shadow-sm border">Rèn Luyện Cá Nhân Học Sinh</div></section>
   <section id="section-caidat" class="tab-content hidden flex-1 flex-col p-6"><div class="bg-white p-6 rounded-2xl shadow-sm border">Cài Đặt & Danh Sách Học Sinh 12A1</div></section>
 
-  <!-- JAVASCRIPT ĐIỀU HÀNH THI ĐUA ĐỘNG THEO TUẦN -->
+  <!-- JAVASCRIPT ĐIỀU HÀNH 40 TUẦN TRỐNG -->
   <script>
-    // Dữ liệu mẫu thi đua đa tuần
-    const defaultWeeklyData = {
-      1: {
-        rankBlock: 1,
-        rankSchool: 2,
-        score: 99.5,
-        title: "Cờ Luân Lưu",
-        scoreNote: "-0.5đ (1 lượt đi muộn)",
-        notes: [
-          "Cổng trường đóng lúc 06:45. Toàn thể 12A1 phải có mặt trước 06:40 để truy bài 15 phút.",
-          "100% học sinh mặc áo sơ mi trắng, đeo phù hiệu và đi giày có quai hậu.",
-          "Duy trì 100% tiết học xếp loại Tốt để nhận trọn 30 điểm học tập từ Đoàn trường."
-        ],
-        groupScores: { t1: 100, t2: 99.0, t3: 97.0, t4: 96.5 }
-      },
-      2: {
-        rankBlock: 1,
-        rankSchool: 1,
-        score: 100.0,
-        title: "Dẫn Đầu Toàn Trường",
-        scoreNote: "0 vi phạm • 100% giờ Tốt",
-        notes: [
-          "Phát huy kết quả tuần 1, duy trì chuyên cần 100%.",
-          "Tập trung ôn tập kiểm tra giữa kì môn Toán, Lí, Hóa.",
-          "Tổ 3 vệ sinh phòng học sạch sẽ trước 06:30."
-        ],
-        groupScores: { t1: 100, t2: 100, t3: 98.5, t4: 99.0 }
-      }
-    };
+    const TOTAL_WEEKS = 40; // Đầy đủ 40 tuần
 
-    let weeklyData = JSON.parse(localStorage.getItem('class_weekly_12a1')) || defaultWeeklyData;
+    // Khởi tạo khung 40 tuần hoàn toàn trống
+    function initEmpty40Weeks() {
+      const data = {};
+      for (let w = 1; w <= TOTAL_WEEKS; w++) {
+        data[w] = {
+          isUpdated: false,
+          semester: w <= 20 ? "Học Kỳ 1" : "Học Kỳ 2",
+          rankBlock: "",
+          rankSchool: "",
+          score: null,
+          title: "",
+          scoreNote: "",
+          notes: ["", "", ""],
+          groupScores: { t1: "", t2: "", t3: "", t4: "" }
+        };
+      }
+      return data;
+    }
+
+    let weeklyData = JSON.parse(localStorage.getItem('class_weekly_40w_empty_12a1')) || initEmpty40Weeks();
     let selectedWeek = 1;
 
     function saveWeeklyToStorage() {
-      localStorage.setItem('class_weekly_12a1', JSON.stringify(weeklyData));
+      localStorage.setItem('class_weekly_40w_empty_12a1', JSON.stringify(weeklyData));
+    }
+
+    // Sinh menu chọn 40 tuần
+    function renderWeekDropdown() {
+      const select = document.getElementById('selectWeek');
+      select.innerHTML = '';
+
+      const optGroup1 = document.createElement('optgroup');
+      optGroup1.label = "--- HỌC KỲ 1 (Tuần 1 - 20) ---";
+      for (let i = 1; i <= 20; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        const status = weeklyData[i]?.isUpdated ? "✓ " : "";
+        opt.innerText = `${status}Tuần ${i} (HK1)`;
+        if (i === selectedWeek) opt.selected = true;
+        optGroup1.appendChild(opt);
+      }
+      select.appendChild(optGroup1);
+
+      const optGroup2 = document.createElement('optgroup');
+      optGroup2.label = "--- HỌC KỲ 2 (Tuần 21 - 40) ---";
+      for (let i = 21; i <= TOTAL_WEEKS; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        const status = weeklyData[i]?.isUpdated ? "✓ " : "";
+        opt.innerText = `${status}Tuần ${i} (HK2)`;
+        if (i === selectedWeek) opt.selected = true;
+        optGroup2.appendChild(opt);
+      }
+      select.appendChild(optGroup2);
+    }
+
+    function onWeekChange() {
+      selectedWeek = parseInt(document.getElementById('selectWeek').value);
+      renderWeeklyView();
+    }
+
+    function renderWeeklyView() {
+      const current = weeklyData[selectedWeek] || initEmpty40Weeks()[selectedWeek];
+      const semester = selectedWeek <= 20 ? "Học Kỳ 1" : "Học Kỳ 2";
+      document.getElementById('displayWeekBadge').innerText = `Thi Đua Khối 12 • Tuần ${selectedWeek} - ${semester}`;
+
+      // 4 Thẻ KPI
+      document.getElementById('kpiRankBlock').innerText = current.rankBlock ? `Hạng #${current.rankBlock}` : "--";
+      document.getElementById('kpiRankBlockDesc').innerText = current.rankBlock ? `Khối 12 THPT` : "Chưa cập nhật";
+      document.getElementById('kpiRankSchool').innerText = current.rankSchool ? `Hạng #${current.rankSchool}` : "--";
+      document.getElementById('kpiScore').innerHTML = current.score !== null ? `${current.score} <span class="text-xs font-normal text-slate-400">/ 100đ</span>` : "--";
+      document.getElementById('kpiScoreNote').innerText = current.scoreNote || "Chưa có ghi chú";
+      document.getElementById('kpiTitle').innerText = current.title || "--";
+
+      // Dặn dò GVCN
+      const notes = current.notes || ["", "", ""];
+      document.getElementById('gvcnNotesContainer').innerHTML = `
+        <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl"><span class="font-bold text-amber-900 block mb-0.5">1. Giờ Giấc & Chuyên Cần:</span><p class="text-amber-800">${notes[0] || '<em>(Chưa có nội dung dặn dò)</em>'}</p></div>
+        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl"><span class="font-bold text-emerald-900 block mb-0.5">2. Tác Phong & Kỷ Luật:</span><p class="text-emerald-800">${notes[1] || '<em>(Chưa có nội dung dặn dò)</em>'}</p></div>
+        <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl"><span class="font-bold text-blue-900 block mb-0.5">3. Học Tập & Giờ Tốt:</span><p class="text-blue-800">${notes[2] || '<em>(Chưa có nội dung dặn dò)</em>'}</p></div>
+      `;
+
+      // 4 Tổ
+      const gs = current.groupScores || { t1: "", t2: "", t3: "", t4: "" };
+      document.getElementById('groupCardsContainer').innerHTML = `
+        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col justify-between"><div><span class="font-bold text-slate-800">Tổ 1</span><p class="text-xs text-slate-500">Thi đua nội bộ</p></div><p class="font-bold text-emerald-700 text-lg mt-2">${gs.t1 ? gs.t1 + 'đ' : '--'}</p></div>
+        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col justify-between"><div><span class="font-bold text-slate-800">Tổ 2</span><p class="text-xs text-slate-500">Thi đua nội bộ</p></div><p class="font-bold text-slate-800 text-lg mt-2">${gs.t2 ? gs.t2 + 'đ' : '--'}</p></div>
+        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col justify-between"><div><span class="font-bold text-slate-800">Tổ 3</span><p class="text-xs text-slate-500">Thi đua nội bộ</p></div><p class="font-bold text-slate-800 text-lg mt-2">${gs.t3 ? gs.t3 + 'đ' : '--'}</p></div>
+        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col justify-between"><div><span class="font-bold text-slate-800">Tổ 4</span><p class="text-xs text-slate-500">Thi đua nội bộ</p></div><p class="font-bold text-slate-800 text-lg mt-2">${gs.t4 ? gs.t4 + 'đ' : '--'}</p></div>
+      `;
+
+      // Tiến trình 40 tuần
+      const historyBars = document.getElementById('historyBarsContainer');
+      historyBars.innerHTML = '';
+      let hasAnyUpdated = false;
+
+      for (let w = 1; w <= TOTAL_WEEKS; w++) {
+        const item = weeklyData[w];
+        if (item && item.isUpdated) {
+          hasAnyUpdated = true;
+          const isCurrent = w === selectedWeek;
+          historyBars.innerHTML += `
+            <div class="p-2 rounded-lg ${isCurrent ? 'bg-emerald-50 border border-emerald-200' : ''}">
+              <div class="flex justify-between font-semibold mb-1">
+                <span>Tuần ${w} ${w <= 20 ? '(HK1)' : '(HK2)'} ${isCurrent ? '<strong class="text-emerald-700 font-bold ml-1">● Đang chọn</strong>' : ''}</span>
+                <span class="text-emerald-700 font-bold">${item.score}đ • Hạng #${item.rankBlock || '--'}</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div class="bg-emerald-600 h-full rounded-full" style="width: ${item.score}%"></div>
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      if (!hasAnyUpdated) {
+        historyBars.innerHTML = `<p class="text-slate-400 py-6 text-center italic">Chưa có tuần nào được nhập dữ liệu. Bấm "Cập Nhật Tuần Này" để bắt đầu ghi nhận.</p>`;
+      }
+    }
+
+    function openWeeklyModal() {
+      const current = weeklyData[selectedWeek] || initEmpty40Weeks()[selectedWeek];
+      document.getElementById('modalWeekTitle').innerText = `Tuần ${selectedWeek}`;
+      document.getElementById('inputRankBlock').value = current.rankBlock || '';
+      document.getElementById('inputRankSchool').value = current.rankSchool || '';
+      document.getElementById('inputScore').value = current.score !== null ? current.score : '';
+      document.getElementById('inputTitle').value = current.title || '';
+      document.getElementById('inputScoreNote').value = current.scoreNote || '';
+      document.getElementById('inputNote1').value = current.notes ? current.notes[0] : '';
+      document.getElementById('inputNote2').value = current.notes ? current.notes[1] : '';
+      document.getElementById('inputNote3').value = current.notes ? current.notes[2] : '';
+      document.getElementById('inputScoreT1').value = current.groupScores?.t1 || '';
+      document.getElementById('inputScoreT2').value = current.groupScores?.t2 || '';
+      document.getElementById('inputScoreT3').value = current.groupScores?.t3 || '';
+      document.getElementById('inputScoreT4').value = current.groupScores?.t4 || '';
+
+      document.getElementById('weeklyModal').classList.remove('hidden');
+      document.getElementById('weeklyModal').classList.add('flex');
+    }
+
+    function closeWeeklyModal() {
+      document.getElementById('weeklyModal').classList.add('hidden');
+      document.getElementById('weeklyModal').classList.remove('flex');
+    }
+
+    function saveWeeklyRecord(e) {
+      e.preventDefault();
+      const scoreVal = document.getElementById('inputScore').value;
+      weeklyData[selectedWeek] = {
+        isUpdated: true,
+        semester: selectedWeek <= 20 ? "Học Kỳ 1" : "Học Kỳ 2",
+        rankBlock: document.getElementById('inputRankBlock').value,
+        rankSchool: document.getElementById('inputRankSchool').value,
+        score: scoreVal !== "" ? parseFloat(scoreVal) : null,
+        title: document.getElementById('inputTitle').value,
+        scoreNote: document.getElementById('inputScoreNote').value,
+        notes: [
+          document.getElementById('inputNote1').value,
+          document.getElementById('inputNote2').value,
+          document.getElementById('inputNote3').value
+        ],
+        groupScores: {
+          t1: document.getElementById('inputScoreT1').value,
+          t2: document.getElementById('inputScoreT2').value,
+          t3: document.getElementById('inputScoreT3').value,
+          t4: document.getElementById('inputScoreT4').value
+        }
+      };
+
+      saveWeeklyToStorage();
+      renderWeekDropdown();
+      renderWeeklyView();
+      closeWeeklyModal();
     }
 
     function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => {
-        el.classList.add('hidden');
-        el.classList.remove('flex');
-      });
+      document.querySelectorAll('.tab-content').forEach(el => { el.classList.add('hidden'); el.classList.remove('flex'); });
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('tab-btn-active', 'bg-emerald-800', 'text-white', 'bg-amber-400', 'text-slate-900');
         btn.classList.add('text-slate-600');
@@ -376,118 +500,8 @@
       }
     }
 
-    function onWeekChange() {
-      selectedWeek = parseInt(document.getElementById('selectWeek').value);
-      renderWeeklyView();
-    }
-
-    function renderWeeklyView() {
-      document.getElementById('displayWeekBadge').innerText = `Thi Đua Khối 12 • Tuần ${selectedWeek} - Học Kỳ 1`;
-      const current = weeklyData[selectedWeek] || {
-        rankBlock: 1, rankSchool: 1, score: 100, title: "Chưa ghi nhận", scoreNote: "Đang cập nhật",
-        notes: ["Chưa có dặn dò cho tuần này.", "Duy trì nề nếp tốt.", "Ôn bài đầy đủ."],
-        groupScores: { t1: 100, t2: 100, t3: 100, t4: 100 }
-      };
-
-      document.getElementById('kpiRankBlock').innerText = `Hạng #${current.rankBlock}`;
-      document.getElementById('kpiRankBlockDesc').innerText = current.rankBlock === 1 ? "▲ Dẫn đầu khối 12" : `Khối 12 THPT`;
-      document.getElementById('kpiRankSchool').innerText = `Hạng #${current.rankSchool}`;
-      document.getElementById('kpiScore').innerHTML = `${current.score} <span class="text-xs font-normal text-slate-400">/ 100đ</span>`;
-      document.getElementById('kpiScoreNote').innerText = current.scoreNote;
-      document.getElementById('kpiTitle').innerText = current.title;
-
-      // Render dặn dò
-      const notesContainer = document.getElementById('gvcnNotesContainer');
-      notesContainer.innerHTML = `
-        <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl"><span class="font-bold text-amber-900 block mb-0.5">1. Giờ Giấc & Chuyên Cần:</span><p class="text-amber-800">${current.notes[0]}</p></div>
-        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl"><span class="font-bold text-emerald-900 block mb-0.5">2. Tác Phong & Kỷ Luật:</span><p class="text-emerald-800">${current.notes[1]}</p></div>
-        <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl"><span class="font-bold text-blue-900 block mb-0.5">3. Học Tập & Giờ Tốt:</span><p class="text-blue-800">${current.notes[2]}</p></div>
-      `;
-
-      // Render 4 tổ
-      const gs = current.groupScores || { t1: 100, t2: 100, t3: 100, t4: 100 };
-      const groupContainer = document.getElementById('groupCardsContainer');
-      groupContainer.innerHTML = `
-        <div class="p-4 rounded-xl border border-emerald-200 bg-emerald-50/50 flex flex-col justify-between"><div><span class="font-bold text-emerald-900">Tổ 1</span><p class="text-xs text-slate-500">Thi đua nội bộ</p></div><p class="font-bold text-emerald-700 text-lg mt-2">${gs.t1}đ</p></div>
-        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col justify-between"><div><span class="font-bold text-slate-800">Tổ 2</span><p class="text-xs text-slate-500">Thi đua nội bộ</p></div><p class="font-bold text-slate-800 text-lg mt-2">${gs.t2}đ</p></div>
-        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col justify-between"><div><span class="font-bold text-slate-800">Tổ 3</span><p class="text-xs text-slate-500">Thi đua nội bộ</p></div><p class="font-bold text-slate-800 text-lg mt-2">${gs.t3}đ</p></div>
-        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col justify-between"><div><span class="font-bold text-slate-800">Tổ 4</span><p class="text-xs text-slate-500">Thi đua nội bộ</p></div><p class="font-bold text-slate-800 text-lg mt-2">${gs.t4}đ</p></div>
-      `;
-
-      // Render thanh tiến trình các tuần
-      const historyBars = document.getElementById('historyBarsContainer');
-      historyBars.innerHTML = '';
-      Object.keys(weeklyData).forEach(w => {
-        const item = weeklyData[w];
-        historyBars.innerHTML += `
-          <div>
-            <div class="flex justify-between font-semibold mb-1">
-              <span>Tuần ${w}</span>
-              <span class="text-emerald-700 font-bold">${item.score}đ • Hạng #${item.rankBlock} Khối</span>
-            </div>
-            <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
-              <div class="bg-emerald-600 h-full rounded-full" style="width: ${item.score}%"></div>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    function openWeeklyModal() {
-      const current = weeklyData[selectedWeek] || {
-        rankBlock: 1, rankSchool: 1, score: 100, title: "Cờ Luân Lưu", scoreNote: "-0.5đ",
-        notes: ["Có mặt trước 06:40", "Đồng phục đúng quy định", "Học bài đầy đủ"],
-        groupScores: { t1: 100, t2: 100, t3: 100, t4: 100 }
-      };
-      document.getElementById('inputRankBlock').value = current.rankBlock;
-      document.getElementById('inputRankSchool').value = current.rankSchool;
-      document.getElementById('inputScore').value = current.score;
-      document.getElementById('inputTitle').value = current.title;
-      document.getElementById('inputScoreNote').value = current.scoreNote;
-      document.getElementById('inputNote1').value = current.notes[0] || '';
-      document.getElementById('inputNote2').value = current.notes[1] || '';
-      document.getElementById('inputNote3').value = current.notes[2] || '';
-      document.getElementById('inputScoreT1').value = current.groupScores?.t1 || 100;
-      document.getElementById('inputScoreT2').value = current.groupScores?.t2 || 100;
-      document.getElementById('inputScoreT3').value = current.groupScores?.t3 || 100;
-      document.getElementById('inputScoreT4').value = current.groupScores?.t4 || 100;
-
-      document.getElementById('weeklyModal').classList.remove('hidden');
-      document.getElementById('weeklyModal').classList.add('flex');
-    }
-
-    function closeWeeklyModal() {
-      document.getElementById('weeklyModal').classList.add('hidden');
-      document.getElementById('weeklyModal').classList.remove('flex');
-    }
-
-    function saveWeeklyRecord(e) {
-      e.preventDefault();
-      weeklyData[selectedWeek] = {
-        rankBlock: parseInt(document.getElementById('inputRankBlock').value),
-        rankSchool: parseInt(document.getElementById('inputRankSchool').value),
-        score: parseFloat(document.getElementById('inputScore').value),
-        title: document.getElementById('inputTitle').value,
-        scoreNote: document.getElementById('inputScoreNote').value,
-        notes: [
-          document.getElementById('inputNote1').value,
-          document.getElementById('inputNote2').value,
-          document.getElementById('inputNote3').value
-        ],
-        groupScores: {
-          t1: parseFloat(document.getElementById('inputScoreT1').value),
-          t2: parseFloat(document.getElementById('inputScoreT2').value),
-          t3: parseFloat(document.getElementById('inputScoreT3').value),
-          t4: parseFloat(document.getElementById('inputScoreT4').value)
-        }
-      };
-
-      saveWeeklyToStorage();
-      renderWeeklyView();
-      closeWeeklyModal();
-    }
-
-    // Khởi chạy khi load trang
+    // Khởi chạy
+    renderWeekDropdown();
     renderWeeklyView();
   </script>
 </body>
