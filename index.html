@@ -28,7 +28,7 @@
           <div class="flex items-center space-x-2">
             <span class="font-bold text-xl tracking-tight">12A1</span>
             <span class="text-xs bg-emerald-800/80 px-2 py-0.5 rounded text-emerald-200 border border-emerald-600">2026 – 2027</span>
-            <span class="text-xs text-emerald-400 flex items-center gap-1 font-medium ml-2">
+            <span id="syncStatus" class="text-xs text-emerald-400 flex items-center gap-1 font-medium ml-2">
               <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Trực tuyến
             </span>
           </div>
@@ -247,7 +247,7 @@
     </main>
   </section>
 
-  <!-- MODAL CONTAINER (Import Excel / Thêm học sinh / TKB / Báo bài / Thi đua / Điểm) -->
+  <!-- MODAL CONTAINER -->
   <div id="importModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl">
       <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2"><i class="fa-solid fa-file-excel text-emerald-700"></i> Dán Danh Sách Lớp (Từ Excel)</h3>
@@ -346,14 +346,67 @@
     </div>
   </div>
 
-  <!-- NẠP CÁC MODULE JAVASCRIPT TÁCH BIỆT -->
-  <script src="js/data.js"></script>
-  <script src="js/thuhang.js"></script>
-  <script src="js/baobai.js"></script>
-  <script src="js/renluyen.js"></script>
-  <script src="js/caidat.js"></script>
-
+  <!-- TOÀN BỘ LOGIC JAVASCRIPT HỢP NHẤT -->
   <script>
+    const TOTAL_WEEKS = 40;
+
+    // 1. DỮ LIỆU
+    let students = JSON.parse(localStorage.getItem('class_students_12a1')) || [
+      { id: 1, name: "Đặng Thị Kim Anh", gender: "Nữ", group: "Tổ 2", role: "Thành viên", code: "PH12A1-BW6Z-1P8S-IXIG", score: 100, history: [] }
+    ];
+    let currentStudentId = students.length > 0 ? students[0].id : null;
+
+    const defaultTkb = {
+      note: "Áp dụng: Năm học 2026 - 2027",
+      grid: [
+        ["Chào cờ", "Toán", "Vật lí", "Hóa học", "Ngữ văn", "Lịch sử"],
+        ["Sinh hoạt", "Toán", "Vật lí", "Hóa học", "Ngữ văn", "Địa lí"],
+        ["Toán", "Tiếng Anh", "Hóa học", "Ngữ văn", "Tin học", "GDCD"],
+        ["Vật lí", "Tiếng Anh", "Sinh học", "Toán", "Thể dục", "Công nghệ"],
+        ["Vật lí", "Tin học", "Sinh học", "Toán", "Thể dục", "Tự học"]
+      ],
+      afternoonGrid: [
+        ["Tăng cường Toán", "Bồi dưỡng Vật lí", "Tăng cường Hóa", "Tăng cường Anh", "Tự chọn KHTN", "Nghỉ"],
+        ["Tăng cường Toán", "Bồi dưỡng Vật lí", "Tăng cường Hóa", "Tăng cường Anh", "Tự chọn KHTN", "Nghỉ"],
+        ["Luyện đề TN", "Luyện đề TN", "GDQP - AN", "Luyện đề TN", "SH Câu lạc bộ", "Nghỉ"],
+        ["Thể thao / CLB", "Thể thao / CLB", "GDQP - AN", "Thể thao / CLB", "SH Câu lạc bộ", "Nghỉ"]
+      ]
+    };
+    let tkbData = JSON.parse(localStorage.getItem('class_tkb_full_12a1')) || defaultTkb;
+
+    function init40WeeksBaoBai() {
+      const obj = {};
+      for (let w = 1; w <= TOTAL_WEEKS; w++) obj[w] = { t2: "", t3: "", t4: "", t5: "", t6: "", t7: "" };
+      return obj;
+    }
+    let baobaiData = JSON.parse(localStorage.getItem('class_baobai_40w_12a1')) || init40WeeksBaoBai();
+    let currentBaoBaiWeek = 1;
+
+    function init40WeeksWeeklyData() {
+      const data = {};
+      for (let w = 1; w <= TOTAL_WEEKS; w++) {
+        data[w] = {
+          semester: w <= 20 ? "Học Kỳ 1" : "Học Kỳ 2",
+          rankBlock: 1, rankSchool: 1, score: 100.0, title: "Cờ Luân Lưu", scoreNote: "0 vi phạm",
+          notes: [
+            `Tuần ${w}: Toàn thể 12A1 có mặt trước 06:40 truy bài.`,
+            `Tuần ${w}: Đồng phục đúng quy định, sơ mi trắng và bảng tên.`,
+            `Tuần ${w}: Giữ vững 100% tiết học xếp loại Tốt.`
+          ],
+          groupScores: { t1: 100, t2: 100, t3: 100, t4: 100 }
+        };
+      }
+      return data;
+    }
+    let weeklyData = JSON.parse(localStorage.getItem('class_weekly_40w_full_12a1')) || init40WeeksWeeklyData();
+    let selectedWeek = 1;
+
+    function generateParentCode() {
+      const randStr = () => Math.random().toString(36).substring(2, 6).toUpperCase();
+      return `PH12A1-${randStr()}-${randStr()}-${randStr()}`;
+    }
+
+    // 2. CHUYỂN TAB
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => { el.classList.add('hidden'); el.classList.remove('flex'); });
       document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -377,12 +430,394 @@
       if (tabId === 'vipham') renderViolationsTable();
     }
 
-    // Khởi chạy
-    window.onload = () => {
-      renderWeekDropdown();
-      renderWeeklyView();
-      renderTable();
-    };
+    // 3. THI ĐUA
+    function renderWeekDropdown() {
+      const select = document.getElementById('selectWeek');
+      if (!select) return;
+      select.innerHTML = '';
+      for (let i = 1; i <= TOTAL_WEEKS; i++) {
+        const opt = document.createElement('option'); opt.value = i; opt.innerText = `Tuần ${i} (${i <= 20 ? 'HK1' : 'HK2'})`;
+        if (i === selectedWeek) opt.selected = true;
+        select.appendChild(opt);
+      }
+    }
+    function onWeekChange() { selectedWeek = parseInt(document.getElementById('selectWeek').value); renderWeeklyView(); }
+    function renderWeeklyView() {
+      const current = weeklyData[selectedWeek] || init40WeeksWeeklyData()[selectedWeek];
+      const semester = selectedWeek <= 20 ? "Học Kỳ 1" : "Học Kỳ 2";
+      document.getElementById('displayWeekBadge').innerText = `Thi Đua Khối 12 • Tuần ${selectedWeek} - ${semester}`;
+      document.getElementById('kpiRankBlock').innerText = `Hạng #${current.rankBlock}`;
+      document.getElementById('kpiRankSchool').innerText = `Hạng #${current.rankSchool}`;
+      document.getElementById('kpiScore').innerHTML = `${current.score} <span class="text-xs font-normal text-slate-400">/ 100đ</span>`;
+      document.getElementById('kpiScoreNote').innerText = current.scoreNote;
+      document.getElementById('kpiTitle').innerText = current.title;
+
+      const notes = current.notes || ["", "", ""];
+      document.getElementById('gvcnNotesContainer').innerHTML = `
+        <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl"><span class="font-bold text-amber-900 block mb-0.5">1. Giờ Giấc:</span><p class="text-amber-800">${notes[0]}</p></div>
+        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl"><span class="font-bold text-emerald-900 block mb-0.5">2. Kỷ Luật:</span><p class="text-emerald-800">${notes[1]}</p></div>
+        <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl"><span class="font-bold text-blue-900 block mb-0.5">3. Học Tập:</span><p class="text-blue-800">${notes[2]}</p></div>
+      `;
+
+      const gs = current.groupScores || { t1: 100, t2: 100, t3: 100, t4: 100 };
+      document.getElementById('groupCardsContainer').innerHTML = `
+        <div class="p-4 rounded-xl border bg-emerald-50/50"><strong>Tổ 1</strong><p class="font-bold text-emerald-700 text-lg mt-1">${gs.t1}đ</p></div>
+        <div class="p-4 rounded-xl border bg-slate-50"><strong>Tổ 2</strong><p class="font-bold text-slate-800 text-lg mt-1">${gs.t2}đ</p></div>
+        <div class="p-4 rounded-xl border bg-slate-50"><strong>Tổ 3</strong><p class="font-bold text-slate-800 text-lg mt-1">${gs.t3}đ</p></div>
+        <div class="p-4 rounded-xl border bg-slate-50"><strong>Tổ 4</strong><p class="font-bold text-slate-800 text-lg mt-1">${gs.t4}đ</p></div>
+      `;
+
+      const historyBars = document.getElementById('historyBarsContainer');
+      historyBars.innerHTML = '';
+      for (let w = 1; w <= TOTAL_WEEKS; w++) {
+        const item = weeklyData[w];
+        if (!item) continue;
+        const isCurrent = w === selectedWeek;
+        historyBars.innerHTML += `
+          <div class="p-2 rounded-lg ${isCurrent ? 'bg-emerald-50 border border-emerald-200' : ''}">
+            <div class="flex justify-between font-semibold mb-1">
+              <span>Tuần ${w} ${isCurrent ? '<strong class="text-emerald-700 font-bold ml-1">● Đang xem</strong>' : ''}</span>
+              <span class="text-emerald-700 font-bold">${item.score}đ • Hạng #${item.rankBlock}</span>
+            </div>
+            <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+              <div class="bg-emerald-600 h-full rounded-full" style="width: ${item.score}%"></div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function openWeeklyModal() {
+      const current = weeklyData[selectedWeek] || init40WeeksWeeklyData()[selectedWeek];
+      document.getElementById('modalWeekTitle').innerText = `Tuần ${selectedWeek}`;
+      document.getElementById('inputRankBlock').value = current.rankBlock;
+      document.getElementById('inputRankSchool').value = current.rankSchool;
+      document.getElementById('inputScore').value = current.score;
+      document.getElementById('inputTitle').value = current.title;
+      document.getElementById('inputScoreNote').value = current.scoreNote;
+      document.getElementById('inputNote1').value = current.notes ? current.notes[0] : '';
+      document.getElementById('inputNote2').value = current.notes ? current.notes[1] : '';
+      document.getElementById('inputNote3').value = current.notes ? current.notes[2] : '';
+      document.getElementById('inputScoreT1').value = current.groupScores?.t1 || 100;
+      document.getElementById('inputScoreT2').value = current.groupScores?.t2 || 100;
+      document.getElementById('inputScoreT3').value = current.groupScores?.t3 || 100;
+      document.getElementById('inputScoreT4').value = current.groupScores?.t4 || 100;
+      document.getElementById('weeklyModal').classList.remove('hidden');
+      document.getElementById('weeklyModal').classList.add('flex');
+    }
+    function closeWeeklyModal() { document.getElementById('weeklyModal').classList.add('hidden'); }
+    function saveWeeklyRecord(e) {
+      e.preventDefault();
+      weeklyData[selectedWeek] = {
+        semester: selectedWeek <= 20 ? "Học Kỳ 1" : "Học Kỳ 2",
+        rankBlock: document.getElementById('inputRankBlock').value,
+        rankSchool: document.getElementById('inputRankSchool').value,
+        score: parseFloat(document.getElementById('inputScore').value) || 100,
+        title: document.getElementById('inputTitle').value,
+        scoreNote: document.getElementById('inputScoreNote').value,
+        notes: [document.getElementById('inputNote1').value, document.getElementById('inputNote2').value, document.getElementById('inputNote3').value],
+        groupScores: {
+          t1: document.getElementById('inputScoreT1').value, t2: document.getElementById('inputScoreT2').value,
+          t3: document.getElementById('inputScoreT3').value, t4: document.getElementById('inputScoreT4').value
+        }
+      };
+      localStorage.setItem('class_weekly_40w_full_12a1', JSON.stringify(weeklyData));
+      renderWeeklyView(); closeWeeklyModal();
+    }
+
+    // 4. TKB & BÁO BÀI
+    function renderTkb() {
+      document.getElementById('tkbApplyDate').innerText = tkbData.note || "Áp dụng: Năm học 2026 - 2027";
+      const tbodyM = document.getElementById('tkbTableBody'); tbodyM.innerHTML = '';
+      const morningTimes = ["07:00 - 07:45", "07:50 - 08:35", "09:00 - 09:45", "09:50 - 10:35", "10:40 - 11:25"];
+      for (let p = 0; p < 5; p++) {
+        const tr = document.createElement('tr');
+        let rowHtml = `<td class="py-3 px-3 border-r bg-slate-50 font-bold text-slate-800">Tiết ${p + 1}<p class="text-[10px] text-slate-400 font-mono">${morningTimes[p]}</p></td>`;
+        for (let d = 0; d < 6; d++) {
+          const sub = (tkbData.grid && tkbData.grid[p]) ? tkbData.grid[p][d] || "" : "";
+          rowHtml += `<td class="py-3 px-4 border-r font-medium text-slate-800">${sub || '--'}</td>`;
+        }
+        tr.innerHTML = rowHtml; tbodyM.appendChild(tr);
+      }
+
+      const tbodyA = document.getElementById('tkbAfternoonTableBody'); tbodyA.innerHTML = '';
+      const afternoonTimes = ["13:30 - 14:15", "14:20 - 15:05", "15:20 - 16:05", "16:10 - 16:55"];
+      const aftGrid = tkbData.afternoonGrid || defaultTkb.afternoonGrid;
+      for (let p = 0; p < 4; p++) {
+        const tr = document.createElement('tr');
+        let rowHtml = `<td class="py-3 px-3 border-r bg-blue-50/40 font-bold text-blue-950">Tiết ${p + 1}<p class="text-[10px] text-slate-400 font-mono">${afternoonTimes[p]}</p></td>`;
+        for (let d = 0; d < 6; d++) {
+          const sub = (aftGrid && aftGrid[p]) ? aftGrid[p][d] || "" : "";
+          rowHtml += `<td class="py-3 px-4 border-r text-slate-800 font-medium">${sub || '--'}</td>`;
+        }
+        tr.innerHTML = rowHtml; tbodyA.appendChild(tr);
+      }
+    }
+
+    function openTkbModal() {
+      document.getElementById('inputTkbNote').value = tkbData.note || '';
+      const tbodyM = document.getElementById('tkbModalInputsBody'); tbodyM.innerHTML = '';
+      for (let p = 0; p < 5; p++) {
+        const tr = document.createElement('tr');
+        let rowHtml = `<td class="py-2 px-2 font-bold text-slate-700 bg-slate-50 border-r">Tiết ${p + 1}</td>`;
+        for (let d = 0; d < 6; d++) {
+          const val = (tkbData.grid && tkbData.grid[p] && tkbData.grid[p][d]) ? tkbData.grid[p][d] : "";
+          rowHtml += `<td class="p-1 border-r"><input type="text" id="tkb_m_${p}_${d}" value="${val}" class="w-full text-center px-1 border rounded" /></td>`;
+        }
+        tr.innerHTML = rowHtml; tbodyM.appendChild(tr);
+      }
+
+      const tbodyA = document.getElementById('tkbAfternoonModalInputsBody'); tbodyA.innerHTML = '';
+      const aftGrid = tkbData.afternoonGrid || defaultTkb.afternoonGrid;
+      for (let p = 0; p < 4; p++) {
+        const tr = document.createElement('tr');
+        let rowHtml = `<td class="py-2 px-2 font-bold text-blue-900 bg-blue-50 border-r">Tiết ${p + 1}</td>`;
+        for (let d = 0; d < 6; d++) {
+          const val = (aftGrid && aftGrid[p] && aftGrid[p][d]) ? aftGrid[p][d] : "";
+          rowHtml += `<td class="p-1 border-r"><input type="text" id="tkb_a_${p}_${d}" value="${val}" class="w-full text-center px-1 border rounded" /></td>`;
+        }
+        tr.innerHTML = rowHtml; tbodyA.appendChild(tr);
+      }
+      document.getElementById('tkbModal').classList.remove('hidden'); document.getElementById('tkbModal').classList.add('flex');
+    }
+    function closeTkbModal() { document.getElementById('tkbModal').classList.add('hidden'); }
+    function saveTkb(e) {
+      e.preventDefault();
+      const newM = [], newA = [];
+      for (let p = 0; p < 5; p++) {
+        const row = [];
+        for (let d = 0; d < 6; d++) row.push(document.getElementById(`tkb_m_${p}_${d}`).value.trim());
+        newM.push(row);
+      }
+      for (let p = 0; p < 4; p++) {
+        const row = [];
+        for (let d = 0; d < 6; d++) row.push(document.getElementById(`tkb_a_${p}_${d}`).value.trim());
+        newA.push(row);
+      }
+      tkbData = { note: document.getElementById('inputTkbNote').value.trim(), grid: newM, afternoonGrid: newA };
+      localStorage.setItem('class_tkb_full_12a1', JSON.stringify(tkbData));
+      renderTkb(); closeTkbModal();
+    }
+
+    function renderBaoBaiDropdown() {
+      const select = document.getElementById('selectBaoBaiWeek');
+      if (!select) return;
+      select.innerHTML = '';
+      for (let i = 1; i <= TOTAL_WEEKS; i++) {
+        const opt = document.createElement('option'); opt.value = i; opt.innerText = `Sổ báo bài Tuần ${i} (${i <= 20 ? 'HK1' : 'HK2'})`;
+        if (i === currentBaoBaiWeek) opt.selected = true;
+        select.appendChild(opt);
+      }
+    }
+    function onBaoBaiWeekChange() { currentBaoBaiWeek = parseInt(document.getElementById('selectBaoBaiWeek').value); renderBaoBaiCards(); }
+    function renderBaoBaiCards() {
+      const container = document.getElementById('baobaiDaysContainer'); container.innerHTML = '';
+      const current = baobaiData[currentBaoBaiWeek] || { t2: "", t3: "", t4: "", t5: "", t6: "", t7: "" };
+      const days = [
+        { label: "Thứ Hai", key: "t2", tag: "bg-emerald-700" }, { label: "Thứ Ba", key: "t3", tag: "bg-blue-600" },
+        { label: "Thứ Tư", key: "t4", tag: "bg-amber-600" }, { label: "Thứ Năm", key: "t5", tag: "bg-purple-600" },
+        { label: "Thứ Sáu", key: "t6", tag: "bg-teal-600" }, { label: "Thứ Bảy", key: "t7", tag: "bg-rose-600" }
+      ];
+      days.forEach(d => {
+        const card = document.createElement('div');
+        card.className = "p-4 rounded-xl border bg-slate-50 flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="${d.tag} text-white font-bold text-xs px-2.5 py-1 rounded">${d.label}</span>
+              <span class="text-[11px] text-slate-400">Tuần ${currentBaoBaiWeek}</span>
+            </div>
+            <div class="text-xs text-slate-700 min-h-[60px] whitespace-pre-line leading-relaxed">
+              ${current[d.key] || '<span class="text-slate-400 italic">Chưa có dặn dò / bài tập</span>'}
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+    function openBaoBaiModal() {
+      document.getElementById('modalBaoBaiWeekTitle').innerText = `Tuần ${currentBaoBaiWeek}`;
+      const current = baobaiData[currentBaoBaiWeek] || { t2: "", t3: "", t4: "", t5: "", t6: "", t7: "" };
+      document.getElementById('bb_t2').value = current.t2 || '';
+      document.getElementById('bb_t3').value = current.t3 || '';
+      document.getElementById('bb_t4').value = current.t4 || '';
+      document.getElementById('bb_t5').value = current.t5 || '';
+      document.getElementById('bb_t6').value = current.t6 || '';
+      document.getElementById('bb_t7').value = current.t7 || '';
+      document.getElementById('baobaiModal').classList.remove('hidden'); document.getElementById('baobaiModal').classList.add('flex');
+    }
+    function closeBaoBaiModal() { document.getElementById('baobaiModal').classList.add('hidden'); }
+    function saveBaoBaiRecord(e) {
+      e.preventDefault();
+      baobaiData[currentBaoBaiWeek] = {
+        t2: document.getElementById('bb_t2').value.trim(), t3: document.getElementById('bb_t3').value.trim(),
+        t4: document.getElementById('bb_t4').value.trim(), t5: document.getElementById('bb_t5').value.trim(),
+        t6: document.getElementById('bb_t6').value.trim(), t7: document.getElementById('bb_t7').value.trim()
+      };
+      localStorage.setItem('class_baobai_40w_12a1', JSON.stringify(baobaiData));
+      renderBaoBaiCards(); closeBaoBaiModal();
+    }
+
+    // 5. QUẢN TRỊ & NHẬP NHANH EXCEL
+    function renderTable() {
+      const tbody = document.getElementById("studentTableBody");
+      if (!tbody) return;
+      tbody.innerHTML = "";
+      students.forEach((std, index) => {
+        const row = document.createElement("tr");
+        row.className = "hover:bg-slate-50 border-b transition";
+        row.innerHTML = `
+          <td class="py-3 px-4 text-center text-slate-400 font-medium">#${index + 1}</td>
+          <td class="py-3 px-6 font-bold text-slate-800">${std.name}</td>
+          <td class="py-3 px-4 text-center">${std.gender}</td>
+          <td class="py-3 px-4 text-center"><span class="bg-amber-100 text-amber-800 font-semibold px-2 py-0.5 rounded text-xs border">${std.group}</span></td>
+          <td class="py-3 px-4 font-medium text-slate-600">${std.role}</td>
+          <td class="py-3 px-6 font-mono text-xs text-emerald-800 font-semibold">${std.code}</td>
+          <td class="py-3 px-4 text-center"><button onclick="deleteStudent(${std.id})" class="text-rose-500 hover:text-rose-700 p-1"><i class="fa-regular fa-trash-can"></i></button></td>
+        `;
+        tbody.appendChild(row);
+      });
+      const subTotal = document.getElementById("subTotalBadge");
+      if (subTotal) subTotal.innerText = `Sĩ số: ${students.length} học sinh`;
+      localStorage.setItem('class_students_12a1', JSON.stringify(students));
+    }
+    function openModal() { document.getElementById("addModal").classList.remove("hidden"); document.getElementById("addModal").classList.add("flex"); }
+    function closeModal() { document.getElementById("addModal").classList.add("hidden"); }
+    function saveStudent(e) {
+      e.preventDefault();
+      students.push({
+        id: Date.now(), name: document.getElementById("name").value, gender: document.getElementById("gender").value,
+        group: document.getElementById("group").value, role: document.getElementById("role").value || "Thành viên",
+        code: generateParentCode(), score: 100, history: []
+      });
+      renderTable(); closeModal();
+    }
+    function deleteStudent(id) {
+      if (confirm("Xóa học sinh này?")) { students = students.filter(s => s.id !== id); renderTable(); }
+    }
+    function openImportModal() { document.getElementById('bulkNamesInput').value = ''; document.getElementById('importModal').classList.remove('hidden'); document.getElementById('importModal').classList.add('flex'); }
+    function closeImportModal() { document.getElementById('importModal').classList.add('hidden'); }
+    function processBulkImport() {
+      const text = document.getElementById('bulkNamesInput').value.trim();
+      if (!text) { alert("Vui lòng dán danh sách học sinh vào ô!"); return; }
+      const lines = text.split('\n');
+      let count = 0;
+      const groups = ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"];
+      lines.forEach((line, idx) => {
+        let name = line.trim().replace(/^[\d]+[\.\)]?\s*/, '').trim();
+        if (name) {
+          students.push({
+            id: Date.now() + idx, name: name, gender: "Nam", group: groups[idx % 4],
+            role: "Thành viên", code: generateParentCode(), score: 100, history: []
+          });
+          count++;
+        }
+      });
+      renderTable(); closeImportModal(); alert(`Đã thêm thành công ${count} học sinh!`);
+    }
+
+    // 6. RÈN LUYỆN
+    function renderViolationsTable() {
+      const tbody = document.getElementById('allViolationsTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      students.forEach(s => {
+        (s.history || []).forEach(h => {
+          if (h.type === 'minus') {
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-slate-50";
+            tr.innerHTML = `
+              <td class="py-3.5 px-6 font-mono text-xs text-slate-500">${h.date}</td>
+              <td class="py-3.5 px-6 font-bold text-slate-800">${s.name}</td>
+              <td class="py-3.5 px-4 text-center font-medium">${s.group}</td>
+              <td class="py-3.5 px-6 text-slate-700">${h.reason}</td>
+              <td class="py-3.5 px-4 text-center text-rose-600 font-bold">-${h.points}đ</td>
+            `;
+            tbody.appendChild(tr);
+          }
+        });
+      });
+    }
+
+    function populateStudentSelect() {
+      const select = document.getElementById('studentSelect');
+      if (!select) return;
+      select.innerHTML = '';
+      students.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id; opt.innerText = `${s.name} (${s.group})`;
+        if (s.id === currentStudentId) opt.selected = true;
+        select.appendChild(opt);
+      });
+    }
+    function onSelectStudentChange() { currentStudentId = parseInt(document.getElementById('studentSelect').value); renderRenLuyenModule(); }
+    function searchByCode() {
+      const query = document.getElementById('parentSearchInput').value.trim().toUpperCase();
+      if (!query) return;
+      const found = students.find(s => s.code.toUpperCase() === query || s.name.toUpperCase().includes(query));
+      if (found) { currentStudentId = found.id; renderRenLuyenModule(); }
+      else alert("Không tìm thấy học sinh!");
+    }
+    function renderRenLuyenModule() {
+      populateStudentSelect();
+      const std = students.find(s => s.id === currentStudentId);
+      if (!std) return;
+      document.getElementById('infoName').innerText = std.name;
+      document.getElementById('infoGroup').innerText = std.group;
+      document.getElementById('infoCode').innerText = std.code;
+
+      const history = std.history || [];
+      let totalPlus = 0, totalMinus = 0, score = 100;
+      history.forEach(item => {
+        if (item.type === 'plus') { totalPlus++; score += item.points; }
+        else { totalMinus++; score -= item.points; }
+      });
+      document.getElementById('statScore').innerText = score;
+      document.getElementById('statPlusCount').innerText = totalPlus;
+      document.getElementById('statMinusCount').innerText = totalMinus;
+
+      let rank = "Tốt", rankColor = "text-emerald-700";
+      if (score < 70) { rank = "Trung bình"; rankColor = "text-rose-600"; }
+      else if (score < 85) { rank = "Khá"; rankColor = "text-amber-600"; }
+      const rankEl = document.getElementById('statRank');
+      rankEl.innerText = rank; rankEl.className = `text-xl font-bold ${rankColor}`;
+
+      const tbody = document.getElementById('historyTableBody');
+      tbody.innerHTML = '';
+      history.forEach(h => {
+        const row = document.createElement('tr');
+        row.className = "border-b hover:bg-slate-50";
+        row.innerHTML = `
+          <td class="py-3 px-4 font-mono text-xs text-slate-500">${h.date}</td>
+          <td class="py-3 px-4 font-medium text-slate-800">${h.reason}</td>
+          <td class="py-3 px-4 text-center">${h.type === 'plus' ? '<span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-0.5 rounded-full font-bold">Khen thưởng</span>' : '<span class="bg-rose-100 text-rose-800 text-xs px-2 py-0.5 rounded-full font-bold">Vi phạm</span>'}</td>
+          <td class="py-3 px-4 text-center font-bold ${h.type === 'plus' ? 'text-emerald-600' : 'text-rose-600'}">${h.type === 'plus' ? '+' : '-'}${h.points}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function openScoreModal(type) { document.getElementById('actionType').value = type; document.getElementById('scoreModal').classList.remove('hidden'); document.getElementById('scoreModal').classList.add('flex'); }
+    function closeScoreModal() { document.getElementById('scoreModal').classList.add('hidden'); }
+    function saveScoreAction(e) {
+      e.preventDefault();
+      const std = students.find(s => s.id === currentStudentId);
+      if (!std) return;
+      if (!std.history) std.history = [];
+      std.history.unshift({
+        date: new Date().toLocaleDateString('vi-VN'),
+        reason: document.getElementById('actionReason').value,
+        type: document.getElementById('actionType').value,
+        points: parseInt(document.getElementById('actionPoints').value)
+      });
+      localStorage.setItem('class_students_12a1', JSON.stringify(students));
+      renderRenLuyenModule(); closeScoreModal();
+    }
+
+    // KHỞI CHẠY HỆ THỐNG
+    renderWeekDropdown();
+    renderWeeklyView();
+    renderTable();
   </script>
 </body>
 </html>
