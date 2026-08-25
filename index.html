@@ -421,7 +421,7 @@
   </section>
 
   <!-- ================================================================= -->
-  <!-- TAB 5: LỊCH TRỰC NHẬT (NÂNG CẤP 40 TUẦN • 1 TỔ/TUẦN • SỬA/XÓA ĐẦY ĐỦ) -->
+  <!-- TAB 5: LỊCH TRỰC NHẬT -->
   <!-- ================================================================= -->
   <section id="section-trucnhat" class="tab-content hidden flex-1 flex-col">
     <div class="max-w-7xl mx-auto px-6 mt-6 w-full">
@@ -447,7 +447,6 @@
     </div>
 
     <main class="max-w-7xl mx-auto px-6 mt-6 w-full flex-1 pb-12 space-y-6">
-      <!-- Thông tin tổng quan tổ trực tuần này -->
       <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center space-x-4">
           <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-2xl font-extrabold shadow-inner" id="dutyGroupAvatar">
@@ -469,7 +468,6 @@
         </div>
       </div>
 
-      <!-- Grid 6 ngày trong tuần của Tổ đang trực -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="dutyCardsContainer"></div>
     </main>
   </section>
@@ -521,34 +519,97 @@
   </section>
 
   <!-- ================================================================= -->
-  <!-- TAB BỔ SUNG 1: ĐIỂM DANH & CHUYÊN CẦN -->
+  <!-- TAB BỔ SUNG 1: ĐIỂM DANH & CHUYÊN CẦN (NÂNG CẤP 40 TUẦN • SỬA/XÓA ĐẦY ĐỦ) -->
   <!-- ================================================================= -->
   <section id="section-chuyencan" class="tab-content hidden flex-1 flex-col">
     <div class="max-w-7xl mx-auto px-6 mt-6 w-full">
       <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md flex flex-wrap justify-between items-center gap-4">
         <div>
-          <span class="inline-block bg-amber-400 text-slate-900 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">Nề Nếp Điểm Danh</span>
-          <h1 class="text-2xl font-bold flex items-center gap-2"><i class="fa-solid fa-clipboard-user text-custom-yellow"></i> Sổ Điểm Danh & Chuyên Cần Lớp</h1>
-          <p class="text-xs text-emerald-100 mt-1">Ghi nhận học sinh vắng có phép (P), không phép (KP), đi muộn (M)</p>
+          <span id="attendanceWeekBadge" class="inline-block bg-amber-400 text-slate-900 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">
+            CHUYÊN CẦN 40 TUẦN • TUẦN 1 - HK1
+          </span>
+          <h1 class="text-2xl font-bold flex items-center gap-2"><i class="fa-solid fa-clipboard-user text-custom-yellow"></i> Sổ Điểm Danh & Chuyên Cần Lớp 12A1 (40 Tuần)</h1>
+          <p class="text-xs text-emerald-100 mt-1">Theo dõi, cập nhật sĩ số, các trường hợp nghỉ có phép (P), không phép (KP), đi muộn (M) theo 40 tuần học</p>
         </div>
-        <div class="flex gap-2">
+        
+        <div class="flex items-center gap-2">
+          <select id="selectAttendanceWeek" onchange="onAttendanceWeekChange()" class="bg-[#0b3d2c] text-white font-semibold text-xs px-3.5 py-2.5 rounded-xl border border-emerald-600/70 focus:outline-none focus:ring-2 focus:ring-amber-400"></select>
           <button onclick="openAddAttendanceModal()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-sm flex items-center gap-1.5">
             <i class="fa-solid fa-calendar-plus"></i> Ghi Nhận Điểm Danh
+          </button>
+          <button onclick="deleteAttendanceWeekData()" class="w-9 h-9 rounded-xl bg-rose-600 hover:bg-rose-700 text-white flex items-center justify-center transition shadow-sm" title="Xóa toàn bộ điểm danh tuần này">
+            <i class="fa-solid fa-trash-can text-sm"></i>
           </button>
         </div>
       </div>
     </div>
-    <main class="max-w-7xl mx-auto px-6 mt-6 w-full flex-1 pb-12 space-y-4">
+
+    <main class="max-w-7xl mx-auto px-6 mt-6 w-full flex-1 pb-12 space-y-6">
+      
+      <!-- 4 Card Thống Kê Chuyên Cần Tuần Đang Chọn -->
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs text-slate-500 font-medium">Sĩ Số Tham Gia</p>
+            <h3 class="text-2xl font-bold text-emerald-700 mt-1" id="attStatPresent">100%</h3>
+            <p class="text-[11px] text-emerald-600 font-medium mt-1">Đi học đầy đủ</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold">
+            <i class="fa-solid fa-user-check"></i>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs text-slate-500 font-medium">Vắng Có Phép (P)</p>
+            <h3 class="text-2xl font-bold text-amber-600 mt-1" id="attStatExcused">0</h3>
+            <p class="text-[11px] text-slate-400 mt-1">Lượt trong tuần</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl font-bold">
+            <i class="fa-solid fa-envelope-open-text"></i>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs text-slate-500 font-medium">Vắng Không Phép (KP)</p>
+            <h3 class="text-2xl font-bold text-rose-600 mt-1" id="attStatUnexcused">0</h3>
+            <p class="text-[11px] text-slate-400 mt-1">Cần nhắc nhở</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl font-bold">
+            <i class="fa-solid fa-user-xmark"></i>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs text-slate-500 font-medium">Đi Muộn (M)</p>
+            <h3 class="text-2xl font-bold text-blue-600 mt-1" id="attStatLate">0</h3>
+            <p class="text-[11px] text-slate-400 mt-1">Sau 06:45 sáng</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl font-bold">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bảng Danh Sách Điểm Danh Trong Tuần -->
       <div class="bg-white rounded-2xl shadow-sm border overflow-hidden">
-        <table class="w-full text-left text-sm">
+        <div class="p-5 border-b flex justify-between items-center bg-slate-50/60">
+          <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
+            <i class="fa-solid fa-list-check text-emerald-700"></i> Danh Sách Ghi Nhận Chuyên Cần <span id="attWeekTableTitle" class="text-emerald-800">Tuần 1</span>
+          </h2>
+          <span class="text-xs bg-white border border-slate-200 text-slate-600 px-3 py-1 rounded-lg font-semibold" id="attTotalRecordsBadge">0 lượt ghi nhận</span>
+        </div>
+        <table class="w-full text-left text-sm border-collapse">
           <thead>
             <tr class="bg-custom-dark text-white text-xs uppercase font-semibold">
               <th class="py-3 px-4">Ngày</th>
               <th class="py-3 px-4">Học Sinh</th>
               <th class="py-3 px-3 text-center">Tổ</th>
               <th class="py-3 px-4 text-center">Trạng Thái</th>
-              <th class="py-3 px-6">Lý Do / Ghi Chú</th>
-              <th class="py-3 px-4 text-center w-24">Thao Tác</th>
+              <th class="py-3 px-6">Lý Do / Ghi Chú Của GVCN</th>
+              <th class="py-3 px-4 text-center w-28">Thao Tác</th>
             </tr>
           </thead>
           <tbody id="attendanceTableBody" class="divide-y text-sm"></tbody>
@@ -799,7 +860,7 @@
   <!-- MODAL TKB -->
   <div id="tkbModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl max-h-[92vh] overflow-y-auto"><h3 class="text-lg font-bold mb-4">Chỉnh Sửa Thời Khóa Biểu (Sáng & Chiều)</h3><form onsubmit="saveTkb(event)" class="space-y-4 text-xs"><div><label class="block font-bold mb-1">Ghi chú:</label><input type="text" id="inputTkbNote" class="w-full px-3 py-2 border rounded-lg" /></div><div><h4 class="font-bold text-emerald-800 mb-1">Buổi Sáng (5 Tiết):</h4><table class="w-full text-center border"><tbody id="tkbModalInputsBody"></tbody></table></div><div><h4 class="font-bold text-blue-800 mb-1">Buổi Chiều (4 Tiết):</h4><table class="w-full text-center border"><tbody id="tkbAfternoonModalInputsBody"></tbody></table></div><div class="flex justify-end gap-2 pt-3 border-t"><button type="button" onclick="closeTkbModal()" class="px-4 py-2 bg-slate-100 text-xs">Hủy</button><button type="submit" class="px-5 py-2 bg-emerald-700 text-white text-xs font-semibold rounded-lg">Lưu TKB</button></div></form></div></div>
 
-  <!-- MODAL VI PHẠM (THÊM / SỬA LỖI VI PHẠM RÈN LUYỆN) -->
+  <!-- MODAL VI PHẠM -->
   <div id="violationModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
       <h3 class="font-bold text-lg mb-4 text-slate-800" id="violationModalTitle">Ghi Nhận Vi Phạm Rèn Luyện</h3>
@@ -858,7 +919,7 @@
     </div>
   </div>
 
-  <!-- MODAL TRỰC NHẬT (CHỈNH SỬA TOÀN BỘ 1 TUẦN CỦA 1 TỔ) -->
+  <!-- MODAL TRỰC NHẬT -->
   <div id="dutyModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-3xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-4 border-b pb-3">
@@ -896,33 +957,49 @@
     </div>
   </div>
 
-  <!-- MODAL ĐIỂM DANH -->
+  <!-- MODAL ĐIỂM DANH (THÊM / SỬA 40 TUẦN) -->
   <div id="attendanceModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
-      <h3 class="font-bold text-lg mb-4 text-slate-800">Ghi Nhận Chuyên Cần</h3>
+      <div class="flex justify-between items-center mb-4 border-b pb-2">
+        <h3 class="font-bold text-lg text-slate-800" id="attModalTitle">Ghi Nhận Chuyên Cần</h3>
+        <button onclick="closeAttendanceModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+      </div>
       <form onsubmit="saveAttendance(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="attEditId" />
+        
         <div>
-          <label class="block font-semibold mb-1">Học sinh:</label>
-          <select id="attStudentSelect" class="w-full p-2 border rounded-lg"></select>
+          <label class="block font-semibold mb-1 text-slate-600">Áp dụng cho tuần học:</label>
+          <select id="attModalWeekSelect" class="w-full p-2.5 border rounded-xl text-sm font-semibold bg-slate-50 focus:ring-2 focus:ring-emerald-600"></select>
         </div>
-        <div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-semibold mb-1">Ngày:</label><input type="date" id="attDate" required class="w-full p-2 border rounded-lg" /></div>
+
+        <div>
+          <label class="block font-semibold mb-1 text-slate-600">Học sinh vắng / đi muộn:</label>
+          <select id="attStudentSelect" class="w-full p-2.5 border rounded-xl text-sm font-medium focus:ring-2 focus:ring-emerald-600"></select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block font-semibold mb-1">Trạng thái:</label>
-            <select id="attStatus" class="w-full p-2 border rounded-lg">
+            <label class="block font-semibold mb-1 text-slate-600">Ngày ghi nhận:</label>
+            <input type="date" id="attDate" required class="w-full p-2.5 border rounded-xl text-sm" />
+          </div>
+          <div>
+            <label class="block font-semibold mb-1 text-slate-600">Trạng thái:</label>
+            <select id="attStatus" class="w-full p-2.5 border rounded-xl text-sm font-semibold">
               <option value="Có phép">Vắng có phép (P)</option>
               <option value="Không phép">Vắng không phép (KP)</option>
               <option value="Đi muộn">Đi muộn (M)</option>
             </select>
           </div>
         </div>
+
         <div>
-          <label class="block font-semibold mb-1">Lý do / Ghi chú:</label>
-          <textarea id="attNote" rows="2" class="w-full p-2 border rounded-lg" placeholder="Bị sốt, gia đình có việc,..."></textarea>
+          <label class="block font-semibold mb-1 text-slate-600">Lý do / Lời dặn GVCN:</label>
+          <textarea id="attNote" rows="3" class="w-full p-2.5 border rounded-xl text-sm" placeholder="Sốt cao có đơn thuốc, gia đình xin phép trước, kẹt xe trễ 10p..."></textarea>
         </div>
-        <div class="flex justify-end gap-2 pt-3 border-t">
-          <button type="button" onclick="closeAttendanceModal()" class="px-4 py-2 bg-slate-100 rounded-lg">Hủy</button>
-          <button type="submit" class="px-5 py-2 bg-emerald-700 text-white font-semibold rounded-lg">Lưu</button>
+
+        <div class="flex justify-end gap-2 pt-4 border-t">
+          <button type="button" onclick="closeAttendanceModal()" class="px-4 py-2 bg-slate-100 rounded-xl font-semibold">Hủy</button>
+          <button type="submit" class="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-xl shadow-sm">Lưu Điểm Danh</button>
         </div>
       </form>
     </div>
@@ -1081,7 +1158,7 @@
             t4: { board: "2 Bạn đầu bàn dãy 3", clean: "4 Bạn dãy 3", check: "Tổ trưởng", note: "Thu gom rác đổ vào thùng chứa" },
             t5: { board: "2 Bạn đầu bàn dãy 4", clean: "4 Bạn dãy 4", check: "Tổ phó", note: "Lau sạch bàn giáo viên & bổ sung phấn" },
             t6: { board: "2 Bạn cuối bàn dãy 1 & 2", clean: "4 Bạn cuối dãy 1 & 2", check: "Tổ trưởng", note: "Kiểm tra hệ thống điện & quạt" },
-            t7: { board: "Toàn bộ thành viên trong tổ", clean: "Tổng vệ sinh cuối tuần", check: "Lớp phó LĐ", note: "Đóng hết cửa sổ sổ và khóa cửa lớp" }
+            t7: { board: "Toàn bộ thành viên trong tổ", clean: "Tổng vệ sinh cuối tuần", check: "Lớp phó LĐ", note: "Đóng hết cửa sổ và khóa cửa lớp" }
           }
         };
       }
@@ -1090,10 +1167,11 @@
     let duty40WeeksData = JSON.parse(localStorage.getItem('class_duty_40w_12a1')) || init40WeeksDutyData();
     let currentDutyWeek = 1;
 
-    // 7. DỮ LIỆU ĐIỂM DANH
-    let attendanceData = JSON.parse(localStorage.getItem('class_attendance_12a1')) || [
-      { id: 1, studentId: 1, name: "Đặng Thị Kim Anh", group: "Tổ 1", date: "2026-09-07", status: "Có phép", note: "Khám sức khỏe định kỳ" }
+    // 7. DỮ LIỆU ĐIỂM DANH & CHUYÊN CẦN 40 TUẦN
+    let attendanceData = JSON.parse(localStorage.getItem('class_attendance_40w_12a1')) || [
+      { id: 1, week: 1, studentId: 1, name: "Đặng Thị Kim Anh", group: "Tổ 1", date: "2026-09-07", status: "Có phép", note: "Khám sức khỏe định kỳ" }
     ];
+    let currentAttendanceWeek = 1;
 
     // 8. DỮ LIỆU SƠ ĐỒ CHỖ NGỒI (4 DÃY x 6 BÀN, MỖI BÀN 2 HỌC SINH)
     function initDefaultSeating() {
@@ -1148,7 +1226,7 @@
       if (tabId === 'vipham') renderViolationsTable();
       if (tabId === 'hoctap') renderGradeTable();
       if (tabId === 'trucnhat') { renderDutyWeekDropdown(); renderDutyView(); }
-      if (tabId === 'chuyencan') renderAttendanceTable();
+      if (tabId === 'chuyencan') { renderAttendanceWeekDropdown(); renderAttendanceView(); }
       if (tabId === 'sodo') renderSeatingGrid();
       if (tabId === 'quylop') renderFundModule();
     }
@@ -1859,16 +1937,67 @@
       }
     }
 
-    // TAB BỔ SUNG 1: ĐIỂM DANH & CHUYÊN CẦN LOGIC
-    function renderAttendanceTable() {
+    // TAB BỔ SUNG 1: ĐIỂM DANH & CHUYÊN CẦN 40 TUẦN LOGIC
+    function renderAttendanceWeekDropdown() {
+      const select = document.getElementById('selectAttendanceWeek');
+      if (!select) return;
+      select.innerHTML = '';
+      for (let i = 1; i <= TOTAL_WEEKS; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.innerText = `Chuyên cần Tuần ${i} (${i <= 20 ? 'HK1' : 'HK2'})`;
+        if (i === currentAttendanceWeek) opt.selected = true;
+        select.appendChild(opt);
+      }
+    }
+
+    function onAttendanceWeekChange() {
+      currentAttendanceWeek = parseInt(document.getElementById('selectAttendanceWeek').value);
+      renderAttendanceView();
+    }
+
+    function renderAttendanceView() {
+      const semester = currentAttendanceWeek <= 20 ? "HK1" : "HK2";
+      document.getElementById('attendanceWeekBadge').innerText = `CHUYÊN CẦN 40 TUẦN • TUẦN ${currentAttendanceWeek} - ${semester}`;
+      document.getElementById('attWeekTableTitle').innerText = `Tuần ${currentAttendanceWeek}`;
+
       const tbody = document.getElementById('attendanceTableBody');
       if (!tbody) return;
       tbody.innerHTML = '';
-      if (attendanceData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 text-slate-400">Chưa có ghi nhận vắng / đi muộn</td></tr>';
+
+      const weekRecords = attendanceData.filter(item => parseInt(item.week) === currentAttendanceWeek);
+      document.getElementById('attTotalRecordsBadge').innerText = `${weekRecords.length} lượt ghi nhận`;
+
+      let countExcused = 0, countUnexcused = 0, countLate = 0;
+      weekRecords.forEach(item => {
+        if (item.status === 'Có phép') countExcused++;
+        else if (item.status === 'Không phép') countUnexcused++;
+        else if (item.status === 'Đi muộn') countLate++;
+      });
+
+      document.getElementById('attStatExcused').innerText = countExcused;
+      document.getElementById('attStatUnexcused').innerText = countUnexcused;
+      document.getElementById('attStatLate').innerText = countLate;
+
+      const totalStudents = students.length || 1;
+      const totalAbsences = countExcused + countUnexcused;
+      let presentRate = 100 - Math.min(100, ((totalAbsences / (totalStudents * 6)) * 100));
+      if (isNaN(presentRate)) presentRate = 100;
+      document.getElementById('attStatPresent').innerText = `${presentRate.toFixed(1)}%`;
+
+      if (weekRecords.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="text-center py-8 text-slate-400 font-medium">
+              <i class="fa-solid fa-circle-check text-emerald-500 text-xl block mb-2"></i>
+              Tuần ${currentAttendanceWeek} chưa có học sinh vắng hoặc đi muộn. Sĩ số lớp 12A1 đạt 100%!
+            </td>
+          </tr>
+        `;
         return;
       }
-      attendanceData.forEach((item, index) => {
+
+      weekRecords.forEach(item => {
         let badge = 'bg-amber-100 text-amber-800';
         if (item.status === 'Không phép') badge = 'bg-rose-100 text-rose-800 font-bold';
         if (item.status === 'Đi muộn') badge = 'bg-blue-100 text-blue-800';
@@ -1882,7 +2011,10 @@
           <td class="py-3 px-4 text-center"><span class="${badge} text-xs px-2.5 py-1 rounded-full">${item.status}</span></td>
           <td class="py-3 px-6 text-slate-600">${item.note || '--'}</td>
           <td class="py-3 px-4 text-center">
-            <button onclick="deleteAttendance(${index})" class="text-rose-500 hover:text-rose-700 p-1.5 rounded hover:bg-rose-50 transition" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
+            <div class="flex items-center justify-center gap-1.5">
+              <button onclick="openEditAttendanceModal(${item.id})" class="text-emerald-700 hover:text-emerald-900 p-1.5 rounded hover:bg-emerald-50 transition" title="Sửa"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button onclick="deleteAttendanceRecord(${item.id})" class="text-rose-500 hover:text-rose-700 p-1.5 rounded hover:bg-rose-50 transition" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
+            </div>
           </td>
         `;
         tbody.appendChild(tr);
@@ -1890,13 +2022,60 @@
     }
 
     function openAddAttendanceModal() {
+      document.getElementById('attModalTitle').innerText = "Ghi Nhận Chuyên Cần";
+      document.getElementById('attEditId').value = "";
+      
+      const weekSel = document.getElementById('attModalWeekSelect');
+      weekSel.innerHTML = '';
+      for (let i = 1; i <= TOTAL_WEEKS; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.innerText = `Tuần ${i} (${i <= 20 ? 'HK1' : 'HK2'})`;
+        if (i === currentAttendanceWeek) opt.selected = true;
+        weekSel.appendChild(opt);
+      }
+
       const select = document.getElementById('attStudentSelect');
       select.innerHTML = '';
       students.forEach(s => {
         select.innerHTML += `<option value="${s.id}">${s.name} (${s.group})</option>`;
       });
+
       document.getElementById('attDate').value = new Date().toISOString().split('T')[0];
+      document.getElementById('attStatus').value = "Có phép";
       document.getElementById('attNote').value = '';
+
+      document.getElementById('attendanceModal').classList.remove('hidden');
+      document.getElementById('attendanceModal').classList.add('flex');
+    }
+
+    function openEditAttendanceModal(recordId) {
+      const record = attendanceData.find(r => r.id === recordId);
+      if (!record) return;
+
+      document.getElementById('attModalTitle').innerText = `Chỉnh Sửa Chuyên Cần: ${record.name}`;
+      document.getElementById('attEditId').value = record.id;
+
+      const weekSel = document.getElementById('attModalWeekSelect');
+      weekSel.innerHTML = '';
+      for (let i = 1; i <= TOTAL_WEEKS; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.innerText = `Tuần ${i} (${i <= 20 ? 'HK1' : 'HK2'})`;
+        if (i === parseInt(record.week)) opt.selected = true;
+        weekSel.appendChild(opt);
+      }
+
+      const select = document.getElementById('attStudentSelect');
+      select.innerHTML = '';
+      students.forEach(s => {
+        select.innerHTML += `<option value="${s.id}" ${s.id === record.studentId ? 'selected' : ''}>${s.name} (${s.group})</option>`;
+      });
+
+      document.getElementById('attDate').value = record.date;
+      document.getElementById('attStatus').value = record.status;
+      document.getElementById('attNote').value = record.note || '';
+
       document.getElementById('attendanceModal').classList.remove('hidden');
       document.getElementById('attendanceModal').classList.add('flex');
     }
@@ -1905,30 +2084,64 @@
 
     function saveAttendance(e) {
       e.preventDefault();
+      const editId = document.getElementById('attEditId').value;
+      const targetWeek = parseInt(document.getElementById('attModalWeekSelect').value);
       const studentId = parseInt(document.getElementById('attStudentSelect').value);
       const std = students.find(s => s.id === studentId);
       if (!std) return;
 
-      attendanceData.unshift({
-        id: Date.now(),
-        studentId: std.id,
-        name: std.name,
-        group: std.group,
-        date: document.getElementById('attDate').value,
-        status: document.getElementById('attStatus').value,
-        note: document.getElementById('attNote').value.trim()
-      });
+      const date = document.getElementById('attDate').value;
+      const status = document.getElementById('attStatus').value;
+      const note = document.getElementById('attNote').value.trim();
 
-      localStorage.setItem('class_attendance_12a1', JSON.stringify(attendanceData));
-      renderAttendanceTable();
+      if (editId) {
+        const idx = attendanceData.findIndex(r => r.id === parseInt(editId));
+        if (idx !== -1) {
+          attendanceData[idx] = {
+            id: parseInt(editId),
+            week: targetWeek,
+            studentId: std.id,
+            name: std.name,
+            group: std.group,
+            date: date,
+            status: status,
+            note: note
+          };
+        }
+      } else {
+        attendanceData.unshift({
+          id: Date.now(),
+          week: targetWeek,
+          studentId: std.id,
+          name: std.name,
+          group: std.group,
+          date: date,
+          status: status,
+          note: note
+        });
+      }
+
+      localStorage.setItem('class_attendance_40w_12a1', JSON.stringify(attendanceData));
+      currentAttendanceWeek = targetWeek;
+      renderAttendanceWeekDropdown();
+      renderAttendanceView();
       closeAttendanceModal();
     }
 
-    function deleteAttendance(index) {
-      if (confirm("Thầy có chắc muốn xóa bản ghi chuyên cần này?")) {
-        attendanceData.splice(index, 1);
-        localStorage.setItem('class_attendance_12a1', JSON.stringify(attendanceData));
-        renderAttendanceTable();
+    function deleteAttendanceRecord(recordId) {
+      const record = attendanceData.find(r => r.id === recordId);
+      if (record && confirm(`Thầy có chắc muốn xóa bản ghi chuyên cần ngày ${record.date} của học sinh "${record.name}"?`)) {
+        attendanceData = attendanceData.filter(r => r.id !== recordId);
+        localStorage.setItem('class_attendance_40w_12a1', JSON.stringify(attendanceData));
+        renderAttendanceView();
+      }
+    }
+
+    function deleteAttendanceWeekData() {
+      if (confirm(`Thầy có chắc chắn muốn xóa toàn bộ dữ liệu ghi nhận chuyên cần của Tuần ${currentAttendanceWeek}?`)) {
+        attendanceData = attendanceData.filter(r => parseInt(r.week) !== currentAttendanceWeek);
+        localStorage.setItem('class_attendance_40w_12a1', JSON.stringify(attendanceData));
+        renderAttendanceView();
       }
     }
 
@@ -2342,6 +2555,7 @@
       renderWeeklyView();
       renderTable();
       renderDutyWeekDropdown();
+      renderAttendanceWeekDropdown();
     });
   </script>
 </body>
