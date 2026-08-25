@@ -219,7 +219,7 @@
   </section>
 
   <!-- ================================================================= -->
-  <!-- TAB 2: VI PHẠM RÈN LUYỆN (HOÀN THIỆN ĐẦY ĐỦ TÍNH NĂNG THÊM/SỬA/XÓA) -->
+  <!-- TAB 2: VI PHẠM RÈN LUYỆN -->
   <!-- ================================================================= -->
   <section id="section-vipham" class="tab-content hidden flex-1 flex-col">
     <div class="max-w-7xl mx-auto px-6 mt-6 w-full">
@@ -421,22 +421,55 @@
   </section>
 
   <!-- ================================================================= -->
-  <!-- TAB 5: LỊCH TRỰC NHẬT -->
+  <!-- TAB 5: LỊCH TRỰC NHẬT (NÂNG CẤP 40 TUẦN • 1 TỔ/TUẦN • SỬA/XÓA ĐẦY ĐỦ) -->
   <!-- ================================================================= -->
   <section id="section-trucnhat" class="tab-content hidden flex-1 flex-col">
     <div class="max-w-7xl mx-auto px-6 mt-6 w-full">
       <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md flex flex-wrap justify-between items-center gap-4">
         <div>
-          <span class="inline-block bg-amber-400 text-slate-900 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">Vệ Sinh & Kỷ Luật Lớp Học</span>
-          <h1 class="text-2xl font-bold flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-custom-yellow"></i> Phân Công Lịch Trực Nhật Trong Tuần</h1>
-          <p class="text-xs text-emerald-100 mt-1">Ghi nhận nhiệm vụ trực nhật, lau bảng, đổ rác và kiểm tra đóng cửa phòng học</p>
+          <span id="dutyWeekBadge" class="inline-block bg-amber-400 text-slate-900 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">
+            TRỰC NHẬT 40 TUẦN • TUẦN 1 - HK1
+          </span>
+          <h1 class="text-2xl font-bold flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-custom-yellow"></i> Lịch Trực Nhật & Vệ Sinh Lớp 12A1 (40 Tuần)</h1>
+          <p class="text-xs text-emerald-100 mt-1">Mỗi tuần 1 tổ chuyên trách trực nhật từ Thứ Hai đến Thứ Bảy, phân công chi tiết từng cá nhân</p>
         </div>
-        <button onclick="openEditDutyModal()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-sm flex items-center gap-1.5">
-          <i class="fa-solid fa-pen-to-square"></i> Cập Nhật Lịch Trực Nhật
-        </button>
+        
+        <div class="flex items-center gap-2">
+          <select id="selectDutyWeek" onchange="onDutyWeekChange()" class="bg-[#0b3d2c] text-white font-semibold text-xs px-3.5 py-2.5 rounded-xl border border-emerald-600/70 focus:outline-none focus:ring-2 focus:ring-amber-400"></select>
+          <button onclick="openEditDutyModal()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-sm flex items-center gap-1.5">
+            <i class="fa-solid fa-pen-to-square"></i> Cập Nhật / Sửa Lịch Tuần Này
+          </button>
+          <button onclick="deleteDutyWeekData()" class="w-9 h-9 rounded-xl bg-rose-600 hover:bg-rose-700 text-white flex items-center justify-center transition shadow-sm" title="Đặt lại lịch trực nhật tuần này">
+            <i class="fa-solid fa-trash-can text-sm"></i>
+          </button>
+        </div>
       </div>
     </div>
-    <main class="max-w-7xl mx-auto px-6 mt-6 w-full flex-1 pb-12 space-y-4">
+
+    <main class="max-w-7xl mx-auto px-6 mt-6 w-full flex-1 pb-12 space-y-6">
+      <!-- Thông tin tổng quan tổ trực tuần này -->
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center space-x-4">
+          <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-2xl font-extrabold shadow-inner" id="dutyGroupAvatar">
+            T1
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-xl font-bold text-slate-800" id="dutyMainGroupTitle">Tổ 1 Phụ Trách Trực Nhật</h2>
+              <span class="text-xs bg-emerald-700 text-white font-bold px-2.5 py-0.5 rounded-full" id="dutyWeekTag">Tuần 1</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1" id="dutyLeaderInfo">Tổ trưởng: Đang cập nhật • Kiểm tra chéo: Lớp phó Lao động</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-right">
+            <p class="text-[11px] text-slate-400">Yêu cầu hoàn tất</p>
+            <p class="text-xs font-bold text-emerald-700">Trước 06:40 (Sáng) & 17:00 (Chiều)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid 6 ngày trong tuần của Tổ đang trực -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="dutyCardsContainer"></div>
     </main>
   </section>
@@ -825,11 +858,41 @@
     </div>
   </div>
 
-  <!-- MODAL TRỰC NHẬT -->
+  <!-- MODAL TRỰC NHẬT (CHỈNH SỬA TOÀN BỘ 1 TUẦN CỦA 1 TỔ) -->
   <div id="dutyModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-      <h3 class="font-bold text-lg mb-4 text-slate-800">Cập Nhật Phân Công Trực Nhật</h3>
-      <form onsubmit="saveDuty(event)" class="space-y-4 text-xs" id="dutyFormContainer"></form>
+    <div class="bg-white rounded-2xl max-w-3xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-4 border-b pb-3">
+        <div>
+          <h3 class="font-bold text-lg text-slate-800">Cập Nhật Trực Nhật <span id="dutyModalWeekTitle" class="text-emerald-700">Tuần 1</span></h3>
+          <p class="text-xs text-slate-500 mt-0.5">Phân công tổ chuyên trách và nhiệm vụ cụ thể từng ngày trong tuần</p>
+        </div>
+        <button onclick="closeDutyModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <form onsubmit="saveDutyWeekRecord(event)" class="space-y-4 text-xs">
+        <div class="p-3 bg-emerald-50/70 border border-emerald-200 rounded-xl flex flex-wrap gap-4 items-center justify-between">
+          <div class="flex items-center gap-2">
+            <label class="font-bold text-emerald-900">Tổ trực phụ trách tuần này:</label>
+            <select id="dutyModalAssignGroup" class="p-2 border rounded-lg font-bold text-emerald-800 bg-white">
+              <option value="Tổ 1">Tổ 1</option>
+              <option value="Tổ 2">Tổ 2</option>
+              <option value="Tổ 3">Tổ 3</option>
+              <option value="Tổ 4">Tổ 4</option>
+              <option value="Cả Lớp">Cả Lớp</option>
+            </select>
+          </div>
+          <div class="flex-1 min-w-[200px]">
+            <input type="text" id="dutyModalLeaderNote" placeholder="Ghi chú: Tổ trưởng, kiểm tra chéo..." class="w-full p-2 border rounded-lg bg-white" />
+          </div>
+        </div>
+
+        <div class="space-y-3" id="dutyModalDaysInputsContainer"></div>
+
+        <div class="flex justify-end gap-2 pt-4 border-t">
+          <button type="button" onclick="closeDutyModal()" class="px-4 py-2 bg-slate-100 rounded-xl font-semibold">Hủy</button>
+          <button type="submit" class="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-xl shadow-sm">Lưu Lịch Trực Nhật</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -1003,23 +1066,36 @@
     // 5. DỮ LIỆU ĐIỂM SỐ HỌC TẬP
     let gradesData = JSON.parse(localStorage.getItem('class_grades_12a1')) || {};
 
-    // 6. DỮ LIỆU TRỰC NHẬT
-    const defaultDuty = {
-      t2: { group: "Tổ 1", board: "Kim Anh", clean: "Bảo, Cường", check: "Lớp trưởng" },
-      t3: { group: "Tổ 2", board: "Văn Bảo", clean: "Dung, Giang", check: "Tổ trưởng 2" },
-      t4: { group: "Tổ 3", board: "Quốc Cường", clean: "Hải, Hùng", check: "Tổ trưởng 3" },
-      t5: { group: "Tổ 4", board: "Thùy Dung", clean: "Khánh, Lan", check: "Tổ trưởng 4" },
-      t6: { group: "Tổ 1", board: "Kim Anh", clean: "Minh, Nam", check: "Lớp phó LĐ" },
-      t7: { group: "Cả Lớp", board: "Ban Cán Sự", clean: "Tổng vệ sinh cuối tuần", check: "GVCN" }
-    };
-    let dutyData = JSON.parse(localStorage.getItem('class_duty_12a1')) || defaultDuty;
+    // 6. DỮ LIỆU TRỰC NHẬT 40 TUẦN (MỖI TUẦN 1 TỔ PHỤ TRÁCH)
+    function init40WeeksDutyData() {
+      const data = {};
+      const groups = ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"];
+      for (let w = 1; w <= TOTAL_WEEKS; w++) {
+        const assignedGroup = groups[(w - 1) % 4];
+        data[w] = {
+          group: assignedGroup,
+          leaderNote: `${assignedGroup} chuyên trách nề nếp vệ sinh Tuần ${w}. Lớp phó Lao động kiểm tra 06:40 & 17:00.`,
+          days: {
+            t2: { board: "2 Bạn đầu bàn dãy 1", clean: "4 Bạn dãy 1", check: "Tổ trưởng", note: "Lau bụi bục giảng & bảng từ sạch sẽ" },
+            t3: { board: "2 Bạn đầu bàn dãy 2", clean: "4 Bạn dãy 2", check: "Tổ phó", note: "Quét sạch gầm bàn và hành lang" },
+            t4: { board: "2 Bạn đầu bàn dãy 3", clean: "4 Bạn dãy 3", check: "Tổ trưởng", note: "Thu gom rác đổ vào thùng chứa" },
+            t5: { board: "2 Bạn đầu bàn dãy 4", clean: "4 Bạn dãy 4", check: "Tổ phó", note: "Lau sạch bàn giáo viên & bổ sung phấn" },
+            t6: { board: "2 Bạn cuối bàn dãy 1 & 2", clean: "4 Bạn cuối dãy 1 & 2", check: "Tổ trưởng", note: "Kiểm tra hệ thống điện & quạt" },
+            t7: { board: "Toàn bộ thành viên trong tổ", clean: "Tổng vệ sinh cuối tuần", check: "Lớp phó LĐ", note: "Đóng hết cửa sổ sổ và khóa cửa lớp" }
+          }
+        };
+      }
+      return data;
+    }
+    let duty40WeeksData = JSON.parse(localStorage.getItem('class_duty_40w_12a1')) || init40WeeksDutyData();
+    let currentDutyWeek = 1;
 
     // 7. DỮ LIỆU ĐIỂM DANH
     let attendanceData = JSON.parse(localStorage.getItem('class_attendance_12a1')) || [
       { id: 1, studentId: 1, name: "Đặng Thị Kim Anh", group: "Tổ 1", date: "2026-09-07", status: "Có phép", note: "Khám sức khỏe định kỳ" }
     ];
 
-    // 8. DỮ LIỆU SƠ ĐỒ CHỖ NGỒI (4 DÃY x 6 BÀN, MỖI BÀN 2 HỌC SINH [HS1, HS2])
+    // 8. DỮ LIỆU SƠ ĐỒ CHỖ NGỒI (4 DÃY x 6 BÀN, MỖI BÀN 2 HỌC SINH)
     function initDefaultSeating() {
       const initRow = () => [
         ["Đặng Thị Kim Anh", "Nguyễn Văn Bảo"],
@@ -1071,7 +1147,7 @@
       if (tabId === 'renluyen') renderRenLuyenModule();
       if (tabId === 'vipham') renderViolationsTable();
       if (tabId === 'hoctap') renderGradeTable();
-      if (tabId === 'trucnhat') renderDutyCards();
+      if (tabId === 'trucnhat') { renderDutyWeekDropdown(); renderDutyView(); }
       if (tabId === 'chuyencan') renderAttendanceTable();
       if (tabId === 'sodo') renderSeatingGrid();
       if (tabId === 'quylop') renderFundModule();
@@ -1250,7 +1326,7 @@
       }
     }
 
-    // TAB 2: VI PHẠM RÈN LUYỆN LOGIC (TÍCH HỢP ĐẦY ĐỦ THÊM/SỬA/XÓA)
+    // TAB 2: VI PHẠM RÈN LUYỆN LOGIC
     function renderViolationsTable() {
       const tbody = document.getElementById('allViolationsTableBody');
       if (!tbody) return;
@@ -1624,11 +1700,46 @@
       }
     }
 
-    // TAB 5: LỊCH TRỰC NHẬT LOGIC
-    function renderDutyCards() {
+    // TAB 5: LỊCH TRỰC NHẬT 40 TUẦN LOGIC
+    function renderDutyWeekDropdown() {
+      const select = document.getElementById('selectDutyWeek');
+      if (!select) return;
+      select.innerHTML = '';
+      for (let i = 1; i <= TOTAL_WEEKS; i++) {
+        const item = duty40WeeksData[i] || init40WeeksDutyData()[i];
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.innerText = `Tuần ${i} - ${item.group} (${i <= 20 ? 'HK1' : 'HK2'})`;
+        if (i === currentDutyWeek) opt.selected = true;
+        select.appendChild(opt);
+      }
+    }
+
+    function onDutyWeekChange() {
+      currentDutyWeek = parseInt(document.getElementById('selectDutyWeek').value);
+      renderDutyView();
+    }
+
+    function renderDutyView() {
+      const current = duty40WeeksData[currentDutyWeek] || init40WeeksDutyData()[currentDutyWeek];
+      const semester = currentDutyWeek <= 20 ? "HỌC KỲ 1" : "HỌC KỲ 2";
+
+      document.getElementById('dutyWeekBadge').innerText = `TRỰC NHẬT 40 TUẦN • TUẦN ${currentDutyWeek} - ${semester}`;
+      document.getElementById('dutyMainGroupTitle').innerText = `${current.group} Phụ Trách Trực Nhật`;
+      document.getElementById('dutyWeekTag').innerText = `Tuần ${currentDutyWeek}`;
+      document.getElementById('dutyLeaderInfo').innerText = current.leaderNote || "Lớp phó Lao động kiểm tra 06:40 & 17:00.";
+      
+      const avatarEl = document.getElementById('dutyGroupAvatar');
+      if (current.group.includes("1")) avatarEl.innerText = "T1";
+      else if (current.group.includes("2")) avatarEl.innerText = "T2";
+      else if (current.group.includes("3")) avatarEl.innerText = "T3";
+      else if (current.group.includes("4")) avatarEl.innerText = "T4";
+      else avatarEl.innerText = "ALL";
+
       const container = document.getElementById('dutyCardsContainer');
       if (!container) return;
       container.innerHTML = '';
+
       const days = [
         { key: "t2", label: "Thứ Hai", tag: "bg-emerald-700" },
         { key: "t3", label: "Thứ Ba", tag: "bg-blue-600" },
@@ -1637,19 +1748,24 @@
         { key: "t6", label: "Thứ Sáu", tag: "bg-teal-600" },
         { key: "t7", label: "Thứ Bảy", tag: "bg-rose-600" }
       ];
+
+      const daysData = current.days || {};
       days.forEach(d => {
-        const item = dutyData[d.key] || { group: "--", board: "--", clean: "--", check: "--" };
+        const item = daysData[d.key] || { board: "--", clean: "--", check: "--", note: "" };
         const card = document.createElement('div');
-        card.className = "bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3";
+        card.className = "bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 flex flex-col justify-between";
         card.innerHTML = `
-          <div class="flex justify-between items-center border-b pb-2">
-            <span class="${d.tag} text-white font-bold text-xs px-2.5 py-1 rounded-lg">${d.label}</span>
-            <span class="font-bold text-slate-800 text-sm">${item.group}</span>
-          </div>
-          <div class="space-y-1.5 text-xs text-slate-600">
-            <p><strong><i class="fa-solid fa-chalkboard mr-1 text-slate-400"></i> Lau bảng & Giẻ lau:</strong> ${item.board}</p>
-            <p><strong><i class="fa-solid fa-broom mr-1 text-slate-400"></i> Quét lớp & Đổ rác:</strong> ${item.clean}</p>
-            <p><strong><i class="fa-solid fa-circle-check mr-1 text-emerald-600"></i> Kiểm tra / Đóng cửa:</strong> ${item.check}</p>
+          <div>
+            <div class="flex justify-between items-center border-b pb-2 mb-2">
+              <span class="${d.tag} text-white font-bold text-xs px-2.5 py-1 rounded-lg">${d.label}</span>
+              <span class="text-xs bg-slate-100 text-slate-700 font-bold px-2 py-0.5 rounded">${current.group}</span>
+            </div>
+            <div class="space-y-1.5 text-xs text-slate-600">
+              <p><strong><i class="fa-solid fa-chalkboard mr-1 text-slate-400"></i> Lau bảng:</strong> ${item.board}</p>
+              <p><strong><i class="fa-solid fa-broom mr-1 text-slate-400"></i> Quét dọn & rác:</strong> ${item.clean}</p>
+              <p><strong><i class="fa-solid fa-circle-check mr-1 text-emerald-600"></i> Kiểm tra:</strong> ${item.check}</p>
+              ${item.note ? `<p class="mt-2 p-2 bg-slate-50 border rounded-lg text-slate-500 italic"><i class="fa-solid fa-circle-info text-amber-500 mr-1"></i>${item.note}</p>` : ''}
+            </div>
           </div>
           <div class="pt-2 border-t flex justify-end">
             <button onclick="openEditDutyModal()" class="text-xs bg-slate-50 hover:bg-slate-100 text-slate-700 px-3 py-1 rounded-lg border flex items-center gap-1 font-semibold"><i class="fa-solid fa-pen"></i> Sửa</button>
@@ -1660,52 +1776,87 @@
     }
 
     function openEditDutyModal() {
-      const container = document.getElementById('dutyFormContainer');
+      const current = duty40WeeksData[currentDutyWeek] || init40WeeksDutyData()[currentDutyWeek];
+      document.getElementById('dutyModalWeekTitle').innerText = `Tuần ${currentDutyWeek}`;
+      document.getElementById('dutyModalAssignGroup').value = current.group || "Tổ 1";
+      document.getElementById('dutyModalLeaderNote').value = current.leaderNote || "";
+
+      const container = document.getElementById('dutyModalDaysInputsContainer');
       container.innerHTML = '';
       const days = [
         { key: "t2", label: "Thứ Hai" }, { key: "t3", label: "Thứ Ba" }, { key: "t4", label: "Thứ Tư" },
         { key: "t5", label: "Thứ Năm" }, { key: "t6", label: "Thứ Sáu" }, { key: "t7", label: "Thứ Bảy" }
       ];
+
+      const daysData = current.days || {};
       days.forEach(d => {
-        const item = dutyData[d.key] || { group: "", board: "", clean: "", check: "" };
+        const item = daysData[d.key] || { board: "", clean: "", check: "", note: "" };
         container.innerHTML += `
           <div class="p-3 bg-slate-50 rounded-xl border space-y-2">
             <span class="font-bold text-emerald-800 text-xs">${d.label}:</span>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              <div><label class="block text-[11px] text-slate-500">Tổ trực:</label><input type="text" id="duty_grp_${d.key}" value="${item.group}" class="w-full p-1.5 border rounded" /></div>
-              <div><label class="block text-[11px] text-slate-500">Lau bảng:</label><input type="text" id="duty_brd_${d.key}" value="${item.board}" class="w-full p-1.5 border rounded" /></div>
-              <div><label class="block text-[11px] text-slate-500">Quét dọn:</label><input type="text" id="duty_cln_${d.key}" value="${item.clean}" class="w-full p-1.5 border rounded" /></div>
-              <div><label class="block text-[11px] text-slate-500">Kiểm tra:</label><input type="text" id="duty_chk_${d.key}" value="${item.check}" class="w-full p-1.5 border rounded" /></div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div><label class="block text-[11px] text-slate-500">Lau bảng:</label><input type="text" id="modal_duty_brd_${d.key}" value="${item.board}" class="w-full p-1.5 border rounded bg-white" /></div>
+              <div><label class="block text-[11px] text-slate-500">Quét dọn & Rác:</label><input type="text" id="modal_duty_cln_${d.key}" value="${item.clean}" class="w-full p-1.5 border rounded bg-white" /></div>
+              <div><label class="block text-[11px] text-slate-500">Kiểm tra:</label><input type="text" id="modal_duty_chk_${d.key}" value="${item.check}" class="w-full p-1.5 border rounded bg-white" /></div>
+            </div>
+            <div>
+              <input type="text" id="modal_duty_nte_${d.key}" value="${item.note || ''}" placeholder="Ghi chú thêm: lau quạt, đóng cửa sổ..." class="w-full p-1.5 border rounded bg-white text-[11px]" />
             </div>
           </div>
         `;
       });
-      container.innerHTML += `
-        <div class="flex justify-end gap-2 pt-3 border-t">
-          <button type="button" onclick="closeDutyModal()" class="px-4 py-2 bg-slate-100 rounded-lg">Hủy</button>
-          <button type="submit" class="px-5 py-2 bg-emerald-700 text-white font-semibold rounded-lg">Lưu Lịch Trực Nhật</button>
-        </div>
-      `;
+
       document.getElementById('dutyModal').classList.remove('hidden');
       document.getElementById('dutyModal').classList.add('flex');
     }
 
     function closeDutyModal() { document.getElementById('dutyModal').classList.add('hidden'); }
 
-    function saveDuty(e) {
+    function saveDutyWeekRecord(e) {
       e.preventDefault();
       const keys = ["t2", "t3", "t4", "t5", "t6", "t7"];
+      const daysObj = {};
       keys.forEach(k => {
-        dutyData[k] = {
-          group: document.getElementById(`duty_grp_${k}`).value.trim(),
-          board: document.getElementById(`duty_brd_${k}`).value.trim(),
-          clean: document.getElementById(`duty_cln_${k}`).value.trim(),
-          check: document.getElementById(`duty_chk_${k}`).value.trim()
+        daysObj[k] = {
+          board: document.getElementById(`modal_duty_brd_${k}`).value.trim(),
+          clean: document.getElementById(`modal_duty_cln_${k}`).value.trim(),
+          check: document.getElementById(`modal_duty_chk_${k}`).value.trim(),
+          note: document.getElementById(`modal_duty_nte_${k}`).value.trim()
         };
       });
-      localStorage.setItem('class_duty_12a1', JSON.stringify(dutyData));
-      renderDutyCards();
+
+      duty40WeeksData[currentDutyWeek] = {
+        group: document.getElementById('dutyModalAssignGroup').value,
+        leaderNote: document.getElementById('dutyModalLeaderNote').value.trim(),
+        days: daysObj
+      };
+
+      localStorage.setItem('class_duty_40w_12a1', JSON.stringify(duty40WeeksData));
+      renderDutyWeekDropdown();
+      renderDutyView();
       closeDutyModal();
+    }
+
+    function deleteDutyWeekData() {
+      if (confirm(`Thầy có chắc chắn muốn đặt lại phân công trực nhật của Tuần ${currentDutyWeek}?`)) {
+        const groups = ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"];
+        const assignedGroup = groups[(currentDutyWeek - 1) % 4];
+        duty40WeeksData[currentDutyWeek] = {
+          group: assignedGroup,
+          leaderNote: `${assignedGroup} chuyên trách vệ sinh Tuần ${currentDutyWeek}.`,
+          days: {
+            t2: { board: "Chưa phân công", clean: "Chưa phân công", check: "Tổ trưởng", note: "" },
+            t3: { board: "Chưa phân công", clean: "Chưa phân công", check: "Tổ phó", note: "" },
+            t4: { board: "Chưa phân công", clean: "Chưa phân công", check: "Tổ trưởng", note: "" },
+            t5: { board: "Chưa phân công", clean: "Chưa phân công", check: "Tổ phó", note: "" },
+            t6: { board: "Chưa phân công", clean: "Chưa phân công", check: "Tổ trưởng", note: "" },
+            t7: { board: "Chưa phân công", clean: "Tổng vệ sinh cuối tuần", check: "Lớp phó LĐ", note: "" }
+          }
+        };
+        localStorage.setItem('class_duty_40w_12a1', JSON.stringify(duty40WeeksData));
+        renderDutyWeekDropdown();
+        renderDutyView();
+      }
     }
 
     // TAB BỔ SUNG 1: ĐIỂM DANH & CHUYÊN CẦN LOGIC
@@ -2190,6 +2341,7 @@
       renderWeekDropdown();
       renderWeeklyView();
       renderTable();
+      renderDutyWeekDropdown();
     });
   </script>
 </body>
