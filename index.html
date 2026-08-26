@@ -94,7 +94,7 @@
   <!-- KHUNG NỘI DUNG CHÍNH (MAIN CONTENT AREA) -->
   <div class="flex-1 flex flex-col min-h-screen overflow-y-auto">
 
-    <!-- Header nhỏ đầu trang nội dung -->
+    <!-- Header nhỏ đầu trang nội dung (Đã tích hợp nút Khóa/Mở khóa Quản trị GVCN) -->
     <header class="bg-white border-b border-slate-200 px-6 py-3.5 flex flex-wrap justify-between items-center gap-4 shadow-xs sticky top-0 z-20">
       <div class="flex items-center space-x-2">
         <span class="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-lg font-bold border border-emerald-200">
@@ -109,6 +109,10 @@
         <span class="font-bold text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
           <i class="fa-solid fa-user-tie mr-1 text-emerald-600"></i> GVCN: Thầy Hoàng Cao Hiếu
         </span>
+        <!-- Nút Đăng nhập/Phân quyền GVCN -->
+        <button id="adminStatusBtn" onclick="toggleAdminAccess()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-sm cursor-pointer">
+          <i class="fa-solid fa-lock"></i> Đăng nhập GVCN
+        </button>
       </div>
     </header>
 
@@ -909,7 +913,7 @@
   <!-- MODAL TKB -->
   <div id="tkbModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl max-h-[92vh] overflow-y-auto"><h3 class="text-lg font-bold mb-4">Chỉnh Sửa Thời Khóa Biểu (Sáng & Chiều)</h3><form onsubmit="saveTkb(event)" class="space-y-4 text-xs"><div><label class="block font-bold mb-1">Ghi chú:</label><input type="text" id="inputTkbNote" class="w-full px-3 py-2 border rounded-lg" /></div><div><h4 class="font-bold text-emerald-800 mb-1">Buổi Sáng (5 Tiết):</h4><table class="w-full text-center border"><tbody id="tkbModalInputsBody"></tbody></table></div><div><h4 class="font-bold text-blue-800 mb-1">Buổi Chiều (4 Tiết):</h4><table class="w-full text-center border"><tbody id="tkbAfternoonModalInputsBody"></tbody></table></div><div class="flex justify-end gap-2 pt-3 border-t"><button type="button" onclick="closeTkbModal()" class="px-4 py-2 bg-slate-100 text-xs">Hủy</button><button type="submit" class="px-5 py-2 bg-emerald-700 text-white text-xs font-semibold rounded-lg">Lưu TKB</button></div></form></div></div>
 
-  <!-- MODAL VI PHẠM (THÊM / SỬA THEO 40 TUẦN) -->
+  <!-- MODAL VI PHẠM -->
   <div id="violationModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
       <div class="flex justify-between items-center mb-4 border-b pb-2">
@@ -1295,6 +1299,9 @@
       if (tabId === 'chuyencan') { renderAttendanceWeekDropdown(); renderAttendanceView(); }
       if (tabId === 'sodo') renderSeatingGrid();
       if (tabId === 'quylop') renderFundModule();
+      
+      // Đảm bảo trạng thái phân quyền được áp dụng lại khi chuyển tab
+      applyPermissions();
     }
 
     // TAB 1: THI ĐUA LOGIC
@@ -1398,6 +1405,7 @@
           <p class="font-bold text-slate-900 text-2xl mt-4">${gs.t4}đ</p>
         </div>
       `;
+      applyPermissions();
     }
 
     function openSingleGroupModal(key, title, currentScore) {
@@ -1542,6 +1550,7 @@
             </td>
           </tr>
         `;
+        applyPermissions();
         return;
       }
 
@@ -1563,6 +1572,7 @@
         `;
         tbody.appendChild(tr);
       });
+      applyPermissions();
     }
 
     function openAddViolationModal() {
@@ -1653,7 +1663,6 @@
         };
         violations40wData.unshift(newRecord);
 
-        // Đồng bộ hồ sơ cá nhân học sinh
         if (!std.history) std.history = [];
         std.history.unshift({ date: date, reason: reason, type: "minus", points: points, week: targetWeek, vId: newRecord.id });
       } else {
@@ -1671,7 +1680,6 @@
             points: points
           };
 
-          // Đồng bộ sửa bên hồ sơ cá nhân
           if (std.history) {
             const hIdx = std.history.findIndex(h => h.vId === recordId);
             if (hIdx !== -1) {
@@ -1695,7 +1703,6 @@
       if (record && confirm(`Thầy có chắc muốn xóa lỗi vi phạm "${record.reason}" của học sinh "${record.name}"?`)) {
         violations40wData = violations40wData.filter(r => r.id !== recordId);
         
-        // Đồng bộ xóa bên học sinh
         const std = students.find(s => s.id === record.studentId);
         if (std && std.history) {
           std.history = std.history.filter(h => h.vId !== recordId && !(h.date === record.date && h.reason === record.reason));
@@ -1773,6 +1780,7 @@
         `;
         tbody.appendChild(tr);
       });
+      applyPermissions();
     }
 
     function openAddGradeModal() {
@@ -1858,6 +1866,7 @@
         }
         tr.innerHTML = rowHtml; tbodyA.appendChild(tr);
       }
+      applyPermissions();
     }
 
     function openTkbModal() {
@@ -1949,6 +1958,7 @@
         `;
         container.appendChild(card);
       });
+      applyPermissions();
     }
     function openBaoBaiModal() {
       document.getElementById('modalBaoBaiWeekTitle').innerText = `Tuần ${currentBaoBaiWeek}`;
@@ -2058,6 +2068,7 @@
         `;
         container.appendChild(card);
       });
+      applyPermissions();
     }
 
     function openEditDutyModal() {
@@ -2201,6 +2212,7 @@
             </td>
           </tr>
         `;
+        applyPermissions();
         return;
       }
 
@@ -2226,6 +2238,7 @@
         `;
         tbody.appendChild(tr);
       });
+      applyPermissions();
     }
 
     function openAddAttendanceModal() {
@@ -2404,6 +2417,7 @@
           </div>
         `;
       });
+      applyPermissions();
     }
 
     function openEditSingleDeskModal(rowKey, deskIndex) {
@@ -2494,6 +2508,7 @@
       const balEl = document.getElementById('fundBalance');
       balEl.innerText = `${balance.toLocaleString('vi-VN')} đ`;
       balEl.className = `text-2xl font-bold mt-1 ${balance >= 0 ? 'text-emerald-700' : 'text-rose-600'}`;
+      applyPermissions();
     }
 
     function openFundModal() {
@@ -2555,6 +2570,7 @@
       const subTotal = document.getElementById("subTotalBadge");
       if (subTotal) subTotal.innerText = `Sĩ số: ${students.length} học sinh`;
       localStorage.setItem('class_students_12a1', JSON.stringify(students));
+      applyPermissions();
     }
 
     function openAddModal() { document.getElementById("addModal").classList.remove("hidden"); document.getElementById("addModal").classList.add("flex"); }
@@ -2655,6 +2671,7 @@
         document.getElementById('infoGroup').innerText = "--";
         document.getElementById('infoCode').innerText = "--";
         document.getElementById('historyTableBody').innerHTML = '<tr><td colspan="5" class="py-6 text-center text-slate-400">Chưa có học sinh</td></tr>';
+        applyPermissions();
         return;
       }
       document.getElementById('infoName').innerText = std.name;
@@ -2681,6 +2698,7 @@
       tbody.innerHTML = '';
       if (history.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5" class="py-6 text-center text-slate-400">Chưa có dữ liệu đánh giá rèn luyện</td></tr>';
+        applyPermissions();
         return;
       }
       history.forEach((h, index) => {
@@ -2700,6 +2718,7 @@
         `;
         tbody.appendChild(row);
       });
+      applyPermissions();
     }
 
     function openEditHistoryModal(index) {
@@ -2756,6 +2775,57 @@
       renderRenLuyenModule(); closeScoreModal();
     }
 
+    // ==========================================
+    // PHÂN QUYỀN QUẢN TRỊ GVCN (BẢO MẬT BẰNG MÃ PIN)
+    // ==========================================
+    const GVCN_PIN = "12A1@2026"; 
+    let isAdmin = sessionStorage.getItem("is_admin_12a1") === "true";
+
+    function toggleAdminAccess() {
+      if (isAdmin) {
+        if (confirm("Thầy có muốn đăng xuất quyền Quản trị GVCN?")) {
+          sessionStorage.removeItem("is_admin_12a1");
+          isAdmin = false;
+          applyPermissions();
+          alert("Đã khóa quyền quản trị (Chế độ khách/phụ huynh).");
+        }
+      } else {
+        const pin = prompt("Vui lòng nhập Mật khẩu Quản trị GVCN:");
+        if (pin === GVCN_PIN) {
+          sessionStorage.setItem("is_admin_12a1", "true");
+          isAdmin = true;
+          alert("✅ Đăng nhập quyền GVCN thành công!");
+          applyPermissions();
+        } else if (pin !== null) {
+          alert("❌ Mật khẩu không chính xác!");
+        }
+      }
+    }
+
+    function applyPermissions() {
+      // Ẩn/hiện toàn bộ các nút sửa, xóa, thêm, cài đặt nếu chưa đăng nhập
+      const adminElements = document.querySelectorAll(
+        'button[onclick*="open"], button[onclick*="delete"], button[onclick*="clear"], #nav-caidat'
+      );
+      
+      adminElements.forEach(el => {
+        const action = el.getAttribute("onclick") || "";
+        if (action.includes("searchByCode") || action.includes("toggleAdminAccess")) return;
+        
+        el.style.display = isAdmin ? "" : "none";
+      });
+
+      const btnAdmin = document.getElementById("adminStatusBtn");
+      if (btnAdmin) {
+        btnAdmin.innerHTML = isAdmin 
+          ? '<i class="fa-solid fa-lock-open text-emerald-900"></i> GVCN (Đã mở khóa)' 
+          : '<i class="fa-solid fa-lock"></i> Đăng nhập GVCN';
+        btnAdmin.className = isAdmin
+          ? "bg-emerald-400 hover:bg-emerald-500 text-slate-900 font-bold text-xs px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-sm cursor-pointer"
+          : "bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-sm cursor-pointer";
+      }
+    }
+
     // KHỞI TẠO TOÀN BỘ HỆ THỐNG
     window.addEventListener('DOMContentLoaded', () => {
       renderWeekDropdown();
@@ -2764,6 +2834,7 @@
       renderDutyWeekDropdown();
       renderAttendanceWeekDropdown();
       renderViolationWeekDropdown();
+      applyPermissions();
     });
   </script>
 </body>
