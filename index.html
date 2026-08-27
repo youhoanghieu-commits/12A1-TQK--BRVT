@@ -2979,8 +2979,28 @@
       alert(`✅ Đã xuất thành công file Excel có sẵn kẻ khung (${fileName})!`);
     }
 
-    // KHỞI TẠO HỆ THỐNG
-    window.addEventListener('DOMContentLoaded', () => {
+    // KHỞI TẠO HỆ THỐNG & ĐỒNG BỘ ĐÁM MÂY TỰ ĐỘNG
+    window.addEventListener('DOMContentLoaded', async () => {
+      // Tự động kéo dữ liệu mới nhất từ Google Sheets về mọi thiết bị
+      if (typeof GOOGLE_SHEET_API_URL !== 'undefined' && GOOGLE_SHEET_API_URL) {
+        try {
+          const res = await fetch(GOOGLE_SHEET_API_URL);
+          const json = await res.json();
+          if (json.status === "success" && json.data) {
+            if (json.data.students && json.data.students.length > 0) {
+              students = json.data.students;
+              localStorage.setItem('class_students_12a1', JSON.stringify(students));
+            }
+            if (json.data.violations && json.data.violations.length > 0) {
+              violations40wData = json.data.violations;
+              localStorage.setItem('class_violations_40w_12a1', JSON.stringify(violations40wData));
+            }
+          }
+        } catch (e) {
+          console.log("Dùng dữ liệu lưu tạm trên thiết bị.");
+        }
+      }
+
       renderWeekDropdown();
       renderWeeklyView();
       renderTable();
