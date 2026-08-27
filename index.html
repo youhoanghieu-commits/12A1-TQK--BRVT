@@ -1726,6 +1726,7 @@
 
       localStorage.setItem('class_violations_40w_12a1', JSON.stringify(violations40wData));
       localStorage.setItem('class_students_12a1', JSON.stringify(students));
+      syncToCloud();
       currentViolationWeek = targetWeek;
       renderViolationWeekDropdown();
       renderViolationsView();
@@ -2841,7 +2842,8 @@
       if (json.data.violations && json.data.violations.length > 0) {
         violations40wData = json.data.violations;
         localStorage.setItem('class_violations_40w_12a1', JSON.stringify(violations40wData));
-      }
+        
+          }
     }
 
     setTimeout(() => {
