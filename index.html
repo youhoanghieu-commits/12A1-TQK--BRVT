@@ -1578,12 +1578,15 @@
       document.getElementById('vStatWorstGroup').innerText = worstGroup;
 
       const statStatusEl = document.getElementById('vStatStatus');
-      if (weekRecords.length === 0) {
+      if (totalDeduction === 0) {
         statStatusEl.innerText = "Xuất sắc";
         statStatusEl.className = "text-xl font-bold text-emerald-700 mt-1";
-      } else if (weekRecords.length <= 2) {
+      } else if (totalDeduction <= 10) {
         statStatusEl.innerText = "Tốt";
         statStatusEl.className = "text-xl font-bold text-emerald-600 mt-1";
+      } else if (totalDeduction <= 25) {
+        statStatusEl.innerText = "Khá / Nhắc nhở";
+        statStatusEl.className = "text-xl font-bold text-amber-600 mt-1";
       } else {
         statStatusEl.innerText = "Cần chấn chỉnh";
         statStatusEl.className = "text-xl font-bold text-rose-600 mt-1";
