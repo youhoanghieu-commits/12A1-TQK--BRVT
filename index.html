@@ -2893,49 +2893,80 @@
       renderViolationWeekDropdown();
       applyPermissions();
     });
-    // Tính năng xuất danh sách vi phạm ra file Excel (Chuẩn định dạng CSV tiếng Việt UTF-8)
+    // Tính năng xuất danh sách vi phạm ra file Excel định dạng bảng có sẵn kẻ khung
     function exportViolationsToExcel(mode) {
       let filteredRecords = [];
       let fileName = "";
 
-      // Phân loại chế độ xuất theo yêu cầu
       if (mode === 'week') {
         filteredRecords = violations40wData.filter(item => parseInt(item.week) === currentViolationWeek);
-        fileName = `ViPham_Tuan_${currentViolationWeek}_12A1.csv`;
+        fileName = `ViPham_Tuan_${currentViolationWeek}_12A1.xls`;
       } else if (mode === 'hk1') {
         filteredRecords = violations40wData.filter(item => parseInt(item.week) >= 1 && parseInt(item.week) <= 20);
-        fileName = `ViPham_HocKy_1_12A1.csv`;
+        fileName = `ViPham_HocKy_1_12A1.xls`;
       } else if (mode === 'hk2') {
         filteredRecords = violations40wData.filter(item => parseInt(item.week) >= 21 && parseInt(item.week) <= 40);
-        fileName = `ViPham_HocKy_2_12A1.csv`;
+        fileName = `ViPham_HocKy_2_12A1.xls`;
       }
 
-      // Kiểm tra nếu không có dữ liệu
       if (filteredRecords.length === 0) {
         alert(`Không có dữ liệu vi phạm nào để xuất cho lựa chọn này!`);
         return;
       }
 
-      // Tạo cấu trúc bảng Excel (thêm \uFEFF để mở bằng Microsoft Excel không bị lỗi font tiếng Việt)
-      let csvContent = "\uFEFFSTT,Tuần,Thời gian,Học sinh,Tổ,Hành vi vi phạm,Điểm trừ\n";
+      // Tạo cấu trúc bảng HTML có sẵn CSS kẻ khung (border) và màu tiêu đề
+      let htmlContent = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+        <head>
+          <meta charset="UTF-8">
+          <style>
+            table { border-collapse: collapse; width: 100%; font-family: 'Times New Roman', Times, serif; }
+            th { background-color: #0b3d2c; color: #ffffff; font-weight: bold; border: 1px solid #000000; padding: 8px; text-align: center; }
+            td { border: 1px solid #000000; padding: 6px; vertical-align: middle; }
+            .text-center { text-align: center; }
+            .text-right { text-align: right; }
+          </style>
+        </head>
+        <body>
+          <h2>BẢNG TỔNG HỢP VI PHẠM RÈN LUYỆN LỚP 12A1</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Tuần</th>
+                <th>Thời gian</th>
+                <th>Học sinh</th>
+                <th>Tổ</th>
+                <th>Hành vi vi phạm</th>
+                <th>Điểm trừ</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
 
       filteredRecords.forEach((item, index) => {
-        const reason = `"${(item.reason || "").replace(/"/g, '""')}"`;
-        const row = [
-          index + 1,
-          `Tuần ${item.week}`,
-          item.date,
-          `"${item.name}"`,
-          `"${item.group}"`,
-          reason,
-          `-${item.points}đ`
-        ].join(",");
-        
-        csvContent += row + "\n";
+        htmlContent += `
+          <tr>
+            <td class="text-center">${index + 1}</td>
+            <td class="text-center">Tuần ${item.week}</td>
+            <td class="text-center">${item.date}</td>
+            <td><b>${item.name}</b></td>
+            <td class="text-center">${item.group}</td>
+            <td>${item.reason || ""}</td>
+            <td class="text-center" style="color: red; font-weight: bold;">-${item.points}đ</td>
+          </tr>
+        `;
       });
 
-      // Đóng gói file và kích hoạt tải về máy tính tự động
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      htmlContent += `
+            </tbody>
+          </table>
+        </body>
+        </html>
+      `;
+
+      // Tải tệp xuống dưới dạng file Excel có định dạng bảng
+      const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/vnd.ms-excel;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       
@@ -2945,7 +2976,7 @@
       link.click();
       link.remove();
       
-      alert(`✅ Đã tải xuống thành công file: ${fileName}`);
+      alert(`✅ Đã xuất thành công file Excel có sẵn kẻ khung (${fileName})!`);
     }
   </script>
 </body>
