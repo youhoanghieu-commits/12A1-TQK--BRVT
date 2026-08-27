@@ -2812,7 +2812,7 @@
         renderRenLuyenModule();
       }
     }
-async function syncToCloud() {
+    async function syncToCloud() {
       localStorage.setItem('class_students_12a1', JSON.stringify(students));
       if (!GOOGLE_SHEET_API_URL) return;
       const statusEl = document.getElementById('syncStatus');
@@ -2833,7 +2833,7 @@ async function syncToCloud() {
     }
     function openScoreModal(type) { document.getElementById('actionType').value = type; document.getElementById('scoreModal').classList.remove('hidden'); document.getElementById('scoreModal').classList.add('flex'); }
     function closeScoreModal() { document.getElementById('scoreModal').classList.add('hidden'); }
-    function saveScoreAction(e) {
+    async function saveScoreAction(e) {
       e.preventDefault();
       const std = students.find(s => s.id === currentStudentId);
       if (!std) return;
