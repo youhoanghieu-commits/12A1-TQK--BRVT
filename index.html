@@ -3002,9 +3002,9 @@
       alert(`✅ Đã xuất thành công file Excel có sẵn kẻ khung (${fileName})!`);
     }
 
-    // KHỞI TẠO HỆ THỐNG & ĐỒNG BỘ ĐÁM MÂY TỰ ĐỘNG
+   // KHỞI TẠO HỆ THỐNG & ĐỒNG BỘ ĐÁM MÂY TỰ ĐỘNG KHI MỞ TRANG
     window.addEventListener('DOMContentLoaded', async () => {
-      // Tự động kéo dữ liệu mới nhất từ Google Sheets về mọi thiết bị
+      // 1. Tự động kéo dữ liệu mới nhất từ Google Sheets về thiết bị ngay khi truy cập
       if (typeof GOOGLE_SHEET_API_URL !== 'undefined' && GOOGLE_SHEET_API_URL) {
         try {
           const res = await fetch(GOOGLE_SHEET_API_URL);
@@ -3024,13 +3024,24 @@
         }
       }
 
-      renderWeekDropdown();
-      renderWeeklyView();
-      renderTable();
-      renderDutyWeekDropdown();
-      renderAttendanceWeekDropdown();
-      renderViolationWeekDropdown();
-      applyPermissions();
+      // 2. Dự phòng: Nếu trên điện thoại localStorage vẫn trống, ép tải lại từ bộ nhớ đệm an toàn
+      const savedStudents = localStorage.getItem('class_students_12a1');
+      if (savedStudents) {
+        try { students = JSON.parse(savedStudents); } catch (err) {}
+      }
+      const savedViolations = localStorage.getItem('class_violations_40w_12a1');
+      if (savedViolations) {
+        try { violations40wData = JSON.parse(savedViolations); } catch (err) {}
+      }
+
+      // 3. Vẽ lại toàn bộ giao diện sau khi đã đồng bộ xong
+      if (typeof renderWeekDropdown === 'function') renderWeekDropdown();
+      if (typeof renderWeeklyView === 'function') renderWeeklyView();
+      if (typeof renderTable === 'function') renderTable();
+      if (typeof renderDutyWeekDropdown === 'function') renderDutyWeekDropdown();
+      if (typeof renderAttendanceWeekDropdown === 'function') renderAttendanceWeekDropdown();
+      if (typeof renderViolationWeekDropdown === 'function') renderViolationWeekDropdown();
+      if (typeof applyPermissions === 'function') applyPermissions();
     });
   </script>
 </body>
