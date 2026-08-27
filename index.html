@@ -2819,63 +2819,82 @@
         renderRenLuyenModule();
       }
     }
-// 1. HÀM ĐẨY DỮ LIỆU LÊN (Dùng khi Thêm / Sửa / Xóa)
-async function syncToCloud() {
-  localStorage.setItem('class_students_12a1', JSON.stringify(students));
-  localStorage.setItem('class_violations_40w_12a1', JSON.stringify(violations40wData));
+// ================= HỆ THỐNG ĐỒNG BỘ TOÀN DIỆN (TỰ ĐỘNG TẤT CẢ CÁC MỤC) =================
 
+// 1. HÀM GỬI: Tự động quét và đóng gói TẤT CẢ dữ liệu của lớp gửi lên Cloud
+async function syncToCloud() {
   if (!GOOGLE_SHEET_API_URL) return;
+
   const statusEl = document.getElementById('syncStatus');
   if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-spin"></span> Đang đồng bộ...`;
 
   try {
+    const fullData = {};
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith('class_') || key.includes('12a1') || key.includes('student') || key.includes('violation') || key.includes('attendance')) {
+        try {
+          fullData[key] = JSON.parse(localStorage.getItem(key));
+        } catch(e) {
+          fullData[key] = localStorage.getItem(key);
+        }
+      }
+    }
+
     await fetch(GOOGLE_SHEET_API_URL, {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify({
         action: "syncAll",
-        students: students,
-        violations: violations40wData
+        fullData: fullData
       })
     });
 
     if (statusEl) {
       setTimeout(() => {
         statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Đã lưu trực tuyến`;
-      }, 800);
+      }, 600);
     }
   } catch (e) {
     if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-400"></span> Lưu cục bộ`;
   }
 }
 
-// 2. HÀM TẢI DỮ LIỆU TỪ GOOGLE SHEETS VỀ KHI MỞ TRANG WEB
+// 2. HÀM TẢI: Kéo toàn bộ dữ liệu từ Cloud về và bung ra cho tất cả các mục
 async function loadDataFromCloud() {
   if (!GOOGLE_SHEET_API_URL) return;
   try {
     const res = await fetch(GOOGLE_SHEET_API_URL + "?t=" + new Date().getTime());
     const json = await res.json();
-    if (json.status === "success" && json.data) {
-      if (Array.isArray(json.data.students) && json.data.students.length > 0) {
-        students = json.data.students;
-        localStorage.setItem('class_students_12a1', JSON.stringify(students));
+    if (json.status === "success" && json.data && Object.keys(json.data).length > 0) {
+      Object.keys(json.data).forEach(key => {
+        const val = typeof json.data[key] === 'object' ? JSON.stringify(json.data[key]) : json.data[key];
+        localStorage.setItem(key, val);
+      });
+
+      if (localStorage.getItem('class_students_12a1')) {
+        students = JSON.parse(localStorage.getItem('class_students_12a1'));
       }
-      if (Array.isArray(json.data.violations)) {
-        violations40wData = json.data.violations;
-        localStorage.setItem('class_violations_40w_12a1', JSON.stringify(violations40wData));
+      if (localStorage.getItem('class_violations_40w_12a1')) {
+        violations40wData = JSON.parse(localStorage.getItem('class_violations_40w_12a1'));
       }
-      // Vẽ lại giao diện sau khi tải dữ liệu mới nhất
+      if (typeof attendanceData !== 'undefined' && localStorage.getItem('class_attendance_12a1')) {
+        attendanceData = JSON.parse(localStorage.getItem('class_attendance_12a1'));
+      }
+
       if (typeof renderTable === 'function') renderTable();
       if (typeof renderViolationsView === 'function') renderViolationsView();
       if (typeof renderRenLuyenModule === 'function') renderRenLuyenModule();
+      if (typeof renderDiemDanh === 'function') renderDiemDanh();
+      if (typeof renderChuyenCan === 'function') renderChuyenCan();
     }
   } catch (err) {
-    console.warn("Dùng dữ liệu lưu tạm trên máy do không tải được từ Cloud:", err);
+    console.warn("Nạp dữ liệu máy chủ:", err);
   }
 }
 
-// Tự động gọi khi mở trang
+// Tự động chạy khi khởi động
 window.addEventListener('DOMContentLoaded', () => {
   loadDataFromCloud();
 });
