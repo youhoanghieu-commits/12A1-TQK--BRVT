@@ -2819,46 +2819,66 @@
         renderRenLuyenModule();
       }
     }
- async function syncToCloud() {
-    localStorage.setItem('class_students_12a1', JSON.stringify(students));
-    localStorage.setItem('class_violations_40w_12a1', JSON.stringify(violations40wData));
+// 1. HÀM ĐẨY DỮ LIỆU LÊN (Dùng khi Thêm / Sửa / Xóa)
+async function syncToCloud() {
+  localStorage.setItem('class_students_12a1', JSON.stringify(students));
+  localStorage.setItem('class_violations_40w_12a1', JSON.stringify(violations40wData));
 
-    if (!GOOGLE_SHEET_API_URL) return;
-    const statusEl = document.getElementById('syncStatus');
-    if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-spin"></span> Đang đồng bộ...`;
+  if (!GOOGLE_SHEET_API_URL) return;
+  const statusEl = document.getElementById('syncStatus');
+  if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-spin"></span> Đang đồng bộ...`;
 
-    try {
-      await fetch(GOOGLE_SHEET_API_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "syncAll",
-          students: students,
-          violations: violations40wData
-        })
-      });
+  try {
+    await fetch(GOOGLE_SHEET_API_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        action: "syncAll",
+        students: students,
+        violations: violations40wData
+      })
+    });
 
-      if (statusEl) {
-        setTimeout(() => {
-          statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Đã lưu trực tuyến`;
-        }, 800);
-      }
-    } catch (e) {
-      if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-400"></span> Lưu cục bộ`;
+    if (statusEl) {
+      setTimeout(() => {
+        statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Đã lưu trực tuyến`;
+      }, 800);
     }
-  }
-
-    setTimeout(() => {
-      if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Đã lưu trực tuyến`;
-      if (typeof renderTable === 'function') renderTable();
-      if (typeof renderViolationsView === 'function') renderViolationsView();
-    }, 800);
-
   } catch (e) {
     if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-400"></span> Lưu cục bộ`;
   }
 }
+
+// 2. HÀM TẢI DỮ LIỆU TỪ GOOGLE SHEETS VỀ KHI MỞ TRANG WEB
+async function loadDataFromCloud() {
+  if (!GOOGLE_SHEET_API_URL) return;
+  try {
+    const res = await fetch(GOOGLE_SHEET_API_URL + "?t=" + new Date().getTime());
+    const json = await res.json();
+    if (json.status === "success" && json.data) {
+      if (Array.isArray(json.data.students) && json.data.students.length > 0) {
+        students = json.data.students;
+        localStorage.setItem('class_students_12a1', JSON.stringify(students));
+      }
+      if (Array.isArray(json.data.violations)) {
+        violations40wData = json.data.violations;
+        localStorage.setItem('class_violations_40w_12a1', JSON.stringify(violations40wData));
+      }
+      // Vẽ lại giao diện sau khi tải dữ liệu mới nhất
+      if (typeof renderTable === 'function') renderTable();
+      if (typeof renderViolationsView === 'function') renderViolationsView();
+      if (typeof renderRenLuyenModule === 'function') renderRenLuyenModule();
+    }
+  } catch (err) {
+    console.warn("Dùng dữ liệu lưu tạm trên máy do không tải được từ Cloud:", err);
+  }
+}
+
+// Tự động gọi khi mở trang
+window.addEventListener('DOMContentLoaded', () => {
+  loadDataFromCloud();
+});
     function openScoreModal(type) { document.getElementById('actionType').value = type; document.getElementById('scoreModal').classList.remove('hidden'); document.getElementById('scoreModal').classList.add('flex'); }
     function closeScoreModal() { document.getElementById('scoreModal').classList.add('hidden'); }
     async function saveScoreAction(e) {
