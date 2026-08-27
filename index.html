@@ -1160,7 +1160,10 @@
   <!-- JAVASCRIPT LOGIC -->
   <script>
     const TOTAL_WEEKS = 40;
-
+// --- CẤU HÌNH ĐÁM MÂY & MÃ PIN PHÂN QUYỀN ---
+    const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbxzTUltO5EmTRMICL_-TpSswR3cMERRtzt7LNJ5qcTd5k4j_ygEjsjXZkqvSFd2qtTq/exec";
+    const PIN_GVCN = "123456";       // Mã PIN GVCN (Toàn quyền)
+    const PIN_BCS  = "12A1BCS";      // Mã PIN Ban Cán Sự (Cộng/Trừ điểm)
     // 1. DỮ LIỆU HỌC SINH
     let students = JSON.parse(localStorage.getItem('class_students_12a1')) || [
       { id: 1, name: "Đặng Thị Kim Anh", gender: "Nữ", group: "Tổ 1", role: "Lớp trưởng", code: "PH12A1-9RCU-TB5S-UQ8A", score: 95, history: [{ date: "2026-09-08", reason: "Đi muộn 5 phút", type: "minus", points: 5, week: 1 }] },
@@ -2809,7 +2812,25 @@
         renderRenLuyenModule();
       }
     }
-
+async function syncToCloud() {
+      localStorage.setItem('class_students_12a1', JSON.stringify(students));
+      if (!GOOGLE_SHEET_API_URL) return;
+      const statusEl = document.getElementById('syncStatus');
+      if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-spin"></span> Đang đồng bộ...`;
+      try {
+        await fetch(GOOGLE_SHEET_API_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "syncAll", students: students })
+        });
+        setTimeout(() => {
+          if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Đã lưu trực tuyến`;
+        }, 800);
+      } catch (e) {
+        if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-400"></span> Lưu cục bộ`;
+      }
+    }
     function openScoreModal(type) { document.getElementById('actionType').value = type; document.getElementById('scoreModal').classList.remove('hidden'); document.getElementById('scoreModal').classList.add('flex'); }
     function closeScoreModal() { document.getElementById('scoreModal').classList.add('hidden'); }
     function saveScoreAction(e) {
@@ -2825,8 +2846,8 @@
       });
       localStorage.setItem('class_students_12a1', JSON.stringify(students));
       renderRenLuyenModule(); closeScoreModal();
-    }
-
+      await syncToCloud();
+}
     // PHÂN QUYỀN GVCN
     const GVCN_PIN = "12A1@2026"; 
     let isAdmin = sessionStorage.getItem("is_admin_12a1") === "true";
