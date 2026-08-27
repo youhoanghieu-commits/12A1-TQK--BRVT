@@ -2692,7 +2692,7 @@
         if (name) {
           students.push({
             id: Date.now() + idx, name: name, gender: "Nam", group: groups[idx % 4],
-            role: "Thành viên", code: generateParentCode(), score: 100, history: []
+            role: "Thành viên", code: generateParentCode(), score: 50, history: []
           });
           count++;
         }
@@ -2736,7 +2736,7 @@
       document.getElementById('infoCode').innerText = std.code;
 
       const history = std.history || [];
-      let totalPlus = 0, totalMinus = 0, score = 100;
+      let totalPlus = 0, totalMinus = 0, score = 50;
       history.forEach(item => {
         if (item.type === 'plus') { totalPlus++; score += item.points; }
         else { totalMinus++; score -= item.points; }
