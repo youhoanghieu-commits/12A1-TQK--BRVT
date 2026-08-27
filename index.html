@@ -252,6 +252,15 @@
         </div>
         <div class="flex items-center gap-2">
           <select id="selectViolationWeek" onchange="onViolationWeekChange()" class="bg-[#0b3d2c] text-white font-semibold text-xs px-3.5 py-2.5 rounded-xl border border-emerald-600/70 focus:outline-none focus:ring-2 focus:ring-amber-400"></select>
+          <button onclick="exportViolationsToExcel('week')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl shadow-sm transition flex items-center gap-1.5" title="Xuất danh sách vi phạm của tuần đang chọn">
+            <i class="fa-solid fa-file-excel"></i> Xuất Excel (Tuần)
+          </button>
+          <button onclick="exportViolationsToExcel('hk1')" class="bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl shadow-sm transition flex items-center gap-1.5" title="Xuất toàn bộ vi phạm Học Kỳ 1">
+            <i class="fa-solid fa-download"></i> Xuất HK1
+          </button>
+          <button onclick="exportViolationsToExcel('hk2')" class="bg-cyan-700 hover:bg-cyan-800 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl shadow-sm transition flex items-center gap-1.5" title="Xuất toàn bộ vi phạm Học Kỳ 2">
+            <i class="fa-solid fa-download"></i> Xuất HK2
+          </button>
           <button onclick="openAddViolationModal()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs px-4 py-2.5 rounded-xl shadow-sm transition flex items-center gap-1.5">
             <i class="fa-solid fa-circle-plus"></i> Ghi Nhận Vi Phạm Tuần Này
           </button>
@@ -348,6 +357,7 @@
             <option value="Ngữ văn">Môn: Ngữ văn</option>
             <option value="Tiếng Anh">Môn: Tiếng Anh</option>
             <option value="Sinh học">Môn: Sinh học</option>
+             <option value="Sinh học">Môn: KTPT</option>
           </select>
           <button onclick="openAddGradeModal()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-sm">
             <i class="fa-solid fa-pen-to-square"></i> Nhập / Cập nhật điểm
@@ -2883,6 +2893,60 @@
       renderViolationWeekDropdown();
       applyPermissions();
     });
+    // Tính năng xuất danh sách vi phạm ra file Excel (Chuẩn định dạng CSV tiếng Việt UTF-8)
+    function exportViolationsToExcel(mode) {
+      let filteredRecords = [];
+      let fileName = "";
+
+      // Phân loại chế độ xuất theo yêu cầu
+      if (mode === 'week') {
+        filteredRecords = violations40wData.filter(item => parseInt(item.week) === currentViolationWeek);
+        fileName = `ViPham_Tuan_${currentViolationWeek}_12A1.csv`;
+      } else if (mode === 'hk1') {
+        filteredRecords = violations40wData.filter(item => parseInt(item.week) >= 1 && parseInt(item.week) <= 20);
+        fileName = `ViPham_HocKy_1_12A1.csv`;
+      } else if (mode === 'hk2') {
+        filteredRecords = violations40wData.filter(item => parseInt(item.week) >= 21 && parseInt(item.week) <= 40);
+        fileName = `ViPham_HocKy_2_12A1.csv`;
+      }
+
+      // Kiểm tra nếu không có dữ liệu
+      if (filteredRecords.length === 0) {
+        alert(`Không có dữ liệu vi phạm nào để xuất cho lựa chọn này!`);
+        return;
+      }
+
+      // Tạo cấu trúc bảng Excel (thêm \uFEFF để mở bằng Microsoft Excel không bị lỗi font tiếng Việt)
+      let csvContent = "\uFEFFSTT,Tuần,Thời gian,Học sinh,Tổ,Hành vi vi phạm,Điểm trừ\n";
+
+      filteredRecords.forEach((item, index) => {
+        const reason = `"${(item.reason || "").replace(/"/g, '""')}"`;
+        const row = [
+          index + 1,
+          `Tuần ${item.week}`,
+          item.date,
+          `"${item.name}"`,
+          `"${item.group}"`,
+          reason,
+          `-${item.points}đ`
+        ].join(",");
+        
+        csvContent += row + "\n";
+      });
+
+      // Đóng gói file và kích hoạt tải về máy tính tự động
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      
+      link.setAttribute("href", url);
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      
+      alert(`✅ Đã tải xuống thành công file: ${fileName}`);
+    }
   </script>
 </body>
 </html>
