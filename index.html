@@ -306,9 +306,9 @@
 
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
-            <p class="text-xs text-slate-500 font-medium">Trạng Thái Kỷ Luật</p>
+            <p class="text-xs text-slate-500 font-medium">Cần Nhắc Nhở</p>
             <h3 class="text-xl font-bold text-emerald-700 mt-1" id="vStatStatus">Tốt</h3>
-            <p class="text-[11px] text-emerald-600 font-semibold mt-1">Duy trì nề nếp</p>
+           <p class="text-[11px] text-rose-500 font-semibold mt-1">Học sinh cần lưu ý</p>
           </div>
           <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold">
             <i class="fa-solid fa-shield-halved"></i>
@@ -1577,19 +1577,29 @@
       }
       document.getElementById('vStatWorstGroup').innerText = worstGroup;
 
+     // Thống kê số điểm trừ của từng học sinh trong tuần
+      const studentViolationMap = {};
+      weekRecords.forEach(item => {
+        if (!studentViolationMap[item.studentId]) {
+          studentViolationMap[item.studentId] = { name: item.name, totalPoints: 0, count: 0 };
+        }
+        studentViolationMap[item.studentId].totalPoints += item.points || 0;
+        studentViolationMap[item.studentId].count += 1;
+      });
+
+      // Tìm học sinh bị trừ điểm nhiều nhất trong tuần
+      let topViolator = "Không có lỗi", maxP = -1;
+      for (const id in studentViolationMap) {
+        if (studentViolationMap[id].totalPoints > maxP) {
+          maxP = studentViolationMap[id].totalPoints;
+          topViolator = `${studentViolationMap[id].name} (-${maxP}đ)`;
+        }
+      }
+
+      // Hiển thị tên học sinh vi phạm nhiều nhất ra thẻ thống kê
       const statStatusEl = document.getElementById('vStatStatus');
-      if (totalDeduction === 0) {
-        statStatusEl.innerText = "Xuất sắc";
-        statStatusEl.className = "text-xl font-bold text-emerald-700 mt-1";
-      } else if (totalDeduction <= 10) {
-        statStatusEl.innerText = "Tốt";
-        statStatusEl.className = "text-xl font-bold text-emerald-600 mt-1";
-      } else if (totalDeduction <= 25) {
-        statStatusEl.innerText = "Khá / Nhắc nhở";
-        statStatusEl.className = "text-xl font-bold text-amber-600 mt-1";
-      } else {
-        statStatusEl.innerText = "Cần chấn chỉnh";
-        statStatusEl.className = "text-xl font-bold text-rose-600 mt-1";
+      statStatusEl.innerText = topViolator;
+      statStatusEl.className = "text-base font-bold text-rose-600 mt-1 truncate";
       }
 
       if (weekRecords.length === 0) {
