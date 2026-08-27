@@ -2691,16 +2691,21 @@
 
     // RÈN LUYỆN CÁ NHÂN LOGIC
     function populateStudentSelect() {
-      const select = document.getElementById('studentSelect');
-      if (!select) return;
-      select.innerHTML = '';
-      students.forEach(s => {
-        const opt = document.createElement('option');
-        opt.value = s.id; opt.innerText = `${s.name} (${s.group})`;
-        if (s.id === currentStudentId) opt.selected = true;
-        select.appendChild(opt);
-      });
-    }
+  const select = document.getElementById('studentSelect');
+  if (!select) return;
+  select.innerHTML = '';
+  
+  // Lọc chỉ giữ lại danh sách học sinh duy nhất (không trùng id)
+  const uniqueStudents = Array.from(new Map(students.map(s => [s.id, s])).values());
+  
+  uniqueStudents.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s.id;
+    opt.innerText = `${s.name} (${s.group})`;
+    if (s.id === currentStudentId) opt.selected = true;
+    select.appendChild(opt);
+  });
+}
     function onSelectStudentChange() { currentStudentId = parseInt(document.getElementById('studentSelect').value); renderRenLuyenModule(); }
     function searchByCode() {
       const query = document.getElementById('parentSearchInput').value.trim().toUpperCase();
