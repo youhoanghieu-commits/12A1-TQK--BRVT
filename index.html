@@ -2812,25 +2812,48 @@
         renderRenLuyenModule();
       }
     }
-    async function syncToCloud() {
-      localStorage.setItem('class_students_12a1', JSON.stringify(students));
-      if (!GOOGLE_SHEET_API_URL) return;
-      const statusEl = document.getElementById('syncStatus');
-      if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-spin"></span> Đang đồng bộ...`;
-      try {
-        await fetch(GOOGLE_SHEET_API_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "syncAll", students: students })
-        });
-        setTimeout(() => {
-          if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Đã lưu trực tuyến`;
-        }, 800);
-      } catch (e) {
-        if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-400"></span> Lưu cục bộ`;
+   async function syncToCloud() {
+  localStorage.setItem('class_students_12a1', JSON.stringify(students));
+  localStorage.setItem('class_violations_40w_12a1', JSON.stringify(violations40wData));
+  
+  if (!GOOGLE_SHEET_API_URL) return;
+  const statusEl = document.getElementById('syncStatus');
+  if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-spin"></span> Đang đồng bộ...`;
+  
+  try {
+    await fetch(GOOGLE_SHEET_API_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+        action: "syncAll", 
+        students: students,
+        violations: violations40wData 
+      })
+    });
+    const res = await fetch(GOOGLE_SHEET_API_URL);
+    const json = await res.json();
+    if (json.status === "success" && json.data) {
+      if (json.data.students && json.data.students.length > 0) {
+        students = json.data.students;
+        localStorage.setItem('class_students_12a1', JSON.stringify(students));
+      }
+      if (json.data.violations && json.data.violations.length > 0) {
+        violations40wData = json.data.violations;
+        localStorage.setItem('class_violations_40w_12a1', JSON.stringify(violations40wData));
       }
     }
+
+    setTimeout(() => {
+      if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Đã lưu trực tuyến`;
+      if (typeof renderTable === 'function') renderTable();
+      if (typeof renderViolationsView === 'function') renderViolationsView();
+    }, 800);
+
+  } catch (e) {
+    if (statusEl) statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-400"></span> Lưu cục bộ`;
+  }
+}
     function openScoreModal(type) { document.getElementById('actionType').value = type; document.getElementById('scoreModal').classList.remove('hidden'); document.getElementById('scoreModal').classList.add('flex'); }
     function closeScoreModal() { document.getElementById('scoreModal').classList.add('hidden'); }
     async function saveScoreAction(e) {
