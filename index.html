@@ -22,7 +22,7 @@
 </head>
 <body class="text-slate-800 antialiased min-h-screen flex flex-col md:flex-row">
 
-  <!-- 1. THANH ĐIỀU HƯỚNG DỌC (SIDEBAR NAVIGATION - KHÔNG NẰM NGANG) -->
+  <!-- 1. THANH ĐIỀU HƯỚNG DỌC -->
   <aside class="w-full md:w-64 bg-[#0b3d2c] text-white flex-shrink-0 flex flex-col justify-between shadow-xl z-30 min-h-screen">
     <div>
       <!-- Header thương hiệu lớp học -->
@@ -36,7 +36,7 @@
               <span class="font-extrabold text-xl tracking-tight text-white">12A1</span>
               <span class="text-[10px] bg-amber-400 text-slate-900 px-1.5 py-0.5 rounded font-bold">2026-2027</span>
             </div>
-            <p class="text-[11px] text-emerald-200/80 truncate mt-0.5">THPT Trần Quang Khải - BRVT </p>
+            <p class="text-[11px] text-emerald-200/80 truncate mt-0.5">THPT Trần Quang Khải - BRVT</p>
           </div>
         </div>
         <div class="mt-3 pt-3 border-t border-emerald-800/50 flex items-center justify-between text-xs text-emerald-200">
@@ -91,10 +91,10 @@
     </div>
   </aside>
 
-  <!-- KHUNG NỘI DUNG CHÍNH (MAIN CONTENT AREA) -->
+  <!-- KHUNG NỘI DUNG CHÍNH -->
   <div class="flex-1 flex flex-col min-h-screen overflow-y-auto">
 
-    <!-- Header nhỏ đầu trang nội dung -->
+    <!-- Header nhỏ đầu trang -->
     <header class="bg-white border-b border-slate-200 px-6 py-3.5 flex flex-wrap justify-between items-center gap-4 shadow-xs sticky top-0 z-20">
       <div class="flex items-center space-x-2">
         <span class="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-lg font-bold border border-emerald-200">
@@ -109,16 +109,13 @@
         <span class="font-bold text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
           <i class="fa-solid fa-user-tie mr-1 text-emerald-600"></i> GVCN: Thầy Hoàng Cao Hiếu
         </span>
-        <!-- Nút Đăng nhập/Phân quyền GVCN -->
         <button id="adminStatusBtn" onclick="toggleAdminAccess()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-sm cursor-pointer">
           <i class="fa-solid fa-lock"></i> Đăng nhập GVCN
         </button>
       </div>
     </header>
 
-    <!-- ================================================================= -->
     <!-- TAB 1: THỨ HẠNG TRƯỜNG & KHỐI -->
-    <!-- ================================================================= -->
     <section id="section-thuhang" class="tab-content flex flex-1 flex-col p-6 space-y-6">
       <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md relative overflow-hidden flex flex-wrap justify-between items-center gap-4">
         <div>
@@ -236,9 +233,7 @@
       </div>
     </section>
 
-    <!-- ================================================================= -->
     <!-- TAB 2: VI PHẠM RÈN LUYỆN -->
-    <!-- ================================================================= -->
     <section id="section-vipham" class="tab-content hidden flex-1 flex-col p-6 space-y-6">
       <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md flex flex-wrap justify-between items-center gap-4">
         <div>
@@ -308,7 +303,7 @@
           <div>
             <p class="text-xs text-slate-500 font-medium">Cần Nhắc Nhở</p>
             <h3 class="text-xl font-bold text-emerald-700 mt-1" id="vStatStatus">Tốt</h3>
-           <p class="text-[11px] text-rose-500 font-semibold mt-1">Học sinh cần lưu ý</p>
+            <p class="text-[11px] text-rose-500 font-semibold mt-1">Học sinh cần lưu ý</p>
           </div>
           <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold">
             <i class="fa-solid fa-shield-halved"></i>
@@ -339,9 +334,7 @@
       </div>
     </section>
 
-    <!-- ================================================================= -->
     <!-- TAB 3: THEO DÕI HỌC TẬP -->
-    <!-- ================================================================= -->
     <section id="section-hoctap" class="tab-content hidden flex-1 flex-col p-6 space-y-6">
       <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md flex flex-wrap justify-between items-center gap-4">
         <div>
@@ -357,7 +350,7 @@
             <option value="Ngữ văn">Môn: Ngữ văn</option>
             <option value="Tiếng Anh">Môn: Tiếng Anh</option>
             <option value="Sinh học">Môn: Sinh học</option>
-             <option value="Sinh học">Môn: KTPT</option>
+            <option value="KTPT">Môn: KTPT</option>
           </select>
           <button onclick="openAddGradeModal()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-sm">
             <i class="fa-solid fa-pen-to-square"></i> Nhập / Cập nhật điểm
@@ -386,9 +379,7 @@
       </div>
     </section>
 
-    <!-- ================================================================= -->
     <!-- TAB 4: BÁO BÀI & TKB -->
-    <!-- ================================================================= -->
     <section id="section-baobai" class="tab-content hidden flex-1 flex-col p-6 space-y-6">
       <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md relative overflow-hidden flex flex-wrap justify-between items-center gap-4">
         <div>
@@ -495,9 +486,7 @@
       </div>
     </section>
 
-    <!-- ================================================================= -->
     <!-- TAB 5: LỊCH TRỰC NHẬT -->
-    <!-- ================================================================= -->
     <section id="section-trucnhat" class="tab-content hidden flex-1 flex-col p-6 space-y-6">
       <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md flex flex-wrap justify-between items-center gap-4">
         <div>
@@ -543,9 +532,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="dutyCardsContainer"></div>
     </section>
 
-    <!-- ================================================================= -->
     <!-- TAB 6: RÈN LUYỆN CÁ NHÂN -->
-    <!-- ================================================================= -->
     <section id="section-renluyen" class="tab-content hidden flex-1 flex-col p-6 space-y-6">
       <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md"><h1 class="text-2xl font-bold">Rèn Luyện & Theo Dõi Cá Nhân 12A1</h1></div>
       
@@ -590,9 +577,7 @@
       </div>
     </section>
 
-    <!-- ================================================================= -->
     <!-- TAB BỔ SUNG 1: ĐIỂM DANH & CHUYÊN CẦN -->
-    <!-- ================================================================= -->
     <section id="section-chuyencan" class="tab-content hidden flex-1 flex-col p-6 space-y-6">
       <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md flex flex-wrap justify-between items-center gap-4">
         <div>
@@ -683,9 +668,7 @@
       </div>
     </section>
 
-    <!-- ================================================================= -->
-    <!-- TAB BỔ SUNG 2: SƠ ĐỒ LỚP (4 DÃY x 6 HÀNG x 2 HỌC SINH/BÀN) -->
-    <!-- ================================================================= -->
+    <!-- TAB BỔ SUNG 2: SƠ ĐỒ LỚP -->
     <section id="section-sodo" class="tab-content hidden flex-1 flex-col p-6 space-y-6">
       <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md flex flex-wrap justify-between items-center gap-4">
         <div>
@@ -708,9 +691,7 @@
       </div>
     </section>
 
-    <!-- ================================================================= -->
     <!-- TAB BỔ SUNG 3: QUẢN LÝ QUỸ LỚP -->
-    <!-- ================================================================= -->
     <section id="section-quylop" class="tab-content hidden flex-1 flex-col p-6 space-y-6">
       <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md flex flex-wrap justify-between items-center gap-4">
         <div>
@@ -757,9 +738,7 @@
       </div>
     </section>
 
-    <!-- ================================================================= -->
     <!-- TAB 7: CÀI ĐẶT LỚP -->
-    <!-- ================================================================= -->
     <section id="section-caidat" class="tab-content hidden flex-1 flex-col p-6 space-y-6">
       <div class="bg-custom-header rounded-2xl p-6 text-white shadow-md flex justify-between items-center">
         <div>
@@ -796,9 +775,7 @@
 
   </div>
 
-  <!-- ================================================================= -->
-  <!-- CÁC MODAL HỆ THỐNG -->
-  <!-- ================================================================= -->
+  <!-- MODALS -->
 
   <!-- MODAL SỬA ĐIỂM TỪNG TỔ -->
   <div id="editSingleGroupModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
@@ -1073,7 +1050,7 @@
     </div>
   </div>
 
-  <!-- MODAL SỬA CHỖ NGỒI TỪNG BÀN (SƠ ĐỒ LỚP) -->
+  <!-- MODAL SỬA CHỖ NGỒI TỪNG BÀN -->
   <div id="editSingleDeskModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
       <div class="flex justify-between items-center mb-4 border-b pb-2">
@@ -1129,10 +1106,10 @@
     </div>
   </div>
 
-  <!-- CÁC MODAL CƠ BẢN CŨ -->
+  <!-- MODAL SỬA ĐÁNH GIÁ CÁ NHÂN -->
   <div id="editHistoryModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl"><h3 class="text-lg font-bold mb-4">Sửa Đánh Giá</h3><form onsubmit="saveEditHistoryRecord(event)" class="space-y-4 text-sm"><input type="hidden" id="editHistoryIndex" /><div><label class="block text-xs font-semibold mb-1">Ngày</label><input type="text" id="editHistoryDate" required class="w-full px-3 py-2 border rounded-lg" /></div><div class="grid grid-cols-2 gap-3"><div><label class="block text-xs font-semibold mb-1">Phân loại</label><select id="editHistoryType" class="w-full px-3 py-2 border rounded-lg"><option value="plus">Khen thưởng (+)</option><option value="minus">Vi phạm (-)</option></select></div><div><label class="block text-xs font-semibold mb-1">Điểm</label><input type="number" id="editHistoryPoints" min="1" max="50" required class="w-full px-3 py-2 border rounded-lg font-bold" /></div></div><div><label class="block text-xs font-semibold mb-1">Lý do</label><textarea id="editHistoryReason" rows="3" required class="w-full px-3 py-2 border rounded-lg"></textarea></div><div class="flex justify-end gap-2 pt-3 border-t"><button type="button" onclick="closeEditHistoryModal()" class="px-4 py-2 bg-slate-100 text-xs">Hủy</button><button type="submit" class="px-5 py-2 bg-emerald-700 text-white text-xs font-semibold rounded-lg">Lưu</button></div></form></div></div>
   
-  <!-- MODAL CHỈNH SỬA HỌC SINH (ĐÃ THÊM Ô TÙY CHỈNH MÃ PHỤ HUYNH) -->
+  <!-- MODAL CHỈNH SỬA HỌC SINH -->
   <div id="editStudentModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
       <h3 class="font-bold mb-4 text-slate-800 text-base"><i class="fa-solid fa-user-pen text-emerald-700 mr-2"></i>Chỉnh Sửa Thông Tin Học Sinh</h3>
@@ -1180,9 +1157,7 @@
   <div id="addModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl"><h3 class="font-bold mb-4">Thêm Học Sinh Mới</h3><form id="studentForm" onsubmit="saveStudent(event)" class="space-y-4 text-sm"><div><label class="block text-xs font-semibold mb-1">Họ và Tên</label><input type="text" id="name" required class="w-full px-3 py-2 border rounded-lg" /></div><div class="grid grid-cols-2 gap-3"><div><label class="block text-xs font-semibold mb-1">Giới Tính</label><select id="gender" class="w-full px-3 py-2 border rounded-lg"><option value="Nam">Nam</option><option value="Nữ">Nữ</option></select></div><div><label class="block text-xs font-semibold mb-1">Tổ</label><select id="group" class="w-full px-3 py-2 border rounded-lg"><option value="Tổ 1">Tổ 1</option><option value="Tổ 2">Tổ 2</option><option value="Tổ 3">Tổ 3</option><option value="Tổ 4">Tổ 4</option></select></div></div><div><label class="block text-xs font-semibold mb-1">Chức Vụ</label><input type="text" id="role" value="Thành viên" class="w-full px-3 py-2 border rounded-lg" /></div><div class="flex justify-end gap-2 pt-3 border-t"><button type="button" onclick="closeAddModal()" class="px-4 py-2 bg-slate-100 text-xs">Hủy</button><button type="submit" class="px-4 py-2 bg-emerald-700 text-white text-xs font-semibold rounded-lg">Lưu</button></div></form></div></div>
   <div id="scoreModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl"><h3 id="modalScoreTitle" class="text-lg font-bold mb-4">Điểm</h3><form onsubmit="saveScoreAction(event)" class="space-y-4 text-sm"><input type="hidden" id="actionType" value="plus" /><div><label class="block text-xs font-semibold mb-1">Số Điểm</label><input type="number" id="actionPoints" required min="1" max="50" value="5" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700" /></div><div><label class="block text-xs font-semibold mb-1">Lý Do</label><textarea id="actionReason" required rows="3" class="w-full px-3 py-2 border rounded-lg"></textarea></div><div class="flex justify-end gap-2 pt-3 border-t"><button type="button" onclick="closeScoreModal()" class="px-4 py-2 bg-slate-100 text-xs">Hủy</button><button type="submit" id="btnScoreSubmit" class="px-4 py-2 bg-emerald-700 text-white text-xs font-semibold rounded-lg">Lưu</button></div></form></div></div>
 
-  <!-- ================================================================= -->
-  <!-- TOÀN BỘ LOGIC JAVASCRIPT ĐIỀU HÀNH 100% HOÀN THIỆN -->
-  <!-- ================================================================= -->
+  <!-- JAVASCRIPT LOGIC -->
   <script>
     const TOTAL_WEEKS = 40;
 
@@ -1526,7 +1501,7 @@
       }
     }
 
-    // TAB 2: VI PHẠM RÈN LUYỆN 40 TUẦN LOGIC (TÍCH HỢP ĐẦY ĐỦ THÊM/SỬA/XÓA)
+    // TAB 2: VI PHẠM RÈN LUYỆN 40 TUẦN LOGIC
     function renderViolationWeekDropdown() {
       const select = document.getElementById('selectViolationWeek');
       if (!select) return;
@@ -1577,7 +1552,6 @@
       }
       document.getElementById('vStatWorstGroup').innerText = worstGroup;
 
-     // Thống kê số điểm trừ của từng học sinh trong tuần
       const studentViolationMap = {};
       weekRecords.forEach(item => {
         if (!studentViolationMap[item.studentId]) {
@@ -1587,7 +1561,6 @@
         studentViolationMap[item.studentId].count += 1;
       });
 
-      // Tìm học sinh bị trừ điểm nhiều nhất trong tuần
       let topViolator = "Không có lỗi", maxP = -1;
       for (const id in studentViolationMap) {
         if (studentViolationMap[id].totalPoints > maxP) {
@@ -1596,11 +1569,9 @@
         }
       }
 
-      // Hiển thị tên học sinh vi phạm nhiều nhất ra thẻ thống kê
       const statStatusEl = document.getElementById('vStatStatus');
       statStatusEl.innerText = topViolator;
       statStatusEl.className = "text-base font-bold text-rose-600 mt-1 truncate";
-      }
 
       if (weekRecords.length === 0) {
         tbody.innerHTML = `
@@ -2426,7 +2397,7 @@
       }
     }
 
-    // TAB BỔ SUNG 2: SƠ ĐỒ LỚP HỌC (4 DÃY x 6 HÀNG x 2 HS/BÀN) LOGIC
+    // TAB BỔ SUNG 2: SƠ ĐỒ LỚP HỌC
     function renderSeatingGrid() {
       const container = document.getElementById('seatingGridContainer');
       if (!container) return;
@@ -2604,7 +2575,7 @@
       }
     }
 
-    // QUẢN LÝ HỌC SINH (TAB 7 & CÁC CHỨC NĂNG CHUNG)
+    // QUẢN LÝ HỌC SINH (TAB 7)
     function renderTable() {
       const tbody = document.getElementById("studentTableBody");
       if (!tbody) return;
@@ -2667,7 +2638,7 @@
       document.getElementById('editGender').value = std.gender;
       document.getElementById('editGroup').value = std.group;
       document.getElementById('editRole').value = std.role;
-      document.getElementById('editCode').value = std.code; // Gán mã phụ huynh hiện tại vào ô input
+      document.getElementById('editCode').value = std.code;
       document.getElementById('editStudentModal').classList.remove('hidden');
       document.getElementById('editStudentModal').classList.add('flex');
     }
@@ -2684,7 +2655,7 @@
         std.gender = document.getElementById('editGender').value;
         std.group = document.getElementById('editGroup').value;
         std.role = document.getElementById('editRole').value.trim() || "Thành viên";
-        std.code = document.getElementById('editCode').value.trim().toUpperCase(); // Lưu mã phụ huynh mới do thầy đặt
+        std.code = document.getElementById('editCode').value.trim().toUpperCase();
 
         renderTable(); 
         renderRenLuyenModule(); 
@@ -2856,9 +2827,7 @@
       renderRenLuyenModule(); closeScoreModal();
     }
 
-    // ==========================================
-    // PHÂN QUYỀN QUẢN TRỊ GVCN (BẢO MẬT BẰNG MÃ PIN)
-    // ==========================================
+    // PHÂN QUYỀN GVCN
     const GVCN_PIN = "12A1@2026"; 
     let isAdmin = sessionStorage.getItem("is_admin_12a1") === "true";
 
@@ -2884,7 +2853,6 @@
     }
 
     function applyPermissions() {
-      // Ẩn/hiện toàn bộ các nút sửa, xóa, thêm, cài đặt nếu chưa đăng nhập
       const adminElements = document.querySelectorAll(
         'button[onclick*="open"], button[onclick*="delete"], button[onclick*="clear"], #nav-caidat'
       );
@@ -2892,7 +2860,6 @@
       adminElements.forEach(el => {
         const action = el.getAttribute("onclick") || "";
         if (action.includes("searchByCode") || action.includes("toggleAdminAccess")) return;
-        
         el.style.display = isAdmin ? "" : "none";
       });
 
@@ -2907,17 +2874,7 @@
       }
     }
 
-    // KHỞI TẠO TOÀN BỘ HỆ THỐNG
-    window.addEventListener('DOMContentLoaded', () => {
-      renderWeekDropdown();
-      renderWeeklyView();
-      renderTable();
-      renderDutyWeekDropdown();
-      renderAttendanceWeekDropdown();
-      renderViolationWeekDropdown();
-      applyPermissions();
-    });
-    // Tính năng xuất danh sách vi phạm ra file Excel định dạng bảng có sẵn kẻ khung
+    // XUẤT EXCEL
     function exportViolationsToExcel(mode) {
       let filteredRecords = [];
       let fileName = "";
@@ -2938,7 +2895,6 @@
         return;
       }
 
-      // Tạo cấu trúc bảng HTML có sẵn CSS kẻ khung (border) và màu tiêu đề
       let htmlContent = `
         <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
         <head>
@@ -2989,7 +2945,6 @@
         </html>
       `;
 
-      // Tải tệp xuống dưới dạng file Excel có định dạng bảng
       const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/vnd.ms-excel;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -3002,6 +2957,17 @@
       
       alert(`✅ Đã xuất thành công file Excel có sẵn kẻ khung (${fileName})!`);
     }
+
+    // KHỞI TẠO HỆ THỐNG
+    window.addEventListener('DOMContentLoaded', () => {
+      renderWeekDropdown();
+      renderWeeklyView();
+      renderTable();
+      renderDutyWeekDropdown();
+      renderAttendanceWeekDropdown();
+      renderViolationWeekDropdown();
+      applyPermissions();
+    });
   </script>
 </body>
 </html>
