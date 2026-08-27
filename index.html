@@ -2745,9 +2745,20 @@
       document.getElementById('statPlusCount').innerText = totalPlus;
       document.getElementById('statMinusCount').innerText = totalMinus;
 
-      let rank = "Tốt", rankColor = "text-emerald-700";
-      if (score < 70) { rank = "Trung bình"; rankColor = "text-rose-600"; }
-      else if (score < 85) { rank = "Khá"; rankColor = "text-amber-600"; }
+      let rank = "Yếu (Chưa đạt)", rankColor = "text-rose-600";
+      if (score >= 40) {
+        rank = "Tốt";
+        rankColor = "text-emerald-700";
+      } else if (score >= 25) {
+        rank = "Khá";
+        rankColor = "text-amber-600";
+      } else if (score >= 10) {
+        rank = "Trung bình (Đạt)";
+        rankColor = "text-blue-600";
+      } else {
+        rank = "Yếu (Chưa đạt)";
+        rankColor = "text-rose-600";
+      }
       const rankEl = document.getElementById('statRank');
       rankEl.innerText = rank; rankEl.className = `text-xl font-bold ${rankColor}`;
 
